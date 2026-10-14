@@ -10,7 +10,8 @@
     "check": "astro check",
     "format": "prettier --write .",
     "astro": "astro",
-    "test": "node scripts/test-hours.ts"
+    "test": "node scripts/test-hours.ts",
+    "verify": "node scripts/verify-build.ts"
   },
   "engines": {
     "node": ">=22.12.0"

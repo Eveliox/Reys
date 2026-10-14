@@ -102,7 +102,7 @@ const es = {
         "Visite Rey's Auto Repair en {address}, Little Havana, Miami. Horario, cómo llegar y llamada con un toque.",
     },
     location: {
-      title: (name: string) => `Taller mecánico en ${name}, Miami | Rey's Auto Repair`,
+      title: (name: string) => `Rey's Auto Repair ${name}: horario y cómo llegar | Miami`,
       description: (name: string, street: string) =>
         `Rey's Auto Repair ${name}: ${street}, Miami, FL. Horario, mapa, cómo llegar y llamada con un toque. {rating} estrellas en Google.`,
     },
@@ -489,7 +489,6 @@ const es = {
     title: 'No encontramos esa página.',
     text: 'Puede que el enlace esté roto o que la página se haya movido.',
     home: 'Ir al inicio',
-    altLang: 'Page not found · Go to the English homepage',
   },
 } satisfies Dictionary;
 

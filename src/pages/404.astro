@@ -1,0 +1,30 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Icon from '../components/Icon.astro';
+import { site } from '../config/site.ts';
+import { pathFor } from '../i18n/routes.ts';
+import { useTranslations } from '../i18n/utils.ts';
+
+const t = useTranslations('en');
+const es = useTranslations('es');
+---
+
+<BaseLayout lang="en" title={t.meta.notFound.title} description={t.meta.notFound.description} noindex>
+  <section class="container-x py-20 sm:py-28">
+    <p class="eyebrow">404</p>
+    <h1 class="mt-4 max-w-3xl text-display">{t.notFound.title}</h1>
+    <p class="mt-5 max-w-xl text-lg text-muted">{t.notFound.text}</p>
+    <div class="mt-8 flex flex-col gap-3 sm:flex-row">
+      <a href={pathFor('en', 'home')} class="btn btn-primary">{t.notFound.home}</a>
+      <a href={`tel:${site.phone.e164}`} class="btn btn-secondary">
+        <Icon name="phone" />
+        {site.phone.display}
+      </a>
+    </div>
+    <div lang="es" class="mt-14 border-t border-line pt-8">
+      <h2 class="text-2xl tracking-tight">{es.notFound.title}</h2>
+      <p class="mt-2 text-muted">{es.notFound.text}</p>
+      <a href={pathFor('es', 'home')} class="link mt-4 inline-block">{es.notFound.home}</a>
+    </div>
+  </section>
+</BaseLayout>

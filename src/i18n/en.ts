@@ -102,7 +102,7 @@ const en = {
         "Find Rey's Auto Repair at {address} in Little Havana, Miami. Hours, directions, and click-to-call.",
     },
     location: {
-      title: (name: string) => `Auto Repair in ${name}, Miami | Rey's Auto Repair`,
+      title: (name: string) => `Rey's Auto Repair ${name}: Hours & Directions | Miami`,
       description: (name: string, street: string) =>
         `Rey's Auto Repair ${name}: ${street}, Miami, FL. Hours, directions, map, and one-tap calling. Rated {rating} stars on Google.`,
     },
@@ -486,7 +486,6 @@ const en = {
     title: 'We couldn’t find that page.',
     text: 'The link may be broken or the page may have moved.',
     home: 'Go to the homepage',
-    altLang: 'Página no encontrada · Ir al inicio en español',
   },
 };
 
