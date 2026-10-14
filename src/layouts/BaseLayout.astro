@@ -1,0 +1,89 @@
+---
+import '../styles/global.css';
+import fontUrl from '@fontsource-variable/archivo/files/archivo-latin-wght-normal.woff2?url';
+import { site } from '../config/site.ts';
+import { absoluteUrl, alternatesFor, type Lang, type Route } from '../i18n/routes.ts';
+import { otherLang, useTranslations } from '../i18n/utils.ts';
+import Header from '../components/Header.astro';
+import Footer from '../components/Footer.astro';
+import MobileCallBar from '../components/MobileCallBar.astro';
+
+interface Props {
+  lang: Lang;
+  /** The page's route; drives canonical, hreflang, and the language toggle. Omit for 404. */
+  route?: Route;
+  title: string;
+  description: string;
+  jsonLd?: object[];
+  noindex?: boolean;
+  ogImage?: string;
+}
+
+const { lang, route, title, description, jsonLd = [], noindex = false, ogImage = '/og-default.png' } =
+  Astro.props;
+const t = useTranslations(lang);
+const alternates = alternatesFor(route ?? 'home');
+const canonical = route ? absoluteUrl(alternates[lang]) : undefined;
+const other = otherLang(lang);
+const tOther = useTranslations(other);
+const fontFace = `@font-face{font-family:'Archivo';font-style:normal;font-display:swap;font-weight:100 900;src:url(${fontUrl}) format('woff2-variations'),url(${fontUrl}) format('woff2');unicode-range:U+0000-00FF,U+0131,U+0152-0153,U+02BB-02BC,U+02C6,U+02DA,U+02DC,U+0304,U+0308,U+0329,U+2000-206F,U+20AC,U+2122,U+2191,U+2193,U+2212,U+2215,U+FEFF,U+FFFD}`;
+---
+
+<!doctype html>
+<html lang={t.htmlLang}>
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    {noindex && <meta name="robots" content="noindex" />}
+    {canonical && <link rel="canonical" href={canonical} />}
+    {
+      route && (
+        <>
+          <link rel="alternate" hreflang="en" href={absoluteUrl(alternates.en)} />
+          <link rel="alternate" hreflang="es" href={absoluteUrl(alternates.es)} />
+          <link rel="alternate" hreflang="x-default" href={absoluteUrl(alternates.en)} />
+        </>
+      )
+    }
+
+    <link rel="preload" href={fontUrl} as="font" type="font/woff2" crossorigin />
+    <style is:inline set:html={fontFace} />
+
+    <meta name="theme-color" content="#0e2a33" />
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <link rel="sitemap" href="/sitemap-index.xml" />
+
+    <meta property="og:type" content="website" />
+    <meta property="og:site_name" content={site.name} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    {canonical && <meta property="og:url" content={canonical} />}
+    <meta property="og:image" content={absoluteUrl(ogImage)} />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:locale" content={t.ogLocale} />
+    <meta property="og:locale:alternate" content={tOther.ogLocale} />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:title" content={title} />
+    <meta name="twitter:description" content={description} />
+    <meta name="twitter:image" content={absoluteUrl(ogImage)} />
+
+    {jsonLd.map((data) => <script type="application/ld+json" set:html={JSON.stringify(data)} />)}
+  </head>
+  <body>
+    <a
+      href="#main"
+      class="sr-only z-50 rounded-full bg-ink px-5 py-3 font-bold text-cream focus:not-sr-only focus:fixed focus:top-3 focus:left-3"
+      >{t.skipToContent}</a
+    >
+    <Header lang={lang} alternates={alternates} />
+    <main id="main" tabindex="-1" class="focus:outline-none">
+      <slot />
+    </main>
+    <Footer lang={lang} alternates={alternates} />
+    <MobileCallBar lang={lang} />
+  </body>
+</html>

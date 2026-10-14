@@ -1,0 +1,125 @@
+---
+import { site } from '../config/site.ts';
+import { pathFor, type Lang } from '../i18n/routes.ts';
+import { useTranslations } from '../i18n/utils.ts';
+import Icon from './Icon.astro';
+import LangToggle from './LangToggle.astro';
+import Logo from './Logo.astro';
+
+interface Props {
+  lang: Lang;
+  alternates: Record<Lang, string>;
+}
+const { lang, alternates } = Astro.props;
+const t = useTranslations(lang);
+const current = Astro.url.pathname.endsWith('/') ? Astro.url.pathname : `${Astro.url.pathname}/`;
+
+const links = [
+  { href: pathFor(lang, 'services'), label: t.nav.services },
+  { href: `${pathFor(lang, 'home')}#specials`, label: t.nav.specials },
+  { href: pathFor(lang, 'about'), label: t.nav.about },
+  { href: pathFor(lang, 'locations'), label: t.nav.locations },
+];
+const ariaCurrent = (href: string) =>
+  href === current ? 'page' : !href.includes('#') && current.startsWith(href) ? 'true' : undefined;
+---
+
+<header class="relative z-30 border-b border-line bg-cream">
+  <div class="container-x flex h-16 items-center justify-between gap-3 md:h-20">
+    <a href={pathFor(lang, 'home')} class="rounded-lg" aria-label={`${site.name}, ${t.nav.home}`}>
+      <Logo />
+    </a>
+
+    <nav aria-label={t.nav.label} class="hidden lg:block">
+      <ul class="flex items-center gap-1">
+        {
+          links.map((l) => (
+            <li>
+              <a
+                href={l.href}
+                aria-current={ariaCurrent(l.href)}
+                class="rounded-full px-4 py-2.5 font-semibold text-ink hover:bg-sand aria-[current]:bg-sand"
+              >
+                {l.label}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <div class="flex items-center gap-1 sm:gap-2">
+      <LangToggle lang={lang} alternates={alternates} />
+      <a href={pathFor(lang, 'book')} class="btn btn-secondary hidden min-h-11 lg:inline-flex">
+        {t.cta.bookShort}
+      </a>
+      <a href={`tel:${site.phone.e164}`} class="btn btn-primary hidden min-h-11 md:inline-flex">
+        <Icon name="phone" />
+        {site.phone.display}
+      </a>
+      <button
+        type="button"
+        popovertarget="mobile-nav"
+        class="inline-flex size-11 items-center justify-center rounded-full text-ink hover:bg-sand lg:hidden"
+      >
+        <Icon name="menu" class="size-6" />
+        <span class="sr-only">{t.nav.menu}</span>
+      </button>
+    </div>
+  </div>
+
+  <div
+    id="mobile-nav"
+    popover
+    class="fixed inset-x-0 top-0 m-0 w-full max-w-none border-b border-line bg-cream p-0 text-ink shadow-xl backdrop:bg-ink/40"
+  >
+    <div class="container-x flex h-16 items-center justify-between md:h-20">
+      <Logo />
+      <button
+        type="button"
+        popovertarget="mobile-nav"
+        popovertargetaction="hide"
+        class="inline-flex size-11 items-center justify-center rounded-full hover:bg-sand"
+      >
+        <Icon name="close" class="size-6" />
+        <span class="sr-only">{t.nav.closeMenu}</span>
+      </button>
+    </div>
+    <nav aria-label={t.nav.label} class="container-x pb-6">
+      <ul class="divide-y divide-line border-y border-line">
+        {
+          links.map((l) => (
+            <li>
+              <a
+                href={l.href}
+                aria-current={ariaCurrent(l.href)}
+                class="flex min-h-14 items-center justify-between text-lg font-bold aria-[current]:text-accent"
+              >
+                {l.label}
+                <Icon name="arrow" class="size-5 text-muted" />
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+      <div class="mt-6 grid grid-cols-2 gap-3">
+        <a href={`tel:${site.phone.e164}`} class="btn btn-primary">
+          <Icon name="phone" />
+          {t.cta.callNow}
+        </a>
+        <a href={pathFor(lang, 'book')} class="btn btn-secondary">
+          <Icon name="calendar" />
+          {t.cta.bookShort}
+        </a>
+      </div>
+    </nav>
+  </div>
+</header>
+
+<script>
+  // Close the mobile menu when an in-page link (e.g. #specials) is followed.
+  const menu = document.getElementById('mobile-nav');
+  menu?.addEventListener('click', (e) => {
+    if ((e.target as HTMLElement).closest('a')) menu.hidePopover?.();
+  });
+</script>

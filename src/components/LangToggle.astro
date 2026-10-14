@@ -1,0 +1,29 @@
+---
+import type { Lang } from '../i18n/routes.ts';
+import { otherLang, useTranslations } from '../i18n/utils.ts';
+
+interface Props {
+  lang: Lang;
+  alternates: Record<Lang, string>;
+  class?: string;
+}
+const { lang, alternates, class: className } = Astro.props;
+const other = otherLang(lang);
+const t = useTranslations(lang);
+---
+
+<a
+  href={alternates[other]}
+  hreflang={other}
+  lang={other}
+  aria-label={t.switchAria}
+  class:list={[
+    'inline-flex min-h-11 items-center gap-1.5 rounded-full px-3 text-sm font-bold underline-offset-4 hover:underline',
+    className,
+  ]}
+>
+  <span aria-hidden="true" class="rounded bg-current/10 px-1.5 py-0.5 text-xs tracking-wider uppercase"
+    >{other}</span
+  >
+  <span>{t.switchLabel}</span>
+</a>
