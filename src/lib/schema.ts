@@ -1,5 +1,5 @@
 /** JSON-LD builders. All data comes from src/config/site.ts. */
-import { site, type Location } from '../config/site.ts';
+import { locations, site, type Location } from '../config/site.ts';
 import { absoluteUrl, pathFor, type Lang } from '../i18n/routes.ts';
 import { groupHours } from './hours.ts';
 
@@ -88,5 +88,19 @@ export function websiteSchema(lang: Lang) {
     name: site.name,
     url: absoluteUrl(pathFor(lang, 'home')),
     inLanguage: lang,
+  };
+}
+
+export function serviceSchema(opts: { name: string; description: string; path: string; lang: Lang }) {
+  return {
+    '@context': 'https://schema.org',
+    '@type': 'Service',
+    name: opts.name,
+    description: opts.description,
+    url: absoluteUrl(opts.path),
+    inLanguage: opts.lang,
+    serviceType: opts.name,
+    areaServed: { '@type': 'City', name: 'Miami' },
+    provider: locations.map((l) => ({ '@id': `${absoluteUrl(pathFor('en', { location: l.id }))}#business` })),
   };
 }

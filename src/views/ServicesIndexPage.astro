@@ -1,0 +1,32 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import CTASection from '../components/CTASection.astro';
+import FridaySpecial from '../components/FridaySpecial.astro';
+import ServiceGrid from '../components/ServiceGrid.astro';
+import { pathFor, type Lang } from '../i18n/routes.ts';
+import { useTranslations } from '../i18n/utils.ts';
+import { breadcrumbSchema } from '../lib/schema.ts';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const crumbs = [
+  { name: t.breadcrumb.home, path: pathFor(lang, 'home') },
+  { name: t.services.breadcrumb, path: pathFor(lang, 'services') },
+];
+---
+
+<BaseLayout lang={lang} route="services" title={t.meta.services.title} description={t.meta.services.description} jsonLd={[breadcrumbSchema(crumbs)]}>
+  <Breadcrumbs lang={lang} items={crumbs} />
+  <header class="container-x pt-8 pb-12 lg:pt-12">
+    <p class="eyebrow">{t.services.eyebrow}</p>
+    <h1 class="mt-4 max-w-4xl text-display">{t.services.title}</h1>
+    <p class="mt-6 max-w-2xl text-lg text-muted">{t.services.intro}</p>
+  </header>
+  <ServiceGrid lang={lang} showHeader={false} />
+  <FridaySpecial lang={lang} />
+  <CTASection lang={lang} />
+</BaseLayout>

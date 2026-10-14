@@ -6,6 +6,7 @@ import { websiteSchema } from '../lib/schema.ts';
 import Hero from '../components/Hero.astro';
 import TrustBar from '../components/TrustBar.astro';
 import FridaySpecial from '../components/FridaySpecial.astro';
+import ServiceGrid from '../components/ServiceGrid.astro';
 
 interface Props {
   lang: Lang;
@@ -24,4 +25,5 @@ const t = useTranslations(lang);
   <Hero lang={lang} />
   <TrustBar lang={lang} />
   <FridaySpecial lang={lang} />
+  <ServiceGrid lang={lang} showAllLink />
 </BaseLayout>

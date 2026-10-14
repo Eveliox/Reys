@@ -1,0 +1,51 @@
+---
+import { services } from '../config/site.ts';
+import { pathFor, type Lang } from '../i18n/routes.ts';
+import { useTranslations } from '../i18n/utils.ts';
+import Icon from './Icon.astro';
+import ServiceCard from './ServiceCard.astro';
+
+interface Props {
+  lang: Lang;
+  /** Show eyebrow/title/intro (home page). Off on /services where the page has its own H1. */
+  showHeader?: boolean;
+  showAllLink?: boolean;
+}
+const { lang, showHeader = true, showAllLink = false } = Astro.props;
+const t = useTranslations(lang);
+const premium = services.filter((s) => s.premium);
+const standard = services.filter((s) => !s.premium);
+const level = showHeader ? 'h3' : 'h2';
+---
+
+<section id="services" class:list={['scroll-mt-4', showHeader ? 'section' : 'pb-16 sm:pb-24']} aria-labelledby={showHeader ? 'services-title' : undefined} aria-label={showHeader ? undefined : t.nav.services}>
+  <div class="container-x">
+    {
+      showHeader && (
+        <div class="mb-10 grid gap-6 lg:mb-14 lg:grid-cols-2 lg:items-end">
+          <div>
+            <p class="eyebrow">{t.services.eyebrow}</p>
+            <h2 id="services-title" class="mt-3 text-h2">{t.services.title}</h2>
+          </div>
+          <p class="max-w-lg text-lg text-muted lg:justify-self-end">{t.services.intro}</p>
+        </div>
+      )
+    }
+    <div class="grid gap-5 md:grid-cols-2">
+      {premium.map((s) => <ServiceCard service={s} lang={lang} headingLevel={level} />)}
+    </div>
+    <div class="mt-5 grid gap-5 md:grid-cols-3">
+      {standard.map((s) => <ServiceCard service={s} lang={lang} headingLevel={level} />)}
+    </div>
+    {
+      showAllLink && (
+        <p class="mt-10 text-center">
+          <a href={pathFor(lang, 'services')} class="btn btn-secondary">
+            {t.cta.allServices}
+            <Icon name="arrow" />
+          </a>
+        </p>
+      )
+    }
+  </div>
+</section>
