@@ -7,6 +7,8 @@ import Hero from '../components/Hero.astro';
 import TrustBar from '../components/TrustBar.astro';
 import FridaySpecial from '../components/FridaySpecial.astro';
 import ServiceGrid from '../components/ServiceGrid.astro';
+import WhyUs from '../components/WhyUs.astro';
+import Reviews from '../components/Reviews.astro';
 
 interface Props {
   lang: Lang;
@@ -26,4 +28,6 @@ const t = useTranslations(lang);
   <TrustBar lang={lang} />
   <FridaySpecial lang={lang} />
   <ServiceGrid lang={lang} showAllLink />
+  <WhyUs lang={lang} />
+  <Reviews lang={lang} />
 </BaseLayout>

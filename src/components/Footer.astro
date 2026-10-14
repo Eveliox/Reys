@@ -20,7 +20,7 @@ const year = new Date().getFullYear();
 ---
 
 <footer class="on-dark tile-bg-dark bg-ink text-cream">
-  <div class="container-x grid gap-12 py-16 sm:grid-cols-2 lg:grid-cols-[1.3fr_1fr_1fr_1fr]">
+  <div class="container-x grid gap-12 py-16 sm:grid-cols-2 lg:grid-cols-[1.2fr_1.3fr_1.1fr_0.9fr]">
     <div>
       <a href={pathFor(lang, 'home')} class="inline-block rounded-lg" aria-label={site.name}>
         <Logo dark />
@@ -63,8 +63,8 @@ const year = new Date().getFullYear();
             <dl class="mt-1 space-y-1.5 text-mist">
               {hoursSummary(loc.hours, lang, t).map(([days, time]) => (
                 <div class="flex justify-between gap-4">
-                  <dt>{days}</dt>
-                  <dd class="text-right text-cream">{time}</dd>
+                  <dt class="whitespace-nowrap">{days}</dt>
+                  <dd class="text-right whitespace-nowrap text-cream">{time}</dd>
                 </div>
               ))}
             </dl>
