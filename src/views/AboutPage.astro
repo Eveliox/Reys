@@ -2,6 +2,8 @@
 import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import CTASection from '../components/CTASection.astro';
+import shop from '../assets/shop/rey3.jpg';
+import ShopStory from '../components/ShopStory.astro';
 import ImageSlot from '../components/ImageSlot.astro';
 import TrustBar from '../components/TrustBar.astro';
 import WhyUs from '../components/WhyUs.astro';
@@ -35,7 +37,18 @@ const crumbs = [
       <h1 class="mt-4 text-display">{t.about.title}</h1>
       <p class="mt-6 max-w-xl text-lg text-muted">{t.about.lead}</p>
     </div>
-    <ImageSlot id="about-shop" alt={t.hero.imageAlt} ratio="4 / 3" icon="wrench" priority />
+    <ImageSlot
+      id="about-shop"
+      src={shop}
+      alt={
+        lang === 'es'
+          ? 'Entrada del taller con vehículos en las áreas de servicio'
+          : 'Workshop entrance with vehicles in the service bays'
+      }
+      ratio="4 / 3"
+      icon="wrench"
+      priority
+    />
   </header>
 
   <TrustBar lang={lang} />
@@ -53,28 +66,7 @@ const crumbs = [
     </div>
   </section>
 
-  <section class="section bg-paper" aria-labelledby="team-title">
-    <div class="container-x">
-      <h2 id="team-title" class="text-h2">
-        {t.about.teamTitle}
-      </h2>
-      <ul class="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-        {t.about.team.map((m, i) => (
-          <li>
-            <ImageSlot
-              id={`team-${i + 1}`}
-              alt={t.about.teamPhotoAlt(m.name)}
-              ratio="4 / 5"
-              icon="wrench"
-              sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
-            />
-            <h3 class="mt-5 text-xl tracking-tight">{m.name}</h3>
-            <p class="mt-1 text-muted">{m.role}</p>
-          </li>
-        ))}
-      </ul>
-    </div>
-  </section>
+  <ShopStory lang={lang} gallery />
 
   <WhyUs lang={lang} />
   <CTASection lang={lang} title={t.cta.bandTitle} text={t.cta.bandText} />

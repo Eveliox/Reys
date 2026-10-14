@@ -10,7 +10,20 @@ export type DayKey = 'sun' | 'mon' | 'tue' | 'wed' | 'thu' | 'fri' | 'sat';
 /** Open ranges per day in 24h "HH:MM". An empty array means closed. */
 export type WeeklyHours = Record<DayKey, [open: string, close: string][]>;
 
-export type ServiceId = 'diagnostics' | 'german' | 'oil-change' | 'transmission' | 'classic';
+export type ServiceId =
+  | 'diagnostics'
+  | 'german'
+  | 'oil-change'
+  | 'transmission'
+  | 'classic'
+  | 'brakes'
+  | 'engine'
+  | 'electrical'
+  | 'ac-heating'
+  | 'suspension'
+  | 'exhaust'
+  | 'tires'
+  | 'maintenance';
 export type PromoItemId = 'oilChange' | 'transmissionFluid' | 'airFilter';
 
 export interface Location {
@@ -29,7 +42,7 @@ export interface Location {
   geo: { lat: number; lng: number };
   phone: { display: string; e164: string };
   /** Number used for the click-to-text (sms:) button. */
-  sms: { display: string; e164: string };
+  sms: { display: string; e164: string } | null;
   timezone: string;
   hours: WeeklyHours;
   /** Neighborhoods served — used in copy and JSON-LD areaServed. */
@@ -41,9 +54,24 @@ export interface Location {
 export interface Service {
   id: ServiceId;
   slug: { en: string; es: string };
-  icon: 'gauge' | 'german' | 'oil' | 'gears' | 'classic';
+  icon:
+    | 'gauge'
+    | 'german'
+    | 'oil'
+    | 'gears'
+    | 'classic'
+    | 'brake'
+    | 'engine'
+    | 'battery'
+    | 'hvac'
+    | 'suspension'
+    | 'exhaust'
+    | 'tire'
+    | 'clipboard';
   /** Premium specialties get the large dark feature card. */
   premium: boolean;
+  /** Featured services appear on the home page and in the footer; all appear on /services. */
+  featured: boolean;
   /** Shown as "Starting at …". [PLACEHOLDER] */
   startingPrice: string;
 }
@@ -108,7 +136,7 @@ export const locations: Location[] = [
     geo: { lat: 25.7686, lng: -80.2185 },
     phone: site.phone,
     /** [PLACEHOLDER] confirm this line can receive texts, or set a mobile number. */
-    sms: site.phone,
+    sms: null,
     timezone: 'America/New_York',
     hours: littleHavanaHours,
     areaServed: [
@@ -130,6 +158,7 @@ export const services: Service[] = [
     slug: { en: 'german-car-repair', es: 'reparacion-carros-alemanes' },
     icon: 'german',
     premium: true,
+    featured: true,
     startingPrice: '$XX',
   },
   {
@@ -137,6 +166,7 @@ export const services: Service[] = [
     slug: { en: 'classic-car-repair', es: 'reparacion-carros-clasicos' },
     icon: 'classic',
     premium: true,
+    featured: true,
     startingPrice: '$XX',
   },
   {
@@ -144,6 +174,7 @@ export const services: Service[] = [
     slug: { en: 'diagnostics', es: 'diagnostico' },
     icon: 'gauge',
     premium: false,
+    featured: true,
     startingPrice: '$XX',
   },
   {
@@ -151,6 +182,7 @@ export const services: Service[] = [
     slug: { en: 'oil-change', es: 'cambio-de-aceite' },
     icon: 'oil',
     premium: false,
+    featured: true,
     startingPrice: '$XX',
   },
   {
@@ -158,6 +190,71 @@ export const services: Service[] = [
     slug: { en: 'transmission-service', es: 'servicio-de-transmision' },
     icon: 'gears',
     premium: false,
+    featured: true,
+    startingPrice: '$XX',
+  },
+  {
+    id: 'brakes',
+    slug: { en: 'brake-repair', es: 'reparacion-de-frenos' },
+    icon: 'brake',
+    premium: false,
+    featured: false,
+    startingPrice: '$XX',
+  },
+  {
+    id: 'engine',
+    slug: { en: 'engine-repair', es: 'reparacion-de-motor' },
+    icon: 'engine',
+    premium: false,
+    featured: false,
+    startingPrice: '$XX',
+  },
+  {
+    id: 'electrical',
+    slug: { en: 'battery-electrical-repair', es: 'bateria-y-sistema-electrico' },
+    icon: 'battery',
+    premium: false,
+    featured: false,
+    startingPrice: '$XX',
+  },
+  {
+    id: 'ac-heating',
+    slug: { en: 'ac-heating-repair', es: 'aire-acondicionado-y-calefaccion' },
+    icon: 'hvac',
+    premium: false,
+    featured: false,
+    startingPrice: '$XX',
+  },
+  {
+    id: 'suspension',
+    slug: { en: 'steering-suspension-repair', es: 'direccion-y-suspension' },
+    icon: 'suspension',
+    premium: false,
+    featured: false,
+    startingPrice: '$XX',
+  },
+  {
+    id: 'exhaust',
+    slug: { en: 'exhaust-repair', es: 'reparacion-de-escape' },
+    icon: 'exhaust',
+    premium: false,
+    featured: false,
+    startingPrice: '$XX',
+  },
+  {
+    id: 'tires',
+    slug: { en: 'tires', es: 'gomas' },
+    icon: 'tire',
+    premium: false,
+    featured: false,
+    startingPrice: '$XX',
+  },
+  {
+    id: 'maintenance',
+    slug: { en: 'maintenance-inspections', es: 'mantenimiento-e-inspecciones' },
+    icon: 'clipboard',
+    premium: false,
+    featured: false,
     startingPrice: '$XX',
   },
 ];
@@ -171,7 +268,7 @@ export const promo = {
   percentOff: 20,
   items: ['oilChange', 'transmissionFluid', 'airFilter'] as PromoItemId[],
   /** Service pages that show the promo callout. */
-  services: ['oil-change', 'transmission'] as ServiceId[],
+  services: ['oil-change', 'transmission', 'maintenance'] as ServiceId[],
 } as const;
 
 /** Appointment slot length in minutes, and minimum gap before closing. */

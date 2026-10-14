@@ -23,18 +23,18 @@ const t = useTranslations(lang);
       data-day={promo.dayOfWeek}
       data-tz={primaryLocation.timezone}
       data-today="false"
-      class="group on-dark tile-bg-dark relative overflow-hidden rounded-[2rem] bg-ink text-cream"
+      class="group on-dark red-panel tile-bg-dark relative overflow-hidden rounded-none bg-accent-dark text-white"
     >
       <div class="grid gap-10 p-6 sm:p-10 lg:grid-cols-[auto_1fr] lg:items-center lg:gap-16 lg:p-14">
         <div class="flex flex-wrap items-end gap-x-4 gap-y-3 lg:flex-col lg:items-start">
           <p
-            class="text-[6.5rem] leading-[0.8] font-black tracking-[-0.06em] text-accent-light tabular-nums sm:text-[9rem]"
+            class="text-[6.5rem] leading-[0.8] font-black tracking-[-0.06em] text-white tabular-nums sm:text-[9rem]"
             aria-hidden="true"
           >
             {promo.percentOff}
             <span class="text-[0.5em] tracking-normal">%</span>
           </p>
-          <span class="mb-2 inline-grid rounded-full border-2 whitespace-nowrap border-brass px-4 py-1.5 text-sm font-extrabold tracking-[0.12em] uppercase group-data-[today=true]:border-accent-light group-data-[today=true]:bg-accent-light group-data-[today=true]:text-ink lg:mb-0">
+          <span class="mb-2 inline-grid rounded-full border-2 whitespace-nowrap border-white/50 px-4 py-1.5 text-sm font-extrabold tracking-[0.12em] uppercase group-data-[today=true]:border-accent-light group-data-[today=true]:bg-accent-light group-data-[today=true]:text-ink lg:mb-0">
             <span class="col-start-1 row-start-1 text-center group-data-[today=true]:invisible">
               {t.promo.everyFriday}
             </span>
@@ -61,8 +61,8 @@ const t = useTranslations(lang);
           <p class="mt-4 max-w-xl text-lg text-mist">{t.promo.lead}</p>
           <ul class="mt-6 grid gap-3 sm:grid-cols-3">
             {promo.items.map((item) => (
-              <li class="flex items-center gap-3 rounded-2xl bg-ink-2 px-4 py-3 font-bold">
-                <Icon name="check" class="size-5 shrink-0 text-accent-light" />
+              <li class="flex items-center gap-3 rounded-none bg-white/10 px-4 py-3 font-bold">
+                <Icon name="check" class="size-5 shrink-0 text-white" />
                 {t.promo.items[item]}
               </li>
             ))}

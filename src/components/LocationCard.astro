@@ -18,7 +18,7 @@ const Heading = headingLevel;
 const detail = pathFor(lang, { location: location.id });
 ---
 
-<article class="grid overflow-hidden rounded-[2rem] border border-line bg-paper lg:grid-cols-2">
+<article class="grid overflow-hidden rounded-none border border-line bg-paper lg:grid-cols-2">
   <div class="p-6 sm:p-10">
     <Heading class="text-3xl tracking-tight sm:text-4xl">
       <a href={detail} class="hover:text-accent">
@@ -42,15 +42,22 @@ const detail = pathFor(lang, { location: location.id });
       ))}
     </dl>
 
-    <div class="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-3">
+    <div
+      class:list={[
+        'mt-8 grid grid-cols-1 gap-3',
+        location.sms ? 'sm:grid-cols-3' : 'sm:grid-cols-2',
+      ]}
+    >
       <a href={`tel:${location.phone.e164}`} class="btn btn-primary px-4">
         <Icon name="phone" />
         {t.cta.callUs}
       </a>
-      <a href={`sms:${location.sms.e164}`} class="btn btn-secondary px-4">
-        <Icon name="message" />
-        {t.cta.text}
-      </a>
+      {location.sms && (
+        <a href={`sms:${location.sms.e164}`} class="btn btn-secondary px-4">
+          <Icon name="message" />
+          {t.cta.text}
+        </a>
+      )}
       <a
         href={directionsUrl(location.address)}
         target="_blank"

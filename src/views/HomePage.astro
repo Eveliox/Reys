@@ -3,11 +3,12 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import type { Lang } from '../i18n/routes.ts';
 import { useTranslations } from '../i18n/utils.ts';
 import { autoRepairSchema, websiteSchema } from '../lib/schema.ts';
+import ShopStory from '../components/ShopStory.astro';
+import VisitGuide from '../components/VisitGuide.astro';
 import Hero from '../components/Hero.astro';
 import TrustBar from '../components/TrustBar.astro';
 import FridaySpecial from '../components/FridaySpecial.astro';
 import ServiceGrid from '../components/ServiceGrid.astro';
-import WhyUs from '../components/WhyUs.astro';
 import Reviews from '../components/Reviews.astro';
 import AppointmentForm from '../components/AppointmentForm.astro';
 import LocationsSection from '../components/LocationsSection.astro';
@@ -32,9 +33,11 @@ const t = useTranslations(lang);
 >
   <Hero lang={lang} />
   <TrustBar lang={lang} />
-  <FridaySpecial lang={lang} />
   <ServiceGrid lang={lang} showAllLink />
-  <WhyUs lang={lang} />
+  <ShopStory lang={lang} />
+  <FridaySpecial lang={lang} />
+  <VisitGuide lang={lang} />
+  <ShopStory lang={lang} gallery />
   <Reviews lang={lang} />
   <AppointmentForm lang={lang} />
   <LocationsSection lang={lang} />

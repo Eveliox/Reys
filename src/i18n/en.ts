@@ -34,7 +34,7 @@ const en = {
     allServices: 'See all services',
     details: 'Details',
     bandTitle: 'Car trouble? We’re here to help.',
-    bandText: 'Call now, or book a weekday appointment online.',
+    bandText: 'Call to arrange a weekday appointment.',
     readMore: 'Learn more',
   },
 
@@ -89,12 +89,12 @@ const en = {
     services: {
       title: "Auto Repair Services in Miami | Rey's Auto Repair",
       description:
-        'Diagnostics, German car repair, oil changes, transmission service and classic car repair in Little Havana, Miami. See what we do and book online.',
+        'Diagnostics, German and classic car repair, brakes, engine, A/C, electrical, tires, transmission, and oil changes in Little Havana, Miami. Explore our services.',
     },
     about: {
       title: "About Rey's Auto Repair | Little Havana Mechanics",
       description:
-        "Meet the team behind Rey's Auto Repair, a neighborhood auto shop in Little Havana, Miami, rated {rating} stars by {reviewCount} Google reviewers.",
+        "Meet the team behind Rey's Auto Repair, a neighborhood auto shop in Little Havana, Miami.",
     },
     locations: {
       title: "Locations & Hours | Rey's Auto Repair Miami",
@@ -119,9 +119,9 @@ const en = {
 
   hero: {
     eyebrow: 'Auto repair · Little Havana, Miami',
-    title: 'Honest auto repair in the heart of Little Havana.',
+    title: 'Expert care. Local roots.',
     subtitle:
-      'Diagnostics, German car specialists, classic car care, and everyday maintenance, done right the first time. Broken down? Call us now.',
+      'German engineering. Classic character. Everyday reliability. Auto repair and maintenance in the heart of Little Havana.',
     imageAlt: "A mechanic working on a car in the Rey's Auto Repair shop",
   },
 
@@ -132,8 +132,8 @@ const en = {
       { title: 'German specialists', text: 'BMW · Mercedes · Audi · VW · Porsche' },
       { title: 'Classic car expertise', text: 'Carbs, points, and chrome' },
       {
-        title: '[PLACEHOLDER: Years in business]',
-        text: '[PLACEHOLDER: Certifications / warranty]',
+        title: 'Little Havana, Miami',
+        text: '527 SW 15th Ave, Miami. Find our hours and get directions below.',
       },
     ],
   },
@@ -157,12 +157,14 @@ const en = {
 
   services: {
     eyebrow: 'What we do',
-    title: 'Repairs and maintenance, from daily drivers to collector cars.',
+    title: 'Whatever you drive. We’re here for it.',
     intro:
       "Every job starts with a clear diagnosis and a straight answer on cost. Here's what we do best.",
     specialty: 'Specialty',
     startingAt: (price: string) => `Starting at ${price}`,
     startingAtLabel: 'Starting at',
+    fullListTitle: 'Everything we do',
+    fullListIntro: 'The full list of repairs and services we offer, by category.',
     whatWeDo: 'What we handle',
     faqTitle: 'Common questions',
     related: 'Other services',
@@ -170,6 +172,262 @@ const en = {
     ctaTitle: 'Need this done?',
     ctaText: 'Call for a quote, or book a time that works for you.',
     items: {
+      brakes: {
+        name: 'Brake Repair',
+        short:
+          'Squealing, grinding, or a soft pedal? We inspect your brakes and fix what’s actually worn, nothing more.',
+        metaTitle: "Brake Repair in Little Havana, Miami | Rey's Auto Repair",
+        metaDescription:
+          'Brake repair in Little Havana, Miami: inspections, pads and rotors, and fixes for squealing, grinding, or a soft pedal. Call {phone}.',
+        h1: 'Brake repair in Little Havana',
+        intro:
+          'Brakes are the one system you can’t afford to guess about. We inspect the pads, rotors, and hydraulic system, show you what’s worn, and repair it so your car stops straight and confidently.',
+        includes: [
+          'Brake inspections',
+          'Brake pads and rotors',
+          'Squealing, grinding, or pulling to one side',
+          'Soft or spongy brake pedal',
+          'Brake warning light diagnosis',
+        ],
+        faqs: [
+          {
+            q: 'Why are my brakes squealing?',
+            a: 'Often it’s worn pads, but it can also be the rotors or hardware. Bring it in and we’ll check before recommending anything.',
+          },
+          {
+            q: 'My brake pedal feels soft. Is it safe to drive?',
+            a: 'A soft or sinking pedal can mean a hydraulic problem. Drive as little as possible and call us at {phone}.',
+          },
+          {
+            q: 'Do you repair brakes on German and classic cars?',
+            a: 'Yes. We service brakes on everyday cars, German vehicles, and classics.',
+          },
+        ],
+      },
+      engine: {
+        name: 'Engine Repair',
+        short:
+          'Misfires, rough idle, leaks, or loss of power: we find the cause and repair your engine properly.',
+        metaTitle: "Engine Repair in Miami | Rey's Auto Repair Little Havana",
+        metaDescription:
+          'Engine repair in Little Havana, Miami: misfires, rough idle, oil leaks, overheating, and loss of power, diagnosed before we repair. Call {phone}.',
+        h1: 'Engine repair in Miami',
+        intro:
+          'Engine trouble usually starts small: a misfire, a leak, a light on the dash. We diagnose the root cause first, explain your options, and then make the repair.',
+        includes: [
+          'Engine repair',
+          'Misfires, rough idle, and loss of power',
+          'Oil leaks',
+          'Overheating',
+          'Engine oil light diagnosis',
+        ],
+        faqs: [
+          {
+            q: 'My engine is running rough. What should I do?',
+            a: 'Have it checked soon. A misfire left alone can damage other parts. If the check-engine light is flashing, stop driving and call us.',
+          },
+          {
+            q: 'Why is my engine oil light on?',
+            a: 'It can mean low oil level or low oil pressure. Check your oil and, if the light stays on, don’t keep driving. Call us at {phone}.',
+          },
+          {
+            q: 'Will you tell me the cost before repairing?',
+            a: 'Yes. You get the diagnosis and the cost first, and nothing is repaired without your OK.',
+          },
+        ],
+      },
+      electrical: {
+        name: 'Battery & Electrical Repair',
+        short:
+          'Dead battery, flickering lights, or a car that drains overnight? Battery, lighting, and electrical repairs.',
+        metaTitle: "Car Battery & Electrical Repair Miami | Rey's Auto Repair",
+        metaDescription:
+          'Car battery replacement and electrical repair in Little Havana, Miami: batteries, battery drain, charging problems, and lights. Call {phone}.',
+        h1: 'Battery and electrical repair in Miami',
+        intro:
+          'Miami heat is hard on batteries and wiring. We test the battery and charging system, track down electrical faults, and repair lights so your car starts every morning.',
+        includes: [
+          'Battery testing and replacement',
+          'Battery drain and charging problems',
+          'Headlights, taillights, and other lights',
+          'Electrical system repair',
+          'Warning lights and electrical faults',
+        ],
+        faqs: [
+          {
+            q: 'How do I know if I need a new battery?',
+            a: 'Slow cranking, dim lights, or a battery that’s several years old are common signs. We can test it and tell you.',
+          },
+          {
+            q: 'My battery keeps dying. Is it the battery?',
+            a: 'Not always. A charging problem, or something drawing power with the car off, can drain a good battery. We test to find out.',
+          },
+          {
+            q: 'Do you fix headlights and taillights?',
+            a: 'Yes. We repair automotive lights, from burned-out bulbs to wiring problems.',
+          },
+        ],
+      },
+      'ac-heating': {
+        name: 'A/C & Heating Repair',
+        short:
+          'A/C blowing warm? Heater or defroster not working? We diagnose and repair your car’s climate system.',
+        metaTitle: "Car A/C Repair in Miami | Rey's Auto Repair Little Havana",
+        metaDescription:
+          'Car A/C and heating repair in Little Havana, Miami: A/C blowing warm, weak airflow, and heater or defroster problems. Call {phone}.',
+        h1: 'Car A/C and heating repair in Miami',
+        intro:
+          'In Miami, a working A/C isn’t optional. We find out why your system isn’t keeping up, whether it’s a leak, an electrical problem, or a failing part, and repair it.',
+        includes: [
+          'A/C blowing warm or not cold enough',
+          'Weak airflow from the vents',
+          'Heater and defroster problems',
+          'Strange smells or noises from the vents',
+          'Climate system diagnosis',
+        ],
+        faqs: [
+          {
+            q: 'Why is my car’s A/C blowing warm air?',
+            a: 'Common causes include low refrigerant from a leak, an electrical fault, or a failing compressor. We diagnose before replacing anything.',
+          },
+          {
+            q: 'Do I just need an A/C recharge?',
+            a: 'If the system is low, there’s usually a leak. Recharging without finding it often means warm air again soon, so we check first.',
+          },
+          {
+            q: 'Do you fix heaters and defrosters too?',
+            a: 'Yes. We work on the whole heating and A/C system.',
+          },
+        ],
+      },
+      suspension: {
+        name: 'Steering & Suspension',
+        short:
+          'Clunks over bumps, pulling, or a loose steering wheel? Steering and suspension repair for a smooth, safe ride.',
+        metaTitle: "Steering & Suspension Repair Miami | Rey's Auto Repair",
+        metaDescription:
+          'Steering and suspension repair in Little Havana, Miami: clunks over bumps, pulling, a bouncy ride, and loose steering. Call {phone}.',
+        h1: 'Steering and suspension repair in Miami',
+        intro:
+          'Miami potholes take a toll. Worn steering and suspension parts affect handling, braking, and tire life. We find what’s worn and replace it.',
+        includes: [
+          'Steering and suspension repair',
+          'Clunks or rattles over bumps',
+          'Pulling or wandering',
+          'Bouncy or rough ride',
+          'Uneven tire wear',
+        ],
+        faqs: [
+          {
+            q: 'What’s that clunk when I go over bumps?',
+            a: 'Often a worn suspension part, like a link, bushing, or ball joint. We inspect the car to find it.',
+          },
+          {
+            q: 'Why does my car pull to one side?',
+            a: 'It can be steering or suspension wear, tire pressure, or brakes. We check them together.',
+          },
+          {
+            q: 'Is a loose steering wheel dangerous?',
+            a: 'It can be. Extra play can mean worn steering parts, so have it inspected soon.',
+          },
+        ],
+      },
+      exhaust: {
+        name: 'Exhaust Repair',
+        short:
+          'Loud exhaust, rattles underneath, or fumes? We repair exhaust leaks, pipes, and mufflers.',
+        metaTitle: "Exhaust Repair in Little Havana, Miami | Rey's Auto Repair",
+        metaDescription:
+          'Exhaust repair in Little Havana, Miami: loud exhaust, leaks, rattles, and damaged pipes or mufflers. Call {phone}.',
+        h1: 'Exhaust repair in Little Havana',
+        intro:
+          'A car that’s suddenly louder usually has an exhaust leak, and exhaust fumes don’t belong in the cabin. We find the leak or loose part and repair it.',
+        includes: [
+          'Exhaust repair',
+          'Exhaust leaks',
+          'Loud exhaust or rattles underneath',
+          'Mufflers and pipes',
+          'Damaged or loose hangers',
+        ],
+        faqs: [
+          {
+            q: 'Why did my car suddenly get louder?',
+            a: 'Usually it’s an exhaust leak or a damaged muffler or pipe. Have it checked.',
+          },
+          {
+            q: 'I smell exhaust inside the car. What should I do?',
+            a: 'Open the windows, drive as little as possible, and call us at {phone}. Exhaust fumes in the cabin can be dangerous.',
+          },
+          {
+            q: 'Do you repair exhaust systems on classic cars?',
+            a: 'Yes. Call us with the year, make, and model.',
+          },
+        ],
+      },
+      tires: {
+        name: 'Tires & TPMS',
+        short:
+          'Tire installation, repair, rotation, and balancing, plus tire pressure light (TPMS) diagnosis and repair.',
+        metaTitle: "Tire Repair & Installation in Miami | Rey's Auto Repair",
+        metaDescription:
+          'Tire service in Little Havana, Miami: installation, flat repair, rotation, balancing, and tire pressure light (TPMS) diagnosis and repair. Call {phone}.',
+        h1: 'Tire service in Little Havana',
+        intro:
+          'From a nail in the tread to a tire pressure light that won’t go off, we handle tire installation, repair, rotation, and balancing, and we diagnose and repair TPMS sensors.',
+        includes: [
+          'Tire installation',
+          'Tire repair',
+          'Tire rotation',
+          'Tire balancing',
+          'Tire pressure light (TPMS) diagnosis and repair',
+        ],
+        faqs: [
+          {
+            q: 'Can my flat tire be repaired?',
+            a: 'Many punctures in the tread can be. Sidewall damage usually means replacement. We’ll inspect it and tell you.',
+          },
+          {
+            q: 'Why is my tire pressure light on?',
+            a: 'Usually one tire is low. If the pressures are correct and the light stays on or flashes, a TPMS sensor may need attention.',
+          },
+          {
+            q: 'How often should I rotate my tires?',
+            a: 'Follow your owner’s manual. Many cars call for a rotation every 5,000–7,500 miles. Ask us what’s right for your car.',
+          },
+        ],
+      },
+      maintenance: {
+        name: 'Maintenance & Inspections',
+        short:
+          'Routine maintenance to keep your car reliable, plus pre-purchase inspections before you buy a used car.',
+        metaTitle: "Car Maintenance & Inspections Miami | Rey's Auto Repair",
+        metaDescription:
+          'Routine car maintenance and pre-purchase inspections in Little Havana, Miami. Air filters {promoPct}% off on Fridays. Call {phone}.',
+        h1: 'Car maintenance and pre-purchase inspections in Miami',
+        intro:
+          'Regular maintenance is how small problems stay small. We follow your vehicle’s maintenance schedule, and before you buy a used car, we’ll inspect it and tell you what you’re getting.',
+        includes: [
+          'Routine maintenance',
+          'Fluid checks and service',
+          'Air filters',
+          'Belts and hoses',
+          'Pre-purchase inspections',
+        ],
+        faqs: [
+          {
+            q: 'What does routine maintenance include?',
+            a: 'It depends on your car and mileage. We follow the manufacturer’s schedule and explain what’s due now and what can wait.',
+          },
+          {
+            q: 'Should I get a used car inspected before buying it?',
+            a: 'Yes. A pre-purchase inspection can uncover problems a test drive won’t.',
+          },
+          {
+            q: 'Are air filters discounted on Fridays?',
+            a: 'Yes, air filters are {promoPct}% off every Friday.',
+          },
+        ],
+      },
       german: {
         name: 'German Vehicle Repair',
         short:
@@ -245,11 +503,12 @@ const en = {
         intro:
           'A warning light tells you something is wrong, not what. We combine scan tools with hands-on testing to pinpoint the cause, then explain it in plain language before we touch anything.',
         includes: [
-          'Check-engine and dashboard warning lights',
-          'No-start and stalling problems',
-          'Noises, vibrations, and leaks',
-          'Electrical and battery drain issues',
-          'A/C and overheating problems',
+          'Check engine light diagnosis',
+          'No-start diagnosis',
+          'Noise diagnosis',
+          'Vibration diagnosis',
+          'Engine oil light diagnosis',
+          'General diagnosis when something just feels off',
         ],
         faqs: [
           {
@@ -309,11 +568,11 @@ const en = {
         intro:
           'Transmission trouble rarely fixes itself. We start with an honest diagnosis. Sometimes it’s a fluid service or a sensor, not a rebuild. Then we tell you your options.',
         includes: [
+          'Transmission repair',
           'Transmission fluid service',
+          'Transmission leak inspection',
           'Slipping, delayed, or hard-shift diagnosis',
-          'Leak repair and seals',
-          'Automatic and manual transmissions',
-          'Clutch inspection',
+          'Seal and leak repair',
         ],
         faqs: [
           {
@@ -338,7 +597,7 @@ const en = {
     title: 'A neighborhood shop people actually recommend.',
     items: [
       {
-        title: '{rating} stars, {reviewCount} reviews',
+        title: 'Read our customer reviews',
         text: 'Our reputation was built one car and one neighbor at a time. Read what customers say on Google.',
       },
       {
@@ -350,8 +609,8 @@ const en = {
         text: 'Carburetors, points, and old-school know-how for the cars that made Miami’s streets famous.',
       },
       {
-        title: '[PLACEHOLDER: Warranty & certifications]',
-        text: '[PLACEHOLDER: e.g. “ASE-certified technicians. 12-month / 12,000-mile parts and labor warranty.”]',
+        title: 'Right here in Little Havana',
+        text: '527 SW 15th Ave, Miami. Find our hours and get directions below.',
       },
     ],
   },
@@ -440,12 +699,12 @@ const en = {
   about: {
     eyebrow: 'About us',
     title: "Rey's Auto Repair: Little Havana's neighborhood shop",
-    lead: '[PLACEHOLDER: One or two sentences on who Rey is and how the shop started.]',
-    storyTitle: 'Our story',
+    lead: 'Your neighborhood destination for diagnostics, German vehicle repair, classic car care, and routine maintenance in Little Havana.',
+    storyTitle: 'Car care, close to home.',
     story: [
-      '[PLACEHOLDER: Shop story paragraph 1: when and why the shop opened, and its roots in Little Havana.]',
-      '[PLACEHOLDER: Shop story paragraph 2: how the German and classic car specialties came about.]',
-      '[PLACEHOLDER: Shop story paragraph 3: what customers can expect and what the shop stands for.]',
+      'Our shop is at 527 SW 15th Ave in Little Havana, Miami. From your daily commute to a weekend drive, keeping your vehicle running starts with understanding what it needs.',
+      'Explore our services: German vehicles, classic cars, diagnostics, brakes, engine and electrical repair, A/C and heating, tires, oil changes, and transmission service.',
+      'Call us to discuss a concern, ask about a service, or arrange your visit. You can find our weekday hours and directions on the location page.',
     ],
     teamTitle: 'Meet the team',
     team: [

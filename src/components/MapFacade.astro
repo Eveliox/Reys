@@ -3,6 +3,8 @@
  * Click-to-load Google Map. Nothing from Google loads until the visitor asks,
  * which keeps the page fast and cookie-free. No API key required.
  */
+import { Image } from 'astro:assets';
+import shopPhoto from '../assets/shop/rey3.jpg';
 import type { Location } from '../config/site.ts';
 import type { Lang } from '../i18n/routes.ts';
 import { useTranslations } from '../i18n/utils.ts';
@@ -28,6 +30,16 @@ const t = useTranslations(lang);
   ]}
   style="aspect-ratio: 4 / 3"
 >
+  <Image
+    src={shopPhoto}
+    alt=""
+    loading="lazy"
+    class="absolute inset-0 size-full object-cover opacity-25"
+  />
+  <div
+    class="absolute inset-0 bg-gradient-to-t from-ink via-ink/30 to-ink/30"
+    aria-hidden="true"
+  ></div>
   <div class="absolute inset-0 flex flex-col items-center justify-center gap-4 p-6 text-center">
     <span class="inline-flex size-14 items-center justify-center rounded-full bg-accent text-white shadow-lg">
       <Icon name="pin" class="size-7" />

@@ -1,66 +1,246 @@
 ---
-import { primaryLocation, promo, site } from '../config/site.ts';
+import { primaryLocation, site } from '../config/site.ts';
 import { pathFor, type Lang } from '../i18n/routes.ts';
-import { useTranslations } from '../i18n/utils.ts';
 import Icon from './Icon.astro';
-import ImageSlot from './ImageSlot.astro';
 import OpenStatus from './OpenStatus.astro';
-import RatingBadge from './RatingBadge.astro';
-
 interface Props {
   lang: Lang;
 }
 const { lang } = Astro.props;
-const t = useTranslations(lang);
+const es = lang === 'es';
 ---
 
-<section class="relative overflow-hidden" aria-labelledby="hero-title">
-  <div
-    class="tile-bg pointer-events-none absolute inset-y-0 right-0 hidden w-1/2 lg:block"
-    aria-hidden="true"
-  ></div>
-  <div class="container-x relative grid items-center gap-10 pt-8 pb-14 sm:pt-14 lg:grid-cols-[1.15fr_1fr] lg:gap-14 lg:py-20">
+<section class="editorial-hero" aria-labelledby="hero-title">
+  <div class="container-x hero-intro">
     <div>
-      <p class="eyebrow">{t.hero.eyebrow}</p>
-      <h1 id="hero-title" class="mt-4 text-display">
-        {t.hero.title}
+      <p class="eyebrow">
+        {es ? 'Reparación de autos / Little Havana, Miami' : 'Auto repair / Little Havana, Miami'}
+      </p>
+      <h1 id="hero-title">
+        {es ? 'TU CARRO.' : 'YOUR CAR.'}
+        <br />
+        <span>{es ? 'EN BUENAS MANOS.' : 'IN GOOD HANDS.'}</span>
       </h1>
-      <p class="mt-6 max-w-xl text-lg text-muted sm:text-xl">{t.hero.subtitle}</p>
-
-      <div class="mt-8 flex flex-col gap-3 sm:flex-row">
-        <a href={`tel:${site.phone.e164}`} class="btn btn-primary min-h-14 px-8 text-lg">
-          <Icon name="phone" class="size-5" />
-          {t.cta.callNow}
-          <span class="font-semibold opacity-90 max-sm:hidden">{site.phone.display}</span>
+    </div>
+    <div class="hero-aside">
+      <p>
+        {es
+          ? 'Diagnóstico, reparación de carros alemanes y mantenimiento. Aquí mismo, en tu barrio.'
+          : 'Diagnostics, German vehicle repair, and everyday maintenance. Right here in your neighborhood.'}
+      </p>
+      <a href={pathFor(lang, 'book')} class="btn btn-primary mt-6">
+        {es ? 'Programa tu visita' : 'Schedule your visit'}
+        <Icon name="arrow" />
+      </a>
+      <p class="hero-location">
+        <Icon name="pin" class="size-4 shrink-0" />
+        527 SW 15th Ave · Miami, FL
+      </p>
+    </div>
+  </div>
+  <div class="container-x">
+    <div class="hero-image-wrap">
+      <video
+        id="hero-video"
+        class="hero-image"
+        src="/videos/auto-care.mp4"
+        poster="/videos/auto-care-poster.jpg"
+        preload="none"
+        muted
+        loop
+        playsinline
+        controls
+        aria-label={
+          es
+            ? 'Mecánico trabajando debajo de un vehículo elevado'
+            : 'Mechanic working beneath a vehicle on a lift'
+        }
+      ></video>
+      <button
+        type="button"
+        class="video-toggle"
+        data-video-toggle
+        data-play={es ? 'Reproducir video' : 'Play video'}
+        data-pause={es ? 'Pausar video' : 'Pause video'}
+        aria-controls="hero-video"
+        hidden
+      >
+        {es ? 'Reproducir video' : 'Play video'}
+      </button>
+      <div class="hero-contact">
+        <span class="text-xs font-bold tracking-widest uppercase">
+          {es ? 'Habla con el taller' : 'Talk to the shop'}
+        </span>
+        <a href={`tel:${site.phone.e164}`} class="hero-phone">
+          {site.phone.display}
+          <Icon name="arrow" class="size-6" />
         </a>
-        <a href={pathFor(lang, 'book')} class="btn btn-secondary min-h-14 px-8 text-lg">
-          <Icon name="calendar" class="size-5" />
-          {t.cta.book}
-        </a>
-      </div>
-
-      <div class="mt-8 flex flex-wrap items-center gap-x-6 gap-y-3">
-        <RatingBadge lang={lang} />
         <OpenStatus location={primaryLocation} lang={lang} />
       </div>
     </div>
-
-    <div class="relative">
-      <ImageSlot
-        id="hero"
-        alt={t.hero.imageAlt}
-        ratio="4 / 3.6"
-        icon="wrench"
-        priority
-        sizes="(min-width: 1024px) 45vw, 100vw"
-      />
-      <a
-        href="#specials"
-        class="absolute -bottom-5 left-5 hidden rounded-2xl bg-accent px-5 py-4 text-white shadow-lg hover:bg-accent-dark sm:block"
-      >
-        <span class="block text-xs font-bold tracking-[0.14em] uppercase">{t.promo.eyebrow}</span>
-        <span class="block text-xl font-black">{t.promo.off(promo.percentOff)}</span>
-      </a>
-    </div>
   </div>
 </section>
+<style>
+  .editorial-hero {
+    padding: 3.5rem 0 0;
+  }
+  .hero-intro {
+    display: grid;
+    grid-template-columns: 1.6fr 1fr;
+    gap: 3rem;
+    align-items: end;
+    padding-bottom: 2.5rem;
+  }
+  h1 {
+    margin-top: 1.3rem;
+    font-size: clamp(3rem, 6.9vw, 6.6rem);
+    line-height: 0.94;
+    letter-spacing: -0.065em;
+    font-weight: 900;
+  }
+  h1 span {
+    color: var(--color-accent);
+  }
+  .hero-aside {
+    max-width: 340px;
+    justify-self: end;
+    padding-bottom: 0.25rem;
+  }
+  .hero-aside > p:first-child {
+    font-size: 1rem;
+    line-height: 1.65;
+    color: var(--color-muted);
+  }
+  .hero-location {
+    display: flex;
+    gap: 0.4rem;
+    align-items: center;
+    font-size: 0.75rem;
+    margin-top: 1.3rem;
+  }
+  .hero-image-wrap {
+    position: relative;
+    height: 460px;
+    overflow: hidden;
+  }
+  .hero-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: 50% 55%;
+  }
+  .hero-contact {
+    position: absolute;
+    right: 0;
+    bottom: 0;
+    padding: 1.6rem 2rem;
+    background: white;
+    min-width: 330px;
+    border-top: 4px solid var(--color-accent);
+  }
+  .hero-phone {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 2rem;
+    font-weight: 800;
+    font-size: 1.8rem;
+    letter-spacing: -0.04em;
+    margin: 0.45rem 0;
+  }
+  .hero-phone:hover {
+    color: var(--color-accent);
+  }
+  .video-toggle {
+    position: absolute;
+    top: 1rem;
+    left: 1rem;
+    min-height: 44px;
+    padding: 0.65rem 1rem;
+    color: white;
+    background: #151b20e6;
+    border: 1px solid #ffffff80;
+    font-size: 0.75rem;
+    font-weight: 700;
+    cursor: pointer;
+  }
+  .video-toggle:hover {
+    background: var(--color-accent);
+  }
+  @media (max-width: 767px) {
+    .editorial-hero {
+      padding-top: 2rem;
+    }
+    .hero-intro {
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
+      padding-bottom: 2rem;
+    }
+    h1 {
+      font-size: clamp(2.7rem, 10.4vw, 5rem);
+    }
+    .hero-aside {
+      justify-self: start;
+      max-width: 100%;
+    }
+    .hero-location {
+      margin-top: 1rem;
+    }
+    .hero-image-wrap {
+      height: 380px;
+    }
+    .hero-image {
+      object-position: 42% center;
+    }
+    .hero-contact {
+      left: 0;
+      right: 0;
+      min-width: 0;
+      padding: 1rem 1.25rem;
+    }
+  }
+</style>
+
+<script>
+  const video = document.querySelector<HTMLVideoElement>('#hero-video');
+  const toggle = document.querySelector<HTMLButtonElement>('[data-video-toggle]');
+  if (video && toggle) {
+    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const connection = (navigator as Navigator & { connection?: { saveData?: boolean } })
+      .connection;
+    let wantsPlayback = !reducedMotion.matches && !connection?.saveData;
+    let inView = false;
+    video.muted = true;
+    video.controls = false;
+    toggle.hidden = false;
+    const updateLabel = () => {
+      toggle.textContent = video.paused ? toggle.dataset.play! : toggle.dataset.pause!;
+    };
+    const syncPlayback = () => {
+      if (wantsPlayback && inView && !document.hidden) {
+        void video.play().catch(updateLabel);
+      } else video.pause();
+    };
+    video.addEventListener('play', updateLabel);
+    video.addEventListener('pause', updateLabel);
+    video.addEventListener('error', () => {
+      toggle.hidden = true;
+    });
+    toggle.addEventListener('click', () => {
+      wantsPlayback = video.paused;
+      syncPlayback();
+    });
+    new IntersectionObserver(
+      ([entry]) => {
+        inView = entry.isIntersecting;
+        syncPlayback();
+      },
+      { threshold: 0.15 },
+    ).observe(video);
+    reducedMotion.addEventListener('change', () => {
+      wantsPlayback = !reducedMotion.matches && !connection?.saveData;
+      syncPlayback();
+    });
+    document.addEventListener('visibilitychange', syncPlayback);
+  }
+</script>

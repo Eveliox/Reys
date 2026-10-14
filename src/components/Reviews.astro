@@ -1,70 +1,35 @@
 ---
-/**
- * Testimonials. The quotes in the i18n files are SAMPLES — replace them with
- * real Google reviews (with the reviewer's permission) and delete the badge.
- */
 import { site } from '../config/site.ts';
 import type { Lang } from '../i18n/routes.ts';
-import { useTranslations } from '../i18n/utils.ts';
 import Icon from './Icon.astro';
-import RatingBadge from './RatingBadge.astro';
-
 interface Props {
   lang: Lang;
 }
 const { lang } = Astro.props;
-const t = useTranslations(lang);
+const es = lang === 'es';
 ---
 
-<section class="section" aria-labelledby="reviews-title">
-  <div class="container-x">
-    <div class="flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
+<section class="bg-paper py-12" aria-labelledby="reviews-title">
+  <div class="container-x flex flex-col justify-between gap-6 md:flex-row md:items-center">
+    <div class="flex items-center gap-5">
+      <span class="flex size-14 shrink-0 items-center justify-center rounded-full border border-line text-accent">
+        <Icon name="message" class="size-6" />
+      </span>
       <div>
-        <p class="eyebrow">{t.reviews.eyebrow}</p>
-        <h2 id="reviews-title" class="mt-3 text-h2">
-          {t.reviews.title}
+        <p class="eyebrow">{es ? 'La opinión de nuestros clientes' : 'From our customers'}</p>
+        <h2 id="reviews-title" class="mt-2 text-2xl tracking-tight">
+          {es ? 'Conoce su experiencia con Rey’s.' : 'Hear about their experience at Rey’s.'}
         </h2>
       </div>
-      <RatingBadge lang={lang} />
     </div>
-
-    <ul class="mt-10 grid gap-5 lg:grid-cols-3">
-      {t.reviews.items.map((r) => (
-        <li>
-          <figure class="flex h-full flex-col rounded-[1.5rem] border border-line bg-paper p-7">
-            <p class="self-start rounded-md border border-dashed border-accent px-2 py-0.5 text-xs font-bold text-accent-dark">
-              {t.reviews.sampleBadge}
-            </p>
-            <span class="mt-5 flex text-[#b7791f]" role="img" aria-label={t.rating.outOf(5)}>
-              {Array.from({ length: 5 }, () => (
-                <Icon name="star" class="size-5" />
-              ))}
-            </span>
-            <blockquote class="mt-4 text-lg leading-relaxed font-medium">
-              <p>“{r.quote}”</p>
-            </blockquote>
-            <figcaption class="mt-auto flex items-center gap-3 pt-6">
-              <span
-                class="inline-flex size-11 items-center justify-center rounded-full bg-ink font-bold text-cream"
-                aria-hidden="true"
-              >
-                {r.name.split(' ').pop()}
-              </span>
-              <span>
-                <span class="block font-bold">{r.name}</span>
-                <span class="block text-sm text-muted">{r.detail}</span>
-              </span>
-            </figcaption>
-          </figure>
-        </li>
-      ))}
-    </ul>
-
-    <p class="mt-10 text-center">
-      <a href={site.googleReviewsUrl} target="_blank" rel="noopener" class="btn btn-secondary">
-        {t.rating.readOnGoogle}
-        <Icon name="external" />
-      </a>
-    </p>
+    <a
+      href={site.googleReviewsUrl}
+      target="_blank"
+      rel="noopener"
+      class="btn btn-secondary shrink-0"
+    >
+      {es ? 'Ver reseñas en Google' : 'Read Google reviews'}
+      <Icon name="external" />
+    </a>
   </div>
 </section>

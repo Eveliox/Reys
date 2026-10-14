@@ -69,23 +69,27 @@ const crumbs = [
               {location.phone.display}
             </a>
           </p>
-          <p>
-            <a href={`mailto:${site.email}`} class="break-all text-muted hover:text-ink">
-              {site.email}
-            </a>
-          </p>
+          {!site.email.endsWith('.example') && (
+            <p>
+              <a href={`mailto:${site.email}`} class="break-all text-muted hover:text-ink">
+                {site.email}
+              </a>
+            </p>
+          )}
         </div>
       </div>
 
-      <div class="mt-8 grid gap-3 sm:grid-cols-3">
+      <div class:list={['mt-8 grid gap-3', location.sms ? 'sm:grid-cols-3' : 'sm:grid-cols-2']}>
         <a href={`tel:${location.phone.e164}`} class="btn btn-primary px-4">
           <Icon name="phone" />
           {t.cta.callUs}
         </a>
-        <a href={`sms:${location.sms.e164}`} class="btn btn-secondary px-4">
-          <Icon name="message" />
-          {t.cta.text}
-        </a>
+        {location.sms && (
+          <a href={`sms:${location.sms.e164}`} class="btn btn-secondary px-4">
+            <Icon name="message" />
+            {t.cta.text}
+          </a>
+        )}
         <a
           href={directionsUrl(location.address)}
           target="_blank"
@@ -126,10 +130,17 @@ const crumbs = [
         {t.nav.services}
       </h2>
       <div class="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
-        {services.map((s) => (
-          <ServiceCard service={{ ...s, premium: false }} lang={lang} />
-        ))}
+        {services
+          .filter((s) => s.featured)
+          .map((s) => (
+            <ServiceCard service={{ ...s, premium: false }} lang={lang} />
+          ))}
       </div>
+      <p class="mt-8">
+        <a href={pathFor(lang, 'services')} class="link">
+          {t.cta.allServices}
+        </a>
+      </p>
     </div>
   </section>
 

@@ -34,7 +34,7 @@ const es = {
     allServices: 'Ver todos los servicios',
     details: 'Detalles',
     bandTitle: '¿Problemas con el carro? Estamos para ayudarle.',
-    bandText: 'Llámenos ahora o pida su cita en línea, de lunes a viernes.',
+    bandText: 'Llámenos para programar su visita de lunes a viernes.',
     readMore: 'Más información',
   },
 
@@ -89,12 +89,12 @@ const es = {
     services: {
       title: "Servicios de mecánica en Miami | Rey's Auto Repair",
       description:
-        'Diagnóstico, reparación de carros alemanes, cambio de aceite, transmisiones y carros clásicos en Little Havana, Miami. Vea nuestros servicios y pida su cita.',
+        'Diagnóstico, carros alemanes y clásicos, frenos, motor, aire acondicionado, sistema eléctrico, gomas, transmisión y cambio de aceite en Little Havana, Miami.',
     },
     about: {
       title: "Sobre Rey's Auto Repair | Mecánicos en Little Havana",
       description:
-        "Conozca al equipo de Rey's Auto Repair, el taller de barrio en Little Havana, Miami, con {rating} estrellas y más de {reviewCountNum} reseñas en Google.",
+        "Conozca al equipo de Rey's Auto Repair, el taller de barrio en Little Havana, Miami.",
     },
     locations: {
       title: "Ubicación y horario | Rey's Auto Repair Miami",
@@ -119,9 +119,9 @@ const es = {
 
   hero: {
     eyebrow: 'Mecánico en Little Havana · Miami',
-    title: 'Mecánica honesta en el corazón de Little Havana.',
+    title: 'Cuidado experto. Raíces locales.',
     subtitle:
-      'Diagnóstico, especialistas en carros alemanes, clásicos y mantenimiento de todos los días, bien hecho desde la primera vez. ¿Se le rompió el carro? Llámenos ya.',
+      'Ingeniería alemana, carros clásicos y tu vehículo de cada día. Reparación y mantenimiento en el corazón de Little Havana.',
     imageAlt: "Un mecánico trabajando en un carro en el taller de Rey's Auto Repair",
   },
 
@@ -132,8 +132,8 @@ const es = {
       { title: 'Especialistas en alemanes', text: 'BMW · Mercedes · Audi · VW · Porsche' },
       { title: 'Expertos en clásicos', text: 'Carburadores, platinos y cromo' },
       {
-        title: '[PLACEHOLDER: Años de experiencia]',
-        text: '[PLACEHOLDER: Certificaciones / garantía]',
+        title: 'Little Havana, Miami',
+        text: '527 SW 15th Ave · Miami. Consulta nuestros horarios y cómo llegar.',
       },
     ],
   },
@@ -163,6 +163,8 @@ const es = {
     specialty: 'Especialidad',
     startingAt: (price: string) => `Desde ${price}`,
     startingAtLabel: 'Desde',
+    fullListTitle: 'Todo lo que hacemos',
+    fullListIntro: 'La lista completa de reparaciones y servicios que ofrecemos, por categoría.',
     whatWeDo: 'Qué incluye',
     faqTitle: 'Preguntas frecuentes',
     related: 'Otros servicios',
@@ -170,6 +172,262 @@ const es = {
     ctaTitle: '¿Necesita este servicio?',
     ctaText: 'Llame para un estimado o pida su cita a la hora que le convenga.',
     items: {
+      brakes: {
+        name: 'Frenos',
+        short:
+          '¿Chillan, raspan o el pedal está suave? Revisamos sus frenos y arreglamos lo que de verdad está gastado, nada más.',
+        metaTitle: "Reparación de frenos en Little Havana | Rey's Auto Repair",
+        metaDescription:
+          'Reparación de frenos en Little Havana, Miami: revisión, pastillas y discos, y frenos que chillan, raspan o tienen el pedal suave. Llame al {phone}.',
+        h1: 'Reparación de frenos en Little Havana',
+        intro:
+          'Con los frenos no se puede adivinar. Revisamos pastillas, discos y el sistema hidráulico, le enseñamos lo que está gastado y lo reparamos para que su carro frene derecho y con seguridad.',
+        includes: [
+          'Revisión de frenos',
+          'Pastillas y discos de freno',
+          'Frenos que chillan, raspan o halan hacia un lado',
+          'Pedal de freno suave o esponjoso',
+          'Diagnóstico de la luz de frenos',
+        ],
+        faqs: [
+          {
+            q: '¿Por qué me chillan los frenos?',
+            a: 'Muchas veces son pastillas gastadas, pero también pueden ser los discos o los herrajes. Tráigalo y lo revisamos antes de recomendar nada.',
+          },
+          {
+            q: 'El pedal de freno se siente suave. ¿Puedo manejar?',
+            a: 'Un pedal suave o que se hunde puede ser un problema hidráulico. Maneje lo menos posible y llámenos al {phone}.',
+          },
+          {
+            q: '¿Reparan frenos de carros alemanes y clásicos?',
+            a: 'Sí. Damos servicio de frenos a carros de diario, alemanes y clásicos.',
+          },
+        ],
+      },
+      engine: {
+        name: 'Reparación de motor',
+        short:
+          'Motor que falla, tiembla, bota aceite o pierde fuerza: encontramos la causa y lo reparamos como es.',
+        metaTitle: "Reparación de motor en Miami | Rey's Auto Repair",
+        metaDescription:
+          'Reparación de motor en Little Havana, Miami: motor que falla o tiembla, salideros de aceite, calentamiento y pérdida de fuerza. Llame al {phone}.',
+        h1: 'Reparación de motor en Miami',
+        intro:
+          'Los problemas del motor casi siempre empiezan pequeños: un fallo, un salidero, una luz en el tablero. Primero diagnosticamos la causa, le explicamos sus opciones y después hacemos la reparación.',
+        includes: [
+          'Reparación de motor',
+          'Motor que falla, tiembla o pierde fuerza',
+          'Salideros de aceite',
+          'Calentamiento del motor',
+          'Diagnóstico de la luz del aceite',
+        ],
+        faqs: [
+          {
+            q: 'Mi motor está fallando. ¿Qué hago?',
+            a: 'Revíselo pronto. Un fallo que se deja puede dañar otras piezas. Si la luz de check engine parpadea, deje de manejar y llámenos.',
+          },
+          {
+            q: '¿Por qué se prendió la luz del aceite?',
+            a: 'Puede ser poco aceite o baja presión de aceite. Revise el nivel y, si la luz sigue prendida, no siga manejando. Llámenos al {phone}.',
+          },
+          {
+            q: '¿Me dicen el precio antes de reparar?',
+            a: 'Sí. Primero le damos el diagnóstico y el precio, y no se repara nada sin su aprobación.',
+          },
+        ],
+      },
+      electrical: {
+        name: 'Batería y sistema eléctrico',
+        short:
+          '¿Batería muerta, luces que parpadean o un carro que amanece descargado? Baterías, luces y reparaciones eléctricas.',
+        metaTitle: "Batería y sistema eléctrico en Miami | Rey's Auto Repair",
+        metaDescription:
+          'Cambio de batería y reparación eléctrica en Little Havana, Miami: baterías, batería que se descarga, problemas de carga y luces. Llame al {phone}.',
+        h1: 'Batería y reparación eléctrica en Miami',
+        intro:
+          'El calor de Miami castiga las baterías y los cables. Probamos la batería y el sistema de carga, buscamos las fallas eléctricas y reparamos las luces para que su carro arranque todas las mañanas.',
+        includes: [
+          'Prueba y cambio de batería',
+          'Batería que se descarga y problemas de carga',
+          'Luces delanteras, traseras y demás',
+          'Reparación del sistema eléctrico',
+          'Luces de advertencia y fallas eléctricas',
+        ],
+        faqs: [
+          {
+            q: '¿Cómo sé si necesito una batería nueva?',
+            a: 'Si el carro arranca lento, las luces están débiles o la batería tiene varios años, es hora de revisarla. Se la probamos y le decimos.',
+          },
+          {
+            q: 'La batería se me descarga a cada rato. ¿Es la batería?',
+            a: 'No siempre. Un problema de carga, o algo que consume corriente con el carro apagado, puede descargar una batería buena. Hacemos pruebas para saberlo.',
+          },
+          {
+            q: '¿Arreglan las luces delanteras y traseras?',
+            a: 'Sí. Reparamos las luces del carro, desde un bombillo fundido hasta problemas de cables.',
+          },
+        ],
+      },
+      'ac-heating': {
+        name: 'Aire acondicionado y calefacción',
+        short:
+          '¿El aire echa caliente? ¿La calefacción o el desempañador no funcionan? Diagnosticamos y reparamos el sistema de clima de su carro.',
+        metaTitle: "Aire acondicionado de carros en Miami | Rey's Auto Repair",
+        metaDescription:
+          'Reparación de aire acondicionado y calefacción de carros en Little Havana, Miami: aire que no enfría, poco flujo de aire o calefacción. Llame al {phone}.',
+        h1: 'Aire acondicionado y calefacción para su carro en Miami',
+        intro:
+          'En Miami, el aire acondicionado no es un lujo. Averiguamos por qué su sistema no da abasto, ya sea un salidero, un problema eléctrico o una pieza que está fallando, y lo reparamos.',
+        includes: [
+          'Aire que echa caliente o no enfría bien',
+          'Poco aire por las rejillas',
+          'Problemas de calefacción y desempañador',
+          'Olores o ruidos raros por las rejillas',
+          'Diagnóstico del sistema de clima',
+        ],
+        faqs: [
+          {
+            q: '¿Por qué el aire de mi carro echa caliente?',
+            a: 'Las causas más comunes son poco gas por un salidero, una falla eléctrica o un compresor que está fallando. Diagnosticamos antes de cambiar nada.',
+          },
+          {
+            q: '¿Solo necesito cargarle gas al aire?',
+            a: 'Si al sistema le falta gas, casi siempre hay un salidero. Si se carga sin encontrarlo, el aire vuelve a echar caliente pronto. Por eso primero revisamos.',
+          },
+          {
+            q: '¿También arreglan la calefacción y el desempañador?',
+            a: 'Sí. Trabajamos todo el sistema de aire acondicionado y calefacción.',
+          },
+        ],
+      },
+      suspension: {
+        name: 'Dirección y suspensión',
+        short:
+          '¿Golpes en los baches, el carro hala o el timón tiene juego? Reparación de dirección y suspensión para un manejo suave y seguro.',
+        metaTitle: "Dirección y suspensión en Miami | Rey's Auto Repair",
+        metaDescription:
+          'Reparación de dirección y suspensión en Little Havana, Miami: golpes en los baches, carro que hala o rebota, y timón con juego. Llame al {phone}.',
+        h1: 'Reparación de dirección y suspensión en Miami',
+        intro:
+          'Los baches de Miami pasan factura. Las piezas gastadas de la dirección y la suspensión afectan el manejo, el frenado y la vida de las gomas. Encontramos lo que está gastado y lo cambiamos.',
+        includes: [
+          'Reparación de dirección y suspensión',
+          'Golpes o ruidos en los baches',
+          'Carro que hala o no va derecho',
+          'Carro que rebota o anda duro',
+          'Gomas que se gastan disparejas',
+        ],
+        faqs: [
+          {
+            q: '¿Qué es ese golpe cuando paso por un bache?',
+            a: 'Muchas veces es una pieza gastada de la suspensión, como un link, un buje o una rótula. Revisamos el carro para encontrarla.',
+          },
+          {
+            q: '¿Por qué mi carro hala hacia un lado?',
+            a: 'Puede ser desgaste en la dirección o la suspensión, la presión de las gomas o los frenos. Revisamos todo junto.',
+          },
+          {
+            q: '¿Es peligroso que el timón tenga juego?',
+            a: 'Puede serlo. Mucho juego puede indicar piezas de dirección gastadas, así que revíselo pronto.',
+          },
+        ],
+      },
+      exhaust: {
+        name: 'Escape',
+        short:
+          '¿El carro suena más alto, algo vibra por debajo o huele a humo? Reparamos salideros, tubos y mofles del escape.',
+        metaTitle: "Reparación de escape en Little Havana | Rey's Auto Repair",
+        metaDescription:
+          'Reparación del sistema de escape en Little Havana, Miami: carro que suena alto, salideros, ruidos y tubos o mofles dañados. Llame al {phone}.',
+        h1: 'Reparación de escape en Little Havana',
+        intro:
+          'Si el carro de pronto suena más alto, casi siempre es un salidero en el escape, y el humo del escape no debe entrar al carro. Encontramos el salidero o la pieza suelta y lo reparamos.',
+        includes: [
+          'Reparación del escape',
+          'Salideros en el escape',
+          'Carro que suena alto o ruidos por debajo',
+          'Mofles y tubos',
+          'Soportes dañados o sueltos',
+        ],
+        faqs: [
+          {
+            q: '¿Por qué mi carro de pronto suena más alto?',
+            a: 'Por lo general es un salidero en el escape o un mofle o tubo dañado. Tráigalo a revisar.',
+          },
+          {
+            q: 'Huele a humo de escape dentro del carro. ¿Qué hago?',
+            a: 'Abra las ventanillas, maneje lo menos posible y llámenos al {phone}. El humo del escape dentro del carro puede ser peligroso.',
+          },
+          {
+            q: '¿Reparan el escape de carros clásicos?',
+            a: 'Sí. Llámenos con el año, la marca y el modelo.',
+          },
+        ],
+      },
+      tires: {
+        name: 'Gomas y TPMS',
+        short:
+          'Montaje, reparación, rotación y balanceo de gomas, más diagnóstico y reparación del sensor de presión (TPMS).',
+        metaTitle: "Gomas y llantas en Miami | Rey's Auto Repair Little Havana",
+        metaDescription:
+          'Gomas (llantas) en Little Havana, Miami: montaje, ponchaduras, rotación, balanceo y diagnóstico de la luz de presión (TPMS). Llame al {phone}.',
+        h1: 'Servicio de gomas en Little Havana',
+        intro:
+          'Desde un clavo en la goma hasta una luz de presión que no se apaga: montamos, reparamos, rotamos y balanceamos gomas, y diagnosticamos y reparamos los sensores de presión (TPMS).',
+        includes: [
+          'Montaje de gomas',
+          'Reparación de gomas y ponchaduras',
+          'Rotación de gomas',
+          'Balanceo de gomas',
+          'Diagnóstico y reparación de la luz de presión (TPMS)',
+        ],
+        faqs: [
+          {
+            q: '¿Se puede arreglar mi goma ponchada?',
+            a: 'Muchas ponchaduras en la banda se pueden reparar. Si el daño está en el costado, casi siempre hay que cambiarla. La revisamos y le decimos.',
+          },
+          {
+            q: '¿Por qué se prendió la luz de presión de las gomas?',
+            a: 'Casi siempre es una goma baja. Si la presión está bien y la luz sigue prendida o parpadea, puede ser un sensor TPMS.',
+          },
+          {
+            q: '¿Cada cuánto debo rotar las gomas?',
+            a: 'Siga el manual del carro. Muchos recomiendan rotarlas cada 5,000–7,500 millas. Pregúntenos qué le conviene a su carro.',
+          },
+        ],
+      },
+      maintenance: {
+        name: 'Mantenimiento e inspecciones',
+        short:
+          'Mantenimiento de rutina para que su carro sea confiable, e inspecciones antes de comprar un carro usado.',
+        metaTitle: "Mantenimiento e inspecciones en Miami | Rey's Auto Repair",
+        metaDescription:
+          'Mantenimiento de rutina e inspección antes de comprar en Little Havana, Miami. Filtros de aire con {promoPct}% de descuento los viernes. Llame al {phone}.',
+        h1: 'Mantenimiento e inspección antes de comprar en Miami',
+        intro:
+          'Con mantenimiento regular, los problemas pequeños no crecen. Seguimos el plan de mantenimiento de su carro y, antes de que compre un carro usado, se lo revisamos y le decimos lo que está comprando.',
+        includes: [
+          'Mantenimiento de rutina',
+          'Revisión y cambio de líquidos',
+          'Filtros de aire',
+          'Correas y mangueras',
+          'Inspección antes de comprar',
+        ],
+        faqs: [
+          {
+            q: '¿Qué incluye el mantenimiento de rutina?',
+            a: 'Depende del carro y del millaje. Seguimos el plan del fabricante y le explicamos qué toca ahora y qué puede esperar.',
+          },
+          {
+            q: '¿Debo revisar un carro usado antes de comprarlo?',
+            a: 'Sí. Una inspección antes de comprar puede descubrir problemas que no se notan en una prueba de manejo.',
+          },
+          {
+            q: '¿Los filtros de aire tienen descuento los viernes?',
+            a: 'Sí, los filtros de aire tienen {promoPct}% de descuento todos los viernes.',
+          },
+        ],
+      },
       german: {
         name: 'Carros alemanes',
         short:
@@ -245,11 +503,12 @@ const es = {
         intro:
           'Una luz de advertencia le dice que algo anda mal, pero no qué. Usamos escáner y pruebas a mano para dar con la causa, y se la explicamos en palabras sencillas antes de tocar nada.',
         includes: [
-          'Luz de check engine y otras luces del tablero',
-          'El carro no arranca o se apaga',
-          'Ruidos, vibraciones y salideros',
-          'Problemas eléctricos y batería que se descarga',
-          'Aire acondicionado y calentamiento del motor',
+          'Diagnóstico de la luz de check engine',
+          'Carro que no arranca',
+          'Diagnóstico de ruidos',
+          'Diagnóstico de vibraciones',
+          'Diagnóstico de la luz del aceite',
+          'Diagnóstico general cuando algo no se siente bien',
         ],
         faqs: [
           {
@@ -309,11 +568,11 @@ const es = {
         intro:
           'Los problemas de transmisión no se arreglan solos. Empezamos con un diagnóstico honesto: a veces es el líquido o un sensor, no una transmisión nueva. Después le explicamos sus opciones.',
         includes: [
+          'Reparación de transmisión',
           'Servicio de líquido de transmisión',
+          'Inspección de salideros de transmisión',
           'Diagnóstico si patina, demora o cambia duro',
-          'Reparación de salideros y sellos',
-          'Transmisiones automáticas y manuales',
-          'Revisión del clutch',
+          'Reparación de sellos y salideros',
         ],
         faqs: [
           {
@@ -338,7 +597,7 @@ const es = {
     title: 'Un taller de barrio que la gente recomienda de verdad.',
     items: [
       {
-        title: '{rating} estrellas, más de {reviewCountNum} reseñas',
+        title: 'Lea las reseñas de nuestros clientes',
         text: 'Nuestra reputación la hicimos carro por carro y vecino por vecino. Lea lo que dicen nuestros clientes en Google.',
       },
       {
@@ -350,8 +609,8 @@ const es = {
         text: 'Carburadores, platinos y el conocimiento de siempre para los carros que hicieron famosas las calles de Miami.',
       },
       {
-        title: '[PLACEHOLDER: Garantía y certificaciones]',
-        text: '[PLACEHOLDER: p. ej. “Técnicos certificados ASE. Garantía de 12 meses / 12,000 millas en piezas y mano de obra.”]',
+        title: 'Visítanos en Little Havana',
+        text: '527 SW 15th Ave · Miami. Consulta nuestros horarios y cómo llegar.',
       },
     ],
   },
@@ -442,12 +701,12 @@ const es = {
   about: {
     eyebrow: 'Nosotros',
     title: "Rey's Auto Repair: el taller de barrio de Little Havana",
-    lead: '[PLACEHOLDER: Una o dos oraciones sobre quién es Rey y cómo empezó el taller.]',
-    storyTitle: 'Nuestra historia',
+    lead: 'Tu taller de barrio para diagnóstico, reparación de carros alemanes, cuidado de clásicos y mantenimiento en Little Havana.',
+    storyTitle: 'El cuidado de tu carro, cerca de casa.',
     story: [
-      '[PLACEHOLDER: Historia, párrafo 1: cuándo y por qué abrió el taller, y sus raíces en Little Havana.]',
-      '[PLACEHOLDER: Historia, párrafo 2: cómo surgió la especialidad en carros alemanes y clásicos.]',
-      '[PLACEHOLDER: Historia, párrafo 3: qué puede esperar el cliente y qué defiende el taller.]',
+      'Estamos en 527 SW 15th Ave, Little Havana, Miami. El cuidado de tu vehículo empieza por entender lo que necesita.',
+      'Explora nuestros servicios: carros alemanes y clásicos, diagnóstico, frenos, motor y sistema eléctrico, aire acondicionado y calefacción, gomas, cambios de aceite y transmisión.',
+      'Llámanos para hablar sobre tu carro, consultar un servicio o planificar tu visita. Encuentra nuestros horarios y cómo llegar en la página de ubicación.',
     ],
     teamTitle: 'Nuestro equipo',
     team: [

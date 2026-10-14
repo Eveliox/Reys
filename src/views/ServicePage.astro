@@ -3,6 +3,9 @@ import BaseLayout from '../layouts/BaseLayout.astro';
 import Breadcrumbs from '../components/Breadcrumbs.astro';
 import CTASection from '../components/CTASection.astro';
 import Icon from '../components/Icon.astro';
+import diagnosticsPhoto from '../assets/shop/rey6.jpg';
+import germanPhoto from '../assets/editorial/porsche-red.jpg';
+import oilPhoto from '../assets/shop/rey7.jpg';
 import ImageSlot from '../components/ImageSlot.astro';
 import ServiceCard from '../components/ServiceCard.astro';
 import { promo, services, site, type Service } from '../config/site.ts';
@@ -57,8 +60,11 @@ const related = services.filter((s) => s.id !== service.id).slice(0, 3);
       </h1>
       <p class="mt-6 max-w-xl text-lg text-muted">{copy.intro}</p>
       <p class="mt-6 text-muted">
-        {t.services.startingAtLabel}
-        <span class="ml-1 text-2xl font-black text-ink">{service.startingPrice}</span>
+        {service.startingPrice.includes('XX')
+          ? lang === 'es'
+            ? 'Llámanos para consultar el precio de tu servicio.'
+            : 'Call for pricing tailored to your vehicle.'
+          : t.services.startingAt(service.startingPrice)}
       </p>
       {hasPromo && (
         <a
@@ -82,6 +88,15 @@ const related = services.filter((s) => s.id !== service.id).slice(0, 3);
     </div>
     <ImageSlot
       id={`service-${service.id}`}
+      src={
+        service.id === 'diagnostics'
+          ? diagnosticsPhoto
+          : service.id === 'german'
+            ? germanPhoto
+            : service.id === 'oil-change'
+              ? oilPhoto
+              : undefined
+      }
       alt={copy.name}
       ratio="5 / 4"
       icon={service.icon}

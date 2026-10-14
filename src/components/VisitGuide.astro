@@ -1,0 +1,78 @@
+---
+import type { Lang } from '../i18n/routes.ts';
+import { pathFor } from '../i18n/routes.ts';
+import Icon from './Icon.astro';
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const es = lang === 'es';
+const faqs = es
+  ? [
+      [
+        '¿Qué vehículos atienden?',
+        'Ofrecemos servicios para carros alemanes, clásicos y vehículos de uso diario. Llámanos con la marca, modelo y año para consultar tu caso.',
+      ],
+      [
+        '¿Cómo programo una visita?',
+        'Llama al (305) 541-7339 para consultar disponibilidad. El taller confirma tu cita por teléfono.',
+      ],
+      [
+        '¿Dónde está el taller?',
+        'Estamos en 527 SW 15th Ave, Miami, FL 33135, en Little Havana. Consulta los horarios y las indicaciones en nuestra página de ubicación.',
+      ],
+      [
+        '¿Qué incluye la oferta del viernes?',
+        'La oferta del viernes ofrece 20% de descuento en cambios de aceite, servicio de líquido de transmisión y filtros de aire. Menciona la oferta al programar tu visita.',
+      ],
+    ]
+  : [
+      [
+        'What vehicles do you work on?',
+        'Our services cover German vehicles, classics, and everyday cars. Call with your make, model, and year to discuss the work your vehicle needs.',
+      ],
+      [
+        'How do I arrange an appointment?',
+        'Call (305) 541-7339 to check availability. The shop will confirm your appointment by phone.',
+      ],
+      [
+        'Where is the shop?',
+        'Find us at 527 SW 15th Ave, Miami, FL 33135, in Little Havana. Visit our location page for current hours and directions.',
+      ],
+      [
+        'What is included in the Friday special?',
+        'The Friday special offers 20% off oil changes, transmission fluid service, and air filters. Mention the offer when arranging your visit.',
+      ],
+    ];
+---
+
+<section class="section" aria-labelledby="faq-title">
+  <div class="container-x grid gap-10 lg:grid-cols-[.8fr_1.2fr] lg:gap-20">
+    <div>
+      <p class="eyebrow">{es ? 'Antes de venir' : 'Before you stop by'}</p>
+      <h2 id="faq-title" class="mt-4 text-h2">
+        {es ? 'Antes de tu visita.' : 'Before you visit.'}
+      </h2>
+      <a href={pathFor(lang, 'locations')} class="link mt-6 inline-flex items-center gap-2">
+        {es ? 'Horarios y ubicación' : 'Hours & location'}
+        <Icon name="arrow" />
+      </a>
+    </div>
+    <div class="border-t border-line">
+      {faqs.map(([q, a]) => (
+        <details class="group border-b border-line py-5">
+          <summary class="flex min-h-11 cursor-pointer list-none items-center justify-between gap-5 font-bold [&::-webkit-details-marker]:hidden">
+            {q}
+            <span
+              class="text-2xl font-normal text-accent transition-transform group-open:rotate-45"
+              aria-hidden="true"
+            >
+              +
+            </span>
+          </summary>
+          <p class="max-w-xl pt-3 pb-2 leading-relaxed text-muted">{a}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>

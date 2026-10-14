@@ -1,7 +1,8 @@
 ---
-import { site } from '../config/site.ts';
-import { pathFor, type Lang } from '../i18n/routes.ts';
+import { primaryLocation, site } from '../config/site.ts';
+import { type Lang } from '../i18n/routes.ts';
 import { useTranslations } from '../i18n/utils.ts';
+import { directionsUrl } from '../lib/format.ts';
 import Icon from './Icon.astro';
 
 interface Props {
@@ -12,24 +13,26 @@ const t = useTranslations(lang);
 ---
 
 <div
-  class="fixed inset-x-0 bottom-0 z-40 border-t border-ink-3 bg-ink/95 px-3 pt-3 backdrop-blur md:hidden"
+  class="fixed inset-x-0 bottom-0 z-40 border-t border-line bg-paper/95 px-3 pt-3 backdrop-blur md:hidden"
   style="padding-bottom: calc(0.75rem + env(safe-area-inset-bottom))"
 >
-  <div class="grid grid-cols-[2fr_1fr] gap-2">
+  <div class="grid grid-cols-2 gap-2">
     <a
       href={`tel:${site.phone.e164}`}
-      class="btn btn-primary min-h-13 text-lg"
+      class="btn btn-primary min-h-13 px-3 text-sm"
       aria-label={`${t.cta.callNow}: ${site.phone.display}`}
     >
       <Icon name="phone" class="size-5" />
       {t.cta.callNow}
     </a>
     <a
-      href={pathFor(lang, 'book')}
-      class="btn min-h-13 border-2 border-cream/40 text-cream hover:bg-cream hover:text-ink"
+      href={directionsUrl(primaryLocation.address)}
+      target="_blank"
+      rel="noopener"
+      class="btn btn-secondary min-h-13 px-3 text-sm"
     >
-      <Icon name="calendar" class="size-5" />
-      {t.cta.bookShort}
+      <Icon name="directions" class="size-5" />
+      {t.cta.directions}
     </a>
   </div>
 </div>

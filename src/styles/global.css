@@ -1,27 +1,22 @@
 @import 'tailwindcss';
 
-/*
- * Design tokens. Contrast (WCAG):
- *   ink on cream ≈ 14:1 · white on accent ≈ 5.5:1 · accent on cream ≈ 5.0:1
- *   accent-light on ink ≈ 6.1:1 · brass on ink ≈ 5.8:1 · muted on cream ≈ 6.6:1
- * Never put accent text on ink (use accent-light), or brass on cream.
- */
+/* Red-and-white brand palette with neutral text and accessible red actions. */
 @theme {
-  --color-ink: #0e2a33;
-  --color-ink-2: #15394a;
-  --color-ink-3: #1f4b5c;
-  --color-cream: #faf5ec;
-  --color-sand: #f1e8d8;
-  --color-paper: #fffdf9;
-  --color-line: #e2d6c2;
-  --color-accent: #b8411c;
-  --color-accent-dark: #9a3416;
-  --color-accent-light: #f08a5d;
-  --color-brass: #c29a57;
-  --color-muted: #4a5a60;
-  --color-mist: #b9c6c9;
+  --color-ink: #151b20;
+  --color-ink-2: #232d35;
+  --color-ink-3: #35424c;
+  --color-cream: #ffffff;
+  --color-sand: #f5f5f5;
+  --color-paper: #ffffff;
+  --color-line: #e1e1e1;
+  --color-accent: #c8102e;
+  --color-accent-dark: #a50d26;
+  --color-accent-light: #ffb5c1;
+  --color-brass: #ffb5c1;
+  --color-muted: #5b5b5b;
+  --color-mist: #f5dce1;
   /* Form control borders: ≥3:1 against paper (WCAG 1.4.11). */
-  --color-field: #7c8a8f;
+  --color-field: #887b80;
   --color-ok: #1f7a4d;
   --color-ok-light: #7dd3a8;
 
@@ -49,7 +44,8 @@
 @layer base {
   html {
     -webkit-text-size-adjust: 100%;
-    scroll-padding-top: 1rem;
+    scroll-padding-top: 7rem;
+    scroll-behavior: smooth;
   }
   body {
     @apply bg-cream font-sans text-ink antialiased;
@@ -92,7 +88,7 @@
 
 @layer components {
   .container-x {
-    @apply mx-auto w-full max-w-6xl px-4 sm:px-6 lg:px-8;
+    @apply mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8;
   }
   .section {
     @apply py-16 sm:py-24;
@@ -105,13 +101,13 @@
   }
 
   .btn {
-    @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-6 text-base font-bold whitespace-nowrap transition-colors duration-150 select-none;
+    @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-none px-6 text-base font-bold whitespace-nowrap transition-colors duration-150 select-none;
   }
   .btn-primary {
     @apply bg-accent text-white hover:bg-accent-dark;
   }
   .btn-secondary {
-    @apply border-2 border-ink bg-transparent text-ink hover:bg-ink hover:text-cream;
+    @apply border-2 border-accent bg-transparent text-accent hover:bg-accent hover:text-white;
   }
   .on-dark .btn-secondary {
     @apply border-cream text-cream hover:bg-cream hover:text-ink;
@@ -129,11 +125,11 @@
 
   /* Cuban cement-tile motif (losas hidráulicas), very low contrast. */
   .tile-bg {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Cg fill='none' stroke='%23b8411c' stroke-width='1.25' opacity='.14'%3E%3Cpath d='M0 16A16 16 0 0 0 16 0M48 0a16 16 0 0 0 16 16M64 48a16 16 0 0 0-16 16M16 64A16 16 0 0 0 0 48'/%3E%3Cpath d='M32 14l18 18-18 18-18-18z'/%3E%3Ccircle cx='32' cy='32' r='5'/%3E%3C/g%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Cg fill='none' stroke='%23c8102e' stroke-width='1.25' opacity='.14'%3E%3Cpath d='M0 16A16 16 0 0 0 16 0M48 0a16 16 0 0 0 16 16M64 48a16 16 0 0 0-16 16M16 64A16 16 0 0 0 0 48'/%3E%3Cpath d='M32 14l18 18-18 18-18-18z'/%3E%3Ccircle cx='32' cy='32' r='5'/%3E%3C/g%3E%3C/svg%3E");
     background-size: 64px 64px;
   }
   .tile-bg-dark {
-    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Cg fill='none' stroke='%23c29a57' stroke-width='1.25' opacity='.16'%3E%3Cpath d='M0 16A16 16 0 0 0 16 0M48 0a16 16 0 0 0 16 16M64 48a16 16 0 0 0-16 16M16 64A16 16 0 0 0 0 48'/%3E%3Cpath d='M32 14l18 18-18 18-18-18z'/%3E%3Ccircle cx='32' cy='32' r='5'/%3E%3C/g%3E%3C/svg%3E");
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='64' height='64' viewBox='0 0 64 64'%3E%3Cg fill='none' stroke='%23ffb5c1' stroke-width='1.25' opacity='.16'%3E%3Cpath d='M0 16A16 16 0 0 0 16 0M48 0a16 16 0 0 0 16 16M64 48a16 16 0 0 0-16 16M16 64A16 16 0 0 0 0 48'/%3E%3Cpath d='M32 14l18 18-18 18-18-18z'/%3E%3Ccircle cx='32' cy='32' r='5'/%3E%3C/g%3E%3C/svg%3E");
     background-size: 64px 64px;
   }
 
@@ -159,5 +155,61 @@
 @media (max-width: 767.98px) {
   body {
     padding-bottom: calc(4.75rem + env(safe-area-inset-bottom));
+  }
+}
+
+/* Subtle depth and consistent geometry across the site. */
+@layer components {
+  .btn {
+    transition:
+      background-color 0.2s,
+      color 0.2s,
+      transform 0.2s,
+      box-shadow 0.2s;
+  }
+  .btn-primary {
+    box-shadow: none;
+  }
+  .btn:hover {
+    transform: translateY(-2px);
+  }
+  .tile-bg,
+  .tile-bg-dark {
+    background-image: none;
+  }
+  .section {
+    border-top: 1px solid #eadfe166;
+  }
+  .eyebrow {
+    font-size: 0.72rem;
+    letter-spacing: 0.19em;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .btn:hover {
+    transform: none;
+  }
+}
+
+@layer components {
+  .red-panel .btn-primary {
+    @apply bg-white text-accent-dark hover:bg-sand;
+  }
+  .red-panel .eyebrow {
+    @apply text-white;
+  }
+}
+
+/* Editorial geometry: photographs, clear rules, and direct typography. */
+@layer components {
+  .text-h2 {
+    font-weight: 850;
+    letter-spacing: -0.05em;
+  }
+  .section {
+    border-top: 0;
+  }
+  .field-input {
+    border-radius: 0;
   }
 }

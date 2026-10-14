@@ -23,8 +23,7 @@ export function autoRepairSchema(location: Location, lang: Lang, description: st
     description,
     url,
     telephone: location.phone.e164,
-    email: site.email,
-    priceRange: site.priceRange,
+    email: site.email.endsWith('.example') ? undefined : site.email,
     image: absoluteUrl('/og-default.png'),
     inLanguage: lang,
     address: {
@@ -35,7 +34,6 @@ export function autoRepairSchema(location: Location, lang: Lang, description: st
       postalCode: location.address.postalCode,
       addressCountry: location.address.country,
     },
-    geo: { '@type': 'GeoCoordinates', latitude: location.geo.lat, longitude: location.geo.lng },
     hasMap: location.googleUrl,
     areaServed: location.areaServed.map((name) => ({ '@type': 'Place', name })),
     openingHoursSpecification: groupHours(location.hours).flatMap((g) =>
@@ -46,12 +44,6 @@ export function autoRepairSchema(location: Location, lang: Lang, description: st
         closes,
       })),
     ),
-    aggregateRating: {
-      '@type': 'AggregateRating',
-      ratingValue: site.rating.value,
-      reviewCount: site.rating.count,
-      bestRating: 5,
-    },
     sameAs: Object.values(site.socials).filter(Boolean),
   };
 }
