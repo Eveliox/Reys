@@ -5,6 +5,7 @@ import { useTranslations } from '../i18n/utils.ts';
 import { websiteSchema } from '../lib/schema.ts';
 import Hero from '../components/Hero.astro';
 import TrustBar from '../components/TrustBar.astro';
+import FridaySpecial from '../components/FridaySpecial.astro';
 
 interface Props {
   lang: Lang;
@@ -22,4 +23,5 @@ const t = useTranslations(lang);
 >
   <Hero lang={lang} />
   <TrustBar lang={lang} />
+  <FridaySpecial lang={lang} />
 </BaseLayout>
