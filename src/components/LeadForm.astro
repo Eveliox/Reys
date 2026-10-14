@@ -1,0 +1,210 @@
+---
+import { services, site } from '../config/site.ts';
+import type { Lang } from '../i18n/routes.ts';
+import { useTranslations } from '../i18n/utils.ts';
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const es = lang === 'es';
+const t = useTranslations(lang);
+const endpoint = import.meta.env.PUBLIC_LEAD_FORM_ENDPOINT?.trim() || '';
+const ready = !!endpoint && !endpoint.includes('REPLACE_ME');
+---
+
+<section
+  id="contact"
+  class="section border-t border-line bg-paper"
+  aria-labelledby="lead-heading"
+  data-lead-panel
+>
+  <div class="container-x grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-20">
+    <div>
+      <p class="eyebrow">{es ? 'Hablemos de tu carro' : 'Let’s talk about your car'}</p>
+      <h2 id="lead-heading" class="mt-4 text-4xl tracking-tight sm:text-5xl">
+        {es ? 'Tu próxima reparación empieza aquí.' : 'Your next repair starts here.'}
+      </h2>
+      <p class="mt-6 max-w-md leading-relaxed text-muted">
+        {es
+          ? 'Cuéntanos qué manejas y qué está pasando. Comparte tus datos para que el equipo pueda comunicarse contigo.'
+          : 'Tell us what you drive and what’s going on. Leave your details so the team can get in touch.'}
+      </p>
+      <div class="mt-8 border-l-2 border-brand pl-5">
+        <p class="text-sm text-muted">
+          {es ? '¿Prefieres hablar con alguien?' : 'Prefer to talk it through?'}
+        </p>
+        <a
+          class="mt-2 inline-block text-2xl font-semibold hover:text-brand"
+          href={`tel:${site.phone.e164}`}
+        >
+          {site.phone.display}
+        </a>
+        <p class="mt-2 text-sm text-muted">
+          {es ? 'Hablamos inglés y español.' : 'English & Spanish spoken.'}
+        </p>
+      </div>
+    </div>
+    <form
+      data-lead-form
+      data-ready={ready ? 'true' : 'false'}
+      data-lang={lang}
+      action={ready ? endpoint : undefined}
+      method="POST"
+      class="border border-line bg-white p-5 sm:p-8"
+      aria-describedby="lead-note"
+    >
+      <input type="hidden" name="_subject" value="New website inquiry — Rey’s Auto Repair" />
+      <input type="hidden" name="language" value={lang} />
+      <div hidden aria-hidden="true">
+        <label>
+          Leave empty
+          <input name="_gotcha" tabindex="-1" autocomplete="off" />
+        </label>
+      </div>
+      <p id="lead-note" class="mb-6 text-sm leading-relaxed text-muted">
+        {ready
+          ? es
+            ? 'Los campos con * son obligatorios. Una consulta no confirma una cita.'
+            : 'Fields marked * are required. An inquiry does not confirm an appointment.'
+          : es
+            ? 'Las consultas en línea estarán disponibles pronto. Este formulario todavía no envía mensajes; por favor llámanos para recibir ayuda.'
+            : 'Online inquiries are coming soon. This form doesn’t send messages yet; please call us for help.'}
+      </p>
+      <div class="grid gap-5 sm:grid-cols-2">
+        <div>
+          <label for="lead-name" class="field-label">
+            {es ? 'Nombre completo' : 'Full name'} *
+          </label>
+          <input
+            id="lead-name"
+            name="name"
+            autocomplete="name"
+            maxlength="100"
+            required
+            class="field-input"
+          />
+        </div>
+        <div>
+          <label for="lead-phone" class="field-label">
+            {es ? 'Teléfono (opcional)' : 'Phone (optional)'}
+          </label>
+          <input
+            id="lead-phone"
+            name="phone"
+            type="tel"
+            autocomplete="tel"
+            maxlength="30"
+            class="field-input"
+          />
+        </div>
+        <div class="sm:col-span-2">
+          <label for="lead-email" class="field-label">
+            {es ? 'Correo electrónico' : 'Email address'} *
+          </label>
+          <input
+            id="lead-email"
+            name="email"
+            type="email"
+            autocomplete="email"
+            maxlength="254"
+            required
+            class="field-input"
+          />
+        </div>
+        <div class="sm:col-span-2">
+          <label for="lead-service" class="field-label">
+            {es ? 'Servicio que necesitas' : 'Service you need'} *
+          </label>
+          <select id="lead-service" name="service" required class="field-input">
+            <option value="">{t.form.servicePlaceholder}</option>
+            {services.map((s) => (
+              <option value={t.services.items[s.id].name}>{t.services.items[s.id].name}</option>
+            ))}
+            <option value="Other / Not sure">
+              {es ? 'Otro / No estoy seguro' : 'Other / Not sure'}
+            </option>
+          </select>
+        </div>
+        <div class="sm:col-span-2">
+          <label for="lead-message" class="field-label">
+            {es ? 'Cuéntanos más' : 'Tell us a little more'} *
+          </label>
+          <textarea
+            id="lead-message"
+            name="message"
+            rows="4"
+            maxlength="3000"
+            required
+            class="field-input"
+            placeholder={
+              es
+                ? 'Marca, modelo, año y qué has notado…'
+                : 'Make, model, year, and what you’ve noticed…'
+            }
+          ></textarea>
+        </div>
+      </div>
+      <p class="mt-5 text-xs leading-relaxed text-muted">
+        {es
+          ? 'Al enviar, autorizas a Rey’s Auto Repair a contactarte sobre esta consulta.'
+          : 'By submitting, you agree that Rey’s Auto Repair may contact you about this inquiry.'}
+      </p>
+      <button
+        type="submit"
+        disabled={!ready}
+        class="btn btn-primary mt-5 w-full disabled:cursor-not-allowed disabled:opacity-50"
+      >
+        {es ? 'Enviar consulta' : 'Send inquiry'} <span aria-hidden="true">↗</span>
+      </button>
+      <p
+        data-lead-status
+        role="status"
+        aria-live="polite"
+        class="mt-4 text-sm leading-relaxed"
+        hidden
+      ></p>
+    </form>
+  </div>
+</section>
+
+<script>
+  document.querySelectorAll<HTMLFormElement>('[data-lead-form]').forEach((form) => {
+    const button = form.querySelector<HTMLButtonElement>('button[type="submit"]')!;
+    const status = form.querySelector<HTMLElement>('[data-lead-status]')!;
+    const es = form.dataset.lang === 'es';
+    let sending = false;
+    form.addEventListener('submit', async (event) => {
+      event.preventDefault();
+      if (form.dataset.ready !== 'true' || sending || !form.reportValidity()) return;
+      sending = true;
+      button.disabled = true;
+      form.setAttribute('aria-busy', 'true');
+      status.hidden = false;
+      status.textContent = es ? 'Enviando…' : 'Sending…';
+      const controller = new AbortController();
+      const timeout = window.setTimeout(() => controller.abort(), 15000);
+      try {
+        const response = await fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { Accept: 'application/json' },
+          signal: controller.signal,
+        });
+        if (!response.ok) throw new Error('Inquiry failed');
+        form.reset();
+        status.textContent = es
+          ? 'Gracias. Recibimos tu consulta. El equipo se comunicará contigo; tu cita aún no está confirmada.'
+          : 'Thank you. Your inquiry was received. The team will contact you; an appointment is not yet confirmed.';
+      } catch {
+        status.textContent = es
+          ? 'No pudimos confirmar el envío. Tus datos siguen aquí. Intenta de nuevo o llámanos.'
+          : 'We couldn’t confirm delivery. Your details are still here. Try again or give us a call.';
+      } finally {
+        window.clearTimeout(timeout);
+        sending = false;
+        button.disabled = false;
+        form.removeAttribute('aria-busy');
+      }
+    });
+  });
+</script>

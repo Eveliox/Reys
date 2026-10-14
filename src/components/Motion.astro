@@ -1,0 +1,92 @@
+<script>
+  const motionPreference = matchMedia('(prefers-reduced-motion: reduce)');
+  const targets = document.querySelectorAll<HTMLElement>(
+    '.section > .container-x > h2, .service-heading, .shop-portrait, #shop-story-title, #shop-gallery-title, .gallery-item, .reviews-heading',
+  );
+  if (!motionPreference.matches && 'IntersectionObserver' in window) {
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach(({ target, isIntersecting }) => {
+          if (!isIntersecting) return;
+          target.classList.add('has-entered');
+          observer.unobserve(target);
+        });
+      },
+      { threshold: 0.08, rootMargin: '0px 0px -24px 0px' },
+    );
+    targets.forEach((target) => {
+      // Content already on screen stays visible; only offscreen elements enter.
+      if (target.getBoundingClientRect().top > innerHeight) {
+        target.classList.add('motion-reveal');
+        observer.observe(target);
+      }
+    });
+    const revealAll = () => {
+      targets.forEach((target) => target.classList.add('has-entered'));
+      observer.disconnect();
+    };
+    motionPreference.addEventListener('change', revealAll, { once: true });
+    window.addEventListener('beforeprint', revealAll, { once: true });
+    document.addEventListener('focusin', (event) => {
+      (event.target as HTMLElement)?.closest('.motion-reveal')?.classList.add('has-entered');
+    });
+  }
+</script>
+<style is:global>
+  @media (prefers-reduced-motion: no-preference) {
+    .motion-reveal {
+      opacity: 0;
+      transform: translateY(22px);
+      transition:
+        opacity 0.65s ease,
+        transform 0.65s cubic-bezier(0.2, 0.65, 0.25, 1);
+    }
+    .motion-reveal.has-entered {
+      opacity: 1;
+      transform: none;
+    }
+    .btn svg {
+      transition: transform 0.2s ease;
+    }
+    .btn:hover svg {
+      transform: translateX(3px);
+    }
+    header nav a {
+      position: relative;
+    }
+    header nav a:after {
+      content: '';
+      position: absolute;
+      bottom: 5px;
+      left: 12px;
+      right: 12px;
+      height: 2px;
+      background: var(--color-accent);
+      transform: scaleX(0);
+      transform-origin: left;
+      transition: transform 0.2s;
+    }
+    header nav a:hover:after,
+    header nav a[aria-current]:after {
+      transform: scaleX(1);
+    }
+    .gallery-item img {
+      transition: transform 0.65s cubic-bezier(0.2, 0.65, 0.25, 1);
+    }
+    .gallery-item:hover img {
+      transform: scale(1.035);
+    }
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .motion-reveal {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  @media print {
+    .motion-reveal {
+      opacity: 1 !important;
+      transform: none !important;
+    }
+  }
+</style>

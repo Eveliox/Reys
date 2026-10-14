@@ -13,6 +13,7 @@ const t = useTranslations(lang);
 ---
 
 <div
+  data-mobile-call-bar
   class="fixed inset-x-0 bottom-0 z-40 border-t border-line bg-paper/95 px-3 pt-3 backdrop-blur md:hidden"
   style="padding-bottom: calc(0.75rem + env(safe-area-inset-bottom))"
 >
@@ -36,3 +37,29 @@ const t = useTranslations(lang);
     </a>
   </div>
 </div>
+
+<script>
+  const bar = document.querySelector<HTMLElement>('[data-mobile-call-bar]');
+  const bookingPanels = document.querySelectorAll(
+    '[data-visit-planner], [data-appointment-form], [data-lead-panel]',
+  );
+  if (bar && bookingPanels.length && 'IntersectionObserver' in window) {
+    const visible = new Set<Element>();
+    const observer = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) visible.add(entry.target);
+          else visible.delete(entry.target);
+        });
+        bar.hidden = visible.size > 0;
+      },
+      { rootMargin: '-80px 0px -80px 0px' },
+    );
+    bookingPanels.forEach((panel) => observer.observe(panel));
+  }
+</script>
+<style>
+  [hidden] {
+    display: none !important;
+  }
+</style>

@@ -5,6 +5,7 @@ import CTASection from '../components/CTASection.astro';
 import Icon from '../components/Icon.astro';
 import diagnosticsPhoto from '../assets/shop/rey6.jpg';
 import germanPhoto from '../assets/editorial/porsche-red.jpg';
+import classicPhoto from '../assets/shop/rey10.jpg';
 import oilPhoto from '../assets/shop/rey7.jpg';
 import ImageSlot from '../components/ImageSlot.astro';
 import ServiceCard from '../components/ServiceCard.astro';
@@ -89,15 +90,23 @@ const related = services.filter((s) => s.id !== service.id).slice(0, 3);
     <ImageSlot
       id={`service-${service.id}`}
       src={
-        service.id === 'diagnostics'
-          ? diagnosticsPhoto
-          : service.id === 'german'
-            ? germanPhoto
-            : service.id === 'oil-change'
-              ? oilPhoto
-              : undefined
+        service.id === 'classic'
+          ? classicPhoto
+          : service.id === 'diagnostics'
+            ? diagnosticsPhoto
+            : service.id === 'german'
+              ? germanPhoto
+              : service.id === 'oil-change'
+                ? oilPhoto
+                : undefined
       }
-      alt={copy.name}
+      alt={
+        service.id === 'classic'
+          ? lang === 'es'
+            ? 'Técnico trabajando bajo el capó de un Mini clásico verde en Rey’s'
+            : 'Technician working under the hood of a green classic Mini at Rey’s'
+          : copy.name
+      }
       ratio="5 / 4"
       icon={service.icon}
       priority

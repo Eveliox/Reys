@@ -5,6 +5,8 @@ import team from '../assets/shop/rey7.jpg';
 import repair from '../assets/shop/rey4.jpg';
 import diagnostics from '../assets/shop/rey6.jpg';
 import workshop from '../assets/shop/rey5.jpg';
+import classic from '../assets/shop/rey10.jpg';
+import sunroof from '../assets/shop/rey12.jpg';
 import hatch from '../assets/shop/rey8.jpg';
 import { pathFor, type Lang } from '../i18n/routes.ts';
 import Icon from './Icon.astro';
@@ -15,6 +17,20 @@ interface Props {
 const { lang, gallery = false } = Astro.props;
 const es = lang === 'es';
 const photos = [
+  {
+    src: classic,
+    title: es ? 'Cuidado para los clásicos' : 'Care for the classics',
+    alt: es
+      ? 'Técnico trabajando bajo el capó de un Mini clásico verde en el taller'
+      : 'Technician working under the hood of a green classic Mini at the shop',
+  },
+  {
+    src: sunroof,
+    title: es ? 'Trabajo de precisión' : 'A closer look at every detail',
+    alt: es
+      ? 'Técnico trabajando en el mecanismo del techo corredizo de un vehículo negro'
+      : 'Technician working on the sunroof mechanism of a black vehicle',
+  },
   {
     src: repair,
     title: es ? 'Manos a la obra' : 'Hands-on care',
@@ -53,14 +69,14 @@ const photos = [
       <h2 id="shop-gallery-title" class="mt-3 text-h2">
         {es ? 'Conoce nuestro día a día.' : 'A look at what we do.'}
       </h2>
-      <div class="mt-10 grid grid-cols-2 gap-4 lg:grid-cols-4">
+      <div class="mt-10 grid grid-cols-2 gap-4 lg:grid-cols-3">
         {photos.map((photo) => (
-          <figure>
+          <figure class="gallery-item overflow-hidden">
             <Image
               src={photo.src}
               alt={photo.alt}
               loading="lazy"
-              class="aspect-square w-full object-cover"
+              class="aspect-[4/5] w-full object-cover"
             />
             <figcaption class="mt-3 text-sm font-bold">{photo.title}</figcaption>
           </figure>

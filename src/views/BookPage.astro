@@ -1,6 +1,7 @@
 ---
 import BaseLayout from '../layouts/BaseLayout.astro';
 import AppointmentForm from '../components/AppointmentForm.astro';
+import LeadForm from '../components/LeadForm.astro';
 import FridaySpecial from '../components/FridaySpecial.astro';
 import type { Lang } from '../i18n/routes.ts';
 import { useTranslations } from '../i18n/utils.ts';
@@ -19,5 +20,6 @@ const t = useTranslations(lang);
   description={t.meta.book.description}
 >
   <AppointmentForm lang={lang} headingLevel="h1" />
+  <LeadForm lang={lang} />
   <FridaySpecial lang={lang} />
 </BaseLayout>

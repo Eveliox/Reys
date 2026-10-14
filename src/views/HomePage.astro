@@ -10,7 +10,7 @@ import TrustBar from '../components/TrustBar.astro';
 import FridaySpecial from '../components/FridaySpecial.astro';
 import ServiceGrid from '../components/ServiceGrid.astro';
 import Reviews from '../components/Reviews.astro';
-import AppointmentForm from '../components/AppointmentForm.astro';
+import LeadForm from '../components/LeadForm.astro';
 import LocationsSection from '../components/LocationsSection.astro';
 import { locations } from '../config/site.ts';
 
@@ -26,6 +26,7 @@ const t = useTranslations(lang);
   route="home"
   title={t.meta.home.title}
   description={t.meta.home.description}
+  preloadImage="/videos/auto-care-poster.webp"
   jsonLd={[
     websiteSchema(lang),
     ...locations.map((l) => autoRepairSchema(l, lang, t.meta.home.description)),
@@ -39,6 +40,6 @@ const t = useTranslations(lang);
   <VisitGuide lang={lang} />
   <ShopStory lang={lang} gallery />
   <Reviews lang={lang} />
-  <AppointmentForm lang={lang} />
+  <LeadForm lang={lang} />
   <LocationsSection lang={lang} />
 </BaseLayout>

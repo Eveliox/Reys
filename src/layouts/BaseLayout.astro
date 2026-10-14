@@ -4,6 +4,7 @@ import fontUrl from '@fontsource-variable/archivo/files/archivo-latin-wght-norma
 import { site } from '../config/site.ts';
 import { absoluteUrl, alternatesFor, type Lang, type Route } from '../i18n/routes.ts';
 import { otherLang, useTranslations } from '../i18n/utils.ts';
+import Motion from '../components/Motion.astro';
 import Header from '../components/Header.astro';
 import Footer from '../components/Footer.astro';
 import MobileCallBar from '../components/MobileCallBar.astro';
@@ -17,6 +18,8 @@ interface Props {
   jsonLd?: object[];
   noindex?: boolean;
   ogImage?: string;
+  /** Above-the-fold image to fetch first (e.g. the hero video poster). */
+  preloadImage?: string;
 }
 
 const {
@@ -27,6 +30,7 @@ const {
   jsonLd = [],
   noindex = new URL(site.url).hostname.endsWith('.example'),
   ogImage = '/og-default.png',
+  preloadImage,
 } = Astro.props;
 const t = useTranslations(lang);
 const alternates = alternatesFor(route ?? 'home');
@@ -53,6 +57,7 @@ const fontFace = `@font-face{font-family:'Archivo';font-style:normal;font-displa
       </>
     )}
 
+    {preloadImage && <link rel="preload" href={preloadImage} as="image" fetchpriority="high" />}
     <link rel="preload" href={fontUrl} as="font" type="font/woff2" crossorigin />
     <style is:inline set:html={fontFace} />
 
@@ -93,5 +98,6 @@ const fontFace = `@font-face{font-family:'Archivo';font-style:normal;font-displa
     </main>
     <Footer lang={lang} alternates={alternates} />
     <MobileCallBar lang={lang} />
+    <Motion />
   </body>
 </html>

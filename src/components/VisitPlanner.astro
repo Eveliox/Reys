@@ -1,0 +1,236 @@
+---
+import { services, site } from '../config/site.ts';
+import { type Lang } from '../i18n/routes.ts';
+import { useTranslations } from '../i18n/utils.ts';
+import Icon from './Icon.astro';
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const es = lang === 'es';
+const t = useTranslations(lang);
+---
+
+<div data-visit-planner data-lang={lang}>
+  <p class="eyebrow">{es ? 'Prepara tu visita' : 'Plan your visit'}</p>
+  <h2 class="mt-3 text-3xl tracking-tight">
+    {es ? 'Empecemos por tu carro.' : 'Start with your car.'}
+  </h2>
+  <p class="mt-4 text-sm leading-relaxed text-muted">
+    {es
+      ? 'Elige el servicio y ten los datos de tu vehículo listos. La cita se confirma por teléfono.'
+      : 'Choose a service and get your vehicle details ready. Appointments are confirmed by phone.'}
+  </p>
+  <div data-planner-progress hidden class="planner-progress" aria-live="polite"></div>
+  <form data-planner-form>
+    <fieldset data-plan-step class="mt-7">
+      <legend class="field-label">
+        {es ? '¿En qué podemos ayudarte?' : 'What can we help with?'}
+      </legend>
+      <label for="plan-service" class="sr-only">
+        {t.form.service}
+      </label>
+      <select id="plan-service" name="service" class="field-input" required>
+        <option value="">{t.form.servicePlaceholder}</option>
+        {services.map((s) => (
+          <option value={s.id}>{t.services.items[s.id].name}</option>
+        ))}
+        <option value="other">{t.form.serviceOther}</option>
+      </select>
+      <p class="mt-3 text-sm text-muted">
+        {es
+          ? '¿No estás seguro? Selecciona “Otro” y cuéntanos al llamar.'
+          : 'Not sure? Choose “Other” and tell us what you’ve noticed when you call.'}
+      </p>
+    </fieldset>
+    <fieldset data-plan-step class="mt-7">
+      <legend class="field-label">
+        {es ? 'Cuéntanos qué manejas.' : 'Tell us what you drive.'}
+      </legend>
+      <div class="grid gap-4 sm:grid-cols-3">
+        <div>
+          <label for="plan-year" class="field-label">
+            {t.form.year}
+          </label>
+          <input
+            id="plan-year"
+            name="year"
+            class="field-input"
+            inputmode="numeric"
+            pattern="[0-9]{4}"
+            minlength="4"
+            maxlength="4"
+            placeholder="2018"
+            required
+          />
+        </div>
+        <div>
+          <label for="plan-make" class="field-label">
+            {t.form.make}
+          </label>
+          <input
+            id="plan-make"
+            name="make"
+            class="field-input"
+            maxlength="50"
+            placeholder="BMW"
+            required
+          />
+        </div>
+        <div>
+          <label for="plan-model" class="field-label">
+            {t.form.model}
+          </label>
+          <input
+            id="plan-model"
+            name="model"
+            class="field-input"
+            maxlength="50"
+            placeholder="330i"
+            required
+          />
+        </div>
+      </div>
+    </fieldset>
+    <div data-plan-summary hidden class="mt-7">
+      <h3 class="text-xl">{es ? 'Listo para llamar.' : 'You’re ready to call.'}</h3>
+      <dl class="plan-summary mt-5">
+        <div>
+          <dt>{t.form.service}</dt>
+          <dd data-plan-service></dd>
+        </div>
+        <div>
+          <dt>{es ? 'Vehículo' : 'Vehicle'}</dt>
+          <dd data-plan-vehicle></dd>
+        </div>
+      </dl>
+      <p class="mt-5 text-sm text-muted">
+        {es
+          ? 'Menciona estos datos al llamar. Este formulario no envía información ni reserva una cita.'
+          : 'Mention these details when you call. This planner does not send information or reserve an appointment.'}
+      </p>
+      <a href={`tel:${site.phone.e164}`} class="btn btn-primary mt-6">
+        <Icon name="phone" />
+        {site.phone.display}
+      </a>
+    </div>
+    <div data-planner-controls hidden class="mt-7 flex items-center justify-between gap-3">
+      <button type="button" data-plan-back class="btn btn-secondary">
+        {es ? 'Atrás' : 'Back'}
+      </button>
+      <button type="submit" data-plan-next class="btn btn-primary">
+        {es ? 'Continuar' : 'Continue'}
+        <Icon name="arrow" />
+      </button>
+    </div>
+  </form>
+  <noscript>
+    <p class="mt-6 text-sm">
+      {es
+        ? 'Llama al taller para programar tu cita.'
+        : 'Call the shop to schedule your appointment.'}
+    </p>
+    <a href={`tel:${site.phone.e164}`} class="btn btn-primary mt-4">
+      {site.phone.display}
+    </a>
+  </noscript>
+</div>
+<style>
+  .planner-progress {
+    margin-top: 28px;
+    border-top: 3px solid var(--color-accent);
+    padding-top: 12px;
+    font-size: 0.7rem;
+    font-weight: 750;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+  }
+  .plan-summary > div {
+    display: grid;
+    grid-template-columns: 90px 1fr;
+    gap: 16px;
+    padding: 14px 0;
+    border-top: 1px solid var(--color-line);
+    font-size: 0.9rem;
+  }
+  .plan-summary dt {
+    color: var(--color-muted);
+  }
+  .plan-summary dd {
+    font-weight: 750;
+    overflow-wrap: anywhere;
+  }
+  [hidden] {
+    display: none !important;
+  }
+</style>
+<script>
+  document.querySelectorAll<HTMLElement>('[data-visit-planner]').forEach((root) => {
+    const form = root.querySelector<HTMLFormElement>('form')!;
+    const panels = [...root.querySelectorAll<HTMLFieldSetElement>('[data-plan-step]')];
+    const back = root.querySelector<HTMLButtonElement>('[data-plan-back]')!;
+    const next = root.querySelector<HTMLButtonElement>('[data-plan-next]')!;
+    const summary = root.querySelector<HTMLElement>('[data-plan-summary]')!;
+    const progress = root.querySelector<HTMLElement>('[data-planner-progress]')!;
+    const es = root.dataset.lang === 'es';
+    let step = 0;
+    form.noValidate = true;
+    root.querySelector<HTMLElement>('[data-planner-controls]')!.hidden = false;
+    progress.hidden = false;
+    const service = form.elements.namedItem('service') as HTMLSelectElement;
+    const preselected = new URLSearchParams(location.search).get('service');
+    if (preselected && [...service.options].some((o) => o.value === preselected))
+      service.value = preselected;
+    const render = (focus = false) => {
+      panels.forEach((panel, i) => (panel.hidden = i !== step));
+      summary.hidden = step !== 2;
+      back.hidden = step === 0;
+      next.hidden = step === 2;
+      progress.textContent =
+        (es ? 'Paso ' : 'Step ') +
+        (step + 1) +
+        (es ? ' de 3 · ' : ' of 3 · ') +
+        (es
+          ? ['Servicio', 'Vehículo', 'Llamar al taller'][step]
+          : ['Service', 'Vehicle', 'Call the shop'][step]);
+      if (focus) {
+        const target = step === 2 ? summary : panels[step];
+        target.tabIndex = -1;
+        target.focus({ preventScroll: true });
+      }
+    };
+    back.addEventListener('click', () => {
+      step = Math.max(0, step - 1);
+      render(true);
+    });
+    form.addEventListener('submit', (event) => {
+      event.preventDefault();
+      if (step >= 2) return;
+      const fields = [
+        ...panels[step].querySelectorAll<HTMLInputElement | HTMLSelectElement>('input,select'),
+      ];
+      const year = form.elements.namedItem('year') as HTMLInputElement;
+      if (step === 1) {
+        const valid =
+          Number(year.value) >= 1900 && Number(year.value) <= new Date().getFullYear() + 1;
+        year.setCustomValidity(
+          valid ? '' : es ? 'Ingresa un año válido.' : 'Enter a valid vehicle year.',
+        );
+      }
+      const invalid = fields.find((field) => !field.checkValidity());
+      if (invalid) {
+        invalid.reportValidity();
+        return;
+      }
+      step++;
+      if (step === 2) {
+        root.querySelector('[data-plan-service]')!.textContent = service.selectedOptions[0].text;
+        root.querySelector('[data-plan-vehicle]')!.textContent = ['year', 'make', 'model']
+          .map((name) => (form.elements.namedItem(name) as HTMLInputElement).value.trim())
+          .join(' ');
+      }
+      render(true);
+    });
+    render();
+  });
+</script>

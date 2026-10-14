@@ -12,6 +12,7 @@ import { booking, locations, services, site } from '../config/site.ts';
 import type { Lang } from '../i18n/routes.ts';
 import { useTranslations } from '../i18n/utils.ts';
 import { firstBookableDate, formatTime, timeSlots } from '../lib/hours.ts';
+import VisitPlanner from './VisitPlanner.astro';
 import Icon from './Icon.astro';
 
 interface Props {
@@ -77,28 +78,7 @@ const field = 'field-input';
 
     <div class="rounded-none bg-paper p-5 shadow-sm sm:p-10">
       {!bookingReady ? (
-        <div class="py-4 sm:py-8">
-          <span class="inline-flex size-14 items-center justify-center rounded-xl bg-sand text-accent">
-            <Icon name="phone" class="size-6" />
-          </span>
-          <h2 class="mt-6 text-3xl tracking-tight">
-            {lang === 'es' ? 'Conversemos sobre tu carro.' : 'Let’s talk about your car.'}
-          </h2>
-          <p class="mt-4 max-w-md text-muted">
-            {lang === 'es'
-              ? 'Para programar tu visita, llámanos. Ten a mano el año, la marca y el modelo de tu vehículo, y cuéntanos qué necesita.'
-              : 'Call the shop to arrange your visit. Have your vehicle’s year, make, and model ready, and tell us what you need help with.'}
-          </p>
-          <a class="btn btn-primary mt-7" href={`tel:${site.phone.e164}`}>
-            <Icon name="phone" />
-            {site.phone.display}
-          </a>
-          <p class="mt-5 text-sm text-muted">
-            {lang === 'es'
-              ? 'La disponibilidad se confirma por teléfono.'
-              : 'Appointment availability is confirmed by phone.'}
-          </p>
-        </div>
+        <VisitPlanner lang={lang} />
       ) : (
         <>
           <form
@@ -146,63 +126,38 @@ const field = 'field-input';
               />
             </div>
 
-            <fieldset>
-              <legend class="text-lg font-extrabold">{t.form.legend.you}</legend>
-              <div class="mt-4 grid gap-5 sm:grid-cols-2">
+            <div
+              data-request-progress
+              hidden
+              class="border-t-4 border-accent pt-3 text-xs font-bold tracking-wider uppercase"
+              aria-live="polite"
+            ></div>
+            <fieldset data-request-step>
+              <legend class="text-lg font-extrabold">{t.form.service}</legend>
+              <div class="mt-4">
                 <div class="sm:col-span-2">
-                  <label for="f-name" class="field-label">
-                    {t.form.name}
+                  <label for="f-service" class="field-label">
+                    {t.form.service}
                   </label>
-                  <input
-                    id="f-name"
-                    name="name"
-                    type="text"
-                    autocomplete="name"
+                  <select
+                    id="f-service"
+                    name="service"
                     required
-                    minlength="2"
-                    maxlength="100"
                     class={field}
-                    aria-describedby="e-name"
-                  />
-                  <p id="e-name" class="field-error" hidden></p>
-                </div>
-                <div>
-                  <label for="f-phone" class="field-label">
-                    {t.form.phone}
-                  </label>
-                  <input
-                    id="f-phone"
-                    name="phone"
-                    type="tel"
-                    inputmode="tel"
-                    autocomplete="tel"
-                    required
-                    pattern="[\d\s().+\-]{10,20}"
-                    maxlength="20"
-                    class={field}
-                    aria-describedby="e-phone"
-                  />
-                  <p id="e-phone" class="field-error" hidden></p>
-                </div>
-                <div>
-                  <label for="f-email" class="field-label">
-                    {t.form.email} <span class="font-normal text-muted">{t.form.optional}</span>
-                  </label>
-                  <input
-                    id="f-email"
-                    name="email"
-                    type="email"
-                    autocomplete="email"
-                    maxlength="200"
-                    class={field}
-                    aria-describedby="e-email"
-                  />
-                  <p id="e-email" class="field-error" hidden></p>
+                    aria-describedby="e-service"
+                  >
+                    <option value="">{t.form.servicePlaceholder}</option>
+                    {services.map((s) => (
+                      <option value={s.id}>{t.services.items[s.id].name}</option>
+                    ))}
+                    <option value="other">{t.form.serviceOther}</option>
+                  </select>
+                  <p id="e-service" class="field-error" hidden></p>
                 </div>
               </div>
             </fieldset>
 
-            <fieldset>
+            <fieldset data-request-step>
               <legend class="text-lg font-extrabold">{t.form.legend.vehicle}</legend>
               <div class="mt-4 grid grid-cols-[6.5rem_1fr] gap-5 sm:grid-cols-[7rem_1fr_1fr]">
                 <div>
@@ -258,7 +213,7 @@ const field = 'field-input';
               <p id="e-model" class="field-error" hidden></p>
             </fieldset>
 
-            <fieldset>
+            <fieldset data-request-step>
               <legend class="text-lg font-extrabold">{t.form.legend.visit}</legend>
               <div class="mt-4 grid gap-5 sm:grid-cols-2">
                 {locations.length > 1 && (
@@ -273,25 +228,7 @@ const field = 'field-input';
                     </select>
                   </div>
                 )}
-                <div class="sm:col-span-2">
-                  <label for="f-service" class="field-label">
-                    {t.form.service}
-                  </label>
-                  <select
-                    id="f-service"
-                    name="service"
-                    required
-                    class={field}
-                    aria-describedby="e-service"
-                  >
-                    <option value="">{t.form.servicePlaceholder}</option>
-                    {services.map((s) => (
-                      <option value={s.id}>{t.services.items[s.id].name}</option>
-                    ))}
-                    <option value="other">{t.form.serviceOther}</option>
-                  </select>
-                  <p id="e-service" class="field-error" hidden></p>
-                </div>
+
                 <div>
                   <label for="f-date" class="field-label">
                     {t.form.date}
@@ -347,6 +284,81 @@ const field = 'field-input';
               </div>
             </fieldset>
 
+            <fieldset data-request-step>
+              <legend class="text-lg font-extrabold">{t.form.legend.you}</legend>
+              <div class="mt-4 grid gap-5 sm:grid-cols-2">
+                <div class="sm:col-span-2">
+                  <label for="f-name" class="field-label">
+                    {t.form.name}
+                  </label>
+                  <input
+                    id="f-name"
+                    name="name"
+                    type="text"
+                    autocomplete="name"
+                    required
+                    minlength="2"
+                    maxlength="100"
+                    class={field}
+                    aria-describedby="e-name"
+                  />
+                  <p id="e-name" class="field-error" hidden></p>
+                </div>
+                <div>
+                  <label for="f-phone" class="field-label">
+                    {t.form.phone}
+                  </label>
+                  <input
+                    id="f-phone"
+                    name="phone"
+                    type="tel"
+                    inputmode="tel"
+                    autocomplete="tel"
+                    required
+                    pattern="[\d\s().+\-]{10,20}"
+                    maxlength="20"
+                    class={field}
+                    aria-describedby="e-phone"
+                  />
+                  <p id="e-phone" class="field-error" hidden></p>
+                </div>
+                <div>
+                  <label for="f-email" class="field-label">
+                    {t.form.email} <span class="font-normal text-muted">{t.form.optional}</span>
+                  </label>
+                  <input
+                    id="f-email"
+                    name="email"
+                    type="email"
+                    autocomplete="email"
+                    maxlength="200"
+                    class={field}
+                    aria-describedby="e-email"
+                  />
+                  <p id="e-email" class="field-error" hidden></p>
+                </div>
+              </div>
+            </fieldset>
+
+            <p
+              data-request-review
+              hidden
+              class="border-y border-line py-4 text-sm leading-relaxed text-muted"
+            ></p>
+            <p class="text-sm text-muted">
+              {lang === 'es'
+                ? 'Esta es una solicitud. El taller confirmará la fecha y hora por teléfono.'
+                : 'This is a request. The shop will confirm your appointment date and time by phone.'}
+            </p>
+            <div data-request-controls hidden class="flex items-center justify-between gap-3">
+              <button type="button" data-request-back class="btn btn-secondary">
+                {lang === 'es' ? 'Atrás' : 'Back'}
+              </button>
+              <button type="button" data-request-next class="btn btn-primary">
+                {lang === 'es' ? 'Continuar' : 'Continue'}
+                <Icon name="arrow" />
+              </button>
+            </div>
             <div
               data-submit-error
               hidden
@@ -362,7 +374,10 @@ const field = 'field-input';
               </p>
             </div>
 
-            <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+            <div
+              data-request-submit
+              class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between"
+            >
               <button
                 type="submit"
                 class="btn btn-primary min-h-14 px-8 text-lg disabled:cursor-wait disabled:opacity-70"
@@ -540,9 +555,69 @@ const field = 'field-input';
 
     refreshMin();
     fillTimes();
+    const panels = [...form.querySelectorAll<HTMLFieldSetElement>('[data-request-step]')];
+    const back = el<HTMLButtonElement>('[data-request-back]');
+    const next = el<HTMLButtonElement>('[data-request-next]');
+    const progress = el<HTMLElement>('[data-request-progress]');
+    const review = el<HTMLElement>('[data-request-review]');
+    let step = 0;
+    const labels =
+      lang === 'es'
+        ? ['Servicio', 'Vehículo', 'Fecha preferida', 'Contacto']
+        : ['Service', 'Vehicle', 'Preferred time', 'Contact'];
+    el<HTMLElement>('[data-request-controls]').hidden = false;
+    progress.hidden = false;
+    const service = el<HTMLSelectElement>('#f-service');
+    const selectedService = new URLSearchParams(location.search).get('service');
+    if (selectedService && [...service.options].some((option) => option.value === selectedService))
+      service.value = selectedService;
+    function renderStep(focus = false) {
+      panels.forEach((panel, i) => {
+        panel.hidden = i !== step;
+      });
+      back.hidden = step === 0;
+      next.hidden = step === panels.length - 1;
+      el<HTMLElement>('[data-request-submit]').hidden = step !== panels.length - 1;
+      review.hidden = step !== panels.length - 1;
+      progress.textContent = `${lang === 'es' ? 'Paso' : 'Step'} ${step + 1} / ${panels.length} · ${labels[step]}`;
+      review.textContent = [
+        service.selectedOptions[0]?.text,
+        ['vehicle_year', 'vehicle_make', 'vehicle_model'].map(val).join(' '),
+        val('preferred_date'),
+        time.selectedOptions[0]?.text,
+      ]
+        .filter(Boolean)
+        .join(' · ');
+      if (focus) {
+        panels[step].tabIndex = -1;
+        panels[step].focus({ preventScroll: true });
+      }
+    }
+    function advanceStep() {
+      const names = Object.keys(validators).filter((name) =>
+        panels[step].contains(form.elements.namedItem(name) as HTMLElement),
+      );
+      const failed = names.filter((name) => check(name));
+      if (failed.length) {
+        (form.elements.namedItem(failed[0]) as HTMLElement).focus();
+        return;
+      }
+      step = Math.min(step + 1, panels.length - 1);
+      renderStep(true);
+    }
+    back.addEventListener('click', () => {
+      step = Math.max(0, step - 1);
+      renderStep(true);
+    });
+    next.addEventListener('click', advanceStep);
+    renderStep();
 
     form.addEventListener('submit', async (e) => {
       e.preventDefault();
+      if (step < panels.length - 1) {
+        advanceStep();
+        return;
+      }
       submitError.hidden = true;
 
       const failed = Object.keys(validators)
@@ -570,6 +645,10 @@ const field = 'field-input';
           }),
         );
         summary.hidden = false;
+        step = panels.findIndex((panel) =>
+          panel.contains(form.elements.namedItem(failed[0]!.name) as HTMLElement),
+        );
+        renderStep();
         (form.elements.namedItem(failed[0]!.name) as HTMLElement).focus();
         return;
       }
@@ -610,3 +689,9 @@ const field = 'field-input';
     }
   }
 </script>
+
+<style>
+  [hidden] {
+    display: none !important;
+  }
+</style>

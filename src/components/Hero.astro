@@ -10,193 +10,304 @@ const { lang } = Astro.props;
 const es = lang === 'es';
 ---
 
-<section class="editorial-hero" aria-labelledby="hero-title">
-  <div class="container-x hero-intro">
-    <div>
-      <p class="eyebrow">
-        {es ? 'Reparación de autos / Little Havana, Miami' : 'Auto repair / Little Havana, Miami'}
-      </p>
-      <h1 id="hero-title">
-        {es ? 'TU CARRO.' : 'YOUR CAR.'}
-        <br />
-        <span>{es ? 'EN BUENAS MANOS.' : 'IN GOOD HANDS.'}</span>
-      </h1>
-    </div>
-    <div class="hero-aside">
-      <p>
-        {es
-          ? 'Diagnóstico, reparación de carros alemanes y mantenimiento. Aquí mismo, en tu barrio.'
-          : 'Diagnostics, German vehicle repair, and everyday maintenance. Right here in your neighborhood.'}
-      </p>
-      <a href={pathFor(lang, 'book')} class="btn btn-primary mt-6">
+<section class="cinematic-hero on-dark" aria-labelledby="hero-title">
+  <div class="hero-film">
+    <video
+      id="hero-video"
+      src="/videos/auto-care.mp4"
+      poster="/videos/auto-care-poster.webp"
+      preload="none"
+      muted
+      loop
+      playsinline
+      controls
+      aria-label={
+        es
+          ? 'Mecánico trabajando debajo de un vehículo elevado'
+          : 'Mechanic working beneath a vehicle on a lift'
+      }
+    ></video>
+  </div>
+  <div class="hero-shade" aria-hidden="true"></div>
+  <div class="container-x hero-content">
+    <p class="hero-kicker">
+      {es ? 'REY’S AUTO REPAIR / LITTLE HAVANA' : 'REY’S AUTO REPAIR / LITTLE HAVANA'}
+    </p>
+    <h1 id="hero-title">
+      <span>{es ? 'TU CARRO.' : 'YOUR CAR.'}</span>
+      <span>{es ? 'EN BUENAS' : 'IN GOOD'}</span>
+      <span>{es ? 'MANOS.' : 'HANDS.'}</span>
+    </h1>
+    <p class="hero-description">
+      {es
+        ? 'Diagnóstico preciso. Mantenimiento de todos los días. Tu taller aquí en Miami.'
+        : 'Specialist diagnostics. Everyday maintenance. Your neighborhood workshop in Miami.'}
+    </p>
+    <div class="hero-actions">
+      <a href={pathFor(lang, 'book')} class="btn btn-primary">
         {es ? 'Programa tu visita' : 'Schedule your visit'}
         <Icon name="arrow" />
       </a>
-      <p class="hero-location">
-        <Icon name="pin" class="size-4 shrink-0" />
-        527 SW 15th Ave · Miami, FL
-      </p>
+      <a href="#services" class="hero-explore">
+        {es ? 'Explora los servicios' : 'Explore our services'}
+        <span aria-hidden="true">↓</span>
+      </a>
     </div>
   </div>
-  <div class="container-x">
-    <div class="hero-image-wrap">
-      <video
-        id="hero-video"
-        class="hero-image"
-        src="/videos/auto-care.mp4"
-        poster="/videos/auto-care-poster.jpg"
-        preload="none"
-        muted
-        loop
-        playsinline
-        controls
-        aria-label={
-          es
-            ? 'Mecánico trabajando debajo de un vehículo elevado'
-            : 'Mechanic working beneath a vehicle on a lift'
-        }
-      ></video>
-      <button
-        type="button"
-        class="video-toggle"
-        data-video-toggle
-        data-play={es ? 'Reproducir video' : 'Play video'}
-        data-pause={es ? 'Pausar video' : 'Pause video'}
-        aria-controls="hero-video"
-        hidden
-      >
-        {es ? 'Reproducir video' : 'Play video'}
-      </button>
-      <div class="hero-contact">
-        <span class="text-xs font-bold tracking-widest uppercase">
-          {es ? 'Habla con el taller' : 'Talk to the shop'}
-        </span>
-        <a href={`tel:${site.phone.e164}`} class="hero-phone">
-          {site.phone.display}
-          <Icon name="arrow" class="size-6" />
-        </a>
-        <OpenStatus location={primaryLocation} lang={lang} />
-      </div>
+  <button
+    type="button"
+    class="video-toggle"
+    data-video-toggle
+    data-play={es ? 'Reproducir video' : 'Play video'}
+    data-pause={es ? 'Pausar video' : 'Pause video'}
+    aria-controls="hero-video"
+    hidden
+  >
+    {es ? 'Reproducir video' : 'Play video'}
+  </button>
+  <div class="hero-bottom container-x">
+    <p class="hero-location">
+      <Icon name="pin" />
+      527 SW 15th Ave · Miami, FL
+    </p>
+    <div class="hero-contact">
+      <p>{es ? 'Habla con el taller' : 'Talk to the shop'}</p>
+      <a href={`tel:${site.phone.e164}`} class="hero-phone">
+        {site.phone.display}
+        <Icon name="arrow" />
+      </a>
+      <OpenStatus location={primaryLocation} lang={lang} />
     </div>
   </div>
 </section>
 <style>
-  .editorial-hero {
-    padding: 3.5rem 0 0;
-  }
-  .hero-intro {
-    display: grid;
-    grid-template-columns: 1.6fr 1fr;
-    gap: 3rem;
-    align-items: end;
-    padding-bottom: 2.5rem;
-  }
-  h1 {
-    margin-top: 1.3rem;
-    font-size: clamp(3rem, 6.9vw, 6.6rem);
-    line-height: 0.94;
-    letter-spacing: -0.065em;
-    font-weight: 900;
-  }
-  h1 span {
-    color: var(--color-accent);
-  }
-  .hero-aside {
-    max-width: 340px;
-    justify-self: end;
-    padding-bottom: 0.25rem;
-  }
-  .hero-aside > p:first-child {
-    font-size: 1rem;
-    line-height: 1.65;
-    color: var(--color-muted);
-  }
-  .hero-location {
-    display: flex;
-    gap: 0.4rem;
-    align-items: center;
-    font-size: 0.75rem;
-    margin-top: 1.3rem;
-  }
-  .hero-image-wrap {
+  .cinematic-hero {
     position: relative;
-    height: 460px;
+    isolation: isolate;
+    min-height: 760px;
+    min-height: min(840px, calc(100svh - 80px));
+    background: var(--color-ink);
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
     overflow: hidden;
   }
-  .hero-image {
+  .hero-film,
+  .hero-shade {
+    position: absolute;
+    inset: 0;
+    z-index: -2;
+  }
+  .hero-film video {
     width: 100%;
     height: 100%;
     object-fit: cover;
-    object-position: 50% 55%;
+    object-position: 50% 60%;
+  }
+  .hero-shade {
+    pointer-events: none;
+    z-index: -1;
+    background:
+      linear-gradient(90deg, #080c10db 0%, #080c1077 60%, #080c101a),
+      linear-gradient(0deg, #080c10aa, transparent 55%);
+  }
+  .hero-content {
+    padding-top: 70px;
+    padding-bottom: 175px;
+  }
+  .hero-kicker {
+    font-size: 0.65rem;
+    letter-spacing: 0.18em;
+    font-weight: 750;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .hero-kicker:before {
+    content: '';
+    width: 26px;
+    height: 3px;
+    background: var(--color-accent);
+  }
+  h1 {
+    font-size: clamp(3.6rem, 7.8vw, 7.5rem);
+    line-height: 0.91;
+    letter-spacing: -0.055em;
+    margin: 24px 0;
+    font-weight: 900;
+  }
+  h1 span {
+    display: block;
+  }
+  .hero-description {
+    max-width: 390px;
+    line-height: 1.6;
+    color: #eee;
+    font-size: 1rem;
+  }
+  .hero-actions {
+    display: flex;
+    gap: 28px;
+    align-items: center;
+    margin-top: 28px;
+  }
+  .hero-explore {
+    font-size: 0.8rem;
+    font-weight: 650;
+    border-bottom: 1px solid #ffffff70;
+    padding: 12px 0;
+  }
+  .hero-explore span {
+    margin-left: 16px;
+  }
+  .hero-explore:hover {
+    border-color: white;
+  }
+  .hero-bottom {
+    pointer-events: none;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+  }
+  .hero-location {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.75rem;
+    padding-bottom: 30px;
   }
   .hero-contact {
-    position: absolute;
-    right: 0;
-    bottom: 0;
-    padding: 1.6rem 2rem;
+    pointer-events: auto;
     background: white;
-    min-width: 330px;
+    color: var(--color-ink);
+    padding: 22px 28px;
+    min-width: 350px;
     border-top: 4px solid var(--color-accent);
+  }
+  .hero-contact > p {
+    font-size: 0.6rem;
+    font-weight: 750;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
   }
   .hero-phone {
     display: flex;
-    align-items: center;
     justify-content: space-between;
-    gap: 2rem;
-    font-weight: 800;
+    align-items: center;
+    gap: 24px;
     font-size: 1.8rem;
-    letter-spacing: -0.04em;
-    margin: 0.45rem 0;
+    font-weight: 800;
+    letter-spacing: -0.035em;
+    margin: 7px 0;
+  }
+  .hero-contact :focus-visible {
+    outline-color: var(--color-accent);
   }
   .hero-phone:hover {
     color: var(--color-accent);
   }
   .video-toggle {
     position: absolute;
-    top: 1rem;
-    left: 1rem;
+    top: 20px;
+    right: max(16px, calc((100vw - 1216px) / 2));
     min-height: 44px;
-    padding: 0.65rem 1rem;
-    color: white;
-    background: #151b20e6;
+    padding: 10px 16px;
+    background: #080c10a8;
     border: 1px solid #ffffff80;
-    font-size: 0.75rem;
-    font-weight: 700;
+    color: white;
+    font-size: 0.7rem;
+    font-weight: 650;
     cursor: pointer;
   }
   .video-toggle:hover {
     background: var(--color-accent);
   }
-  @media (max-width: 767px) {
-    .editorial-hero {
-      padding-top: 2rem;
+  @media (prefers-reduced-motion: no-preference) {
+    .hero-kicker,
+    .hero-description,
+    .hero-actions {
+      animation: hero-enter 0.8s both;
     }
-    .hero-intro {
-      grid-template-columns: 1fr;
-      gap: 1.5rem;
-      padding-bottom: 2rem;
+    .hero-description {
+      animation-delay: 0.25s;
+    }
+    .hero-actions {
+      animation-delay: 0.35s;
+    }
+    h1 span {
+      animation: hero-enter 0.85s cubic-bezier(0.2, 0.65, 0.25, 1) both;
+    }
+    h1 span:nth-child(2) {
+      animation-delay: 0.1s;
+    }
+    h1 span:nth-child(3) {
+      animation-delay: 0.2s;
+    }
+    @keyframes hero-enter {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: none;
+      }
+    }
+  }
+  @media (max-width: 767px) {
+    .cinematic-hero {
+      min-height: 760px;
+      min-height: max(730px, calc(100svh - 64px));
+    }
+    .hero-content {
+      padding-top: 90px;
+      padding-bottom: 190px;
     }
     h1 {
-      font-size: clamp(2.7rem, 10.4vw, 5rem);
+      font-size: clamp(3.6rem, 15vw, 6rem);
     }
-    .hero-aside {
-      justify-self: start;
-      max-width: 100%;
+    .hero-description {
+      max-width: 310px;
+      font-size: 0.9rem;
+    }
+    .hero-actions {
+      gap: 18px;
+      flex-wrap: wrap;
+    }
+    .hero-actions .btn {
+      padding-inline: 18px;
+      font-size: 0.9rem;
+    }
+    .hero-explore {
+      font-size: 0.72rem;
+    }
+    .hero-bottom {
+      padding: 0;
     }
     .hero-location {
-      margin-top: 1rem;
-    }
-    .hero-image-wrap {
-      height: 380px;
-    }
-    .hero-image {
-      object-position: 42% center;
+      display: none;
     }
     .hero-contact {
-      left: 0;
-      right: 0;
       min-width: 0;
-      padding: 1rem 1.25rem;
+      width: 100%;
+      padding: 18px 20px;
+    }
+    .hero-phone {
+      font-size: 1.65rem;
+    }
+    .hero-film video {
+      object-position: 55% center;
+    }
+    .hero-shade {
+      background: linear-gradient(90deg, #080c10cd, #080c1070);
+    }
+    .hero-kicker {
+      font-size: 0.58rem;
     }
   }
 </style>
@@ -205,11 +316,13 @@ const es = lang === 'es';
   const video = document.querySelector<HTMLVideoElement>('#hero-video');
   const toggle = document.querySelector<HTMLButtonElement>('[data-video-toggle]');
   if (video && toggle) {
-    const reducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
-    const connection = (navigator as Navigator & { connection?: { saveData?: boolean } })
-      .connection;
-    let wantsPlayback = !reducedMotion.matches && !connection?.saveData;
+    // Autoplays for everyone; the pause button lets visitors stop it (WCAG 2.2.2).
+    // Browsers in battery-saver mode may still block autoplay; the button then reads "Play".
+    // Playback starts after the page's load event so the 1.6 MB video doesn't compete
+    // with the poster image (the LCP element) on slow mobile connections.
+    let wantsPlayback = true;
     let inView = false;
+    let pageLoaded = document.readyState === 'complete';
     video.muted = true;
     video.controls = false;
     toggle.hidden = false;
@@ -217,7 +330,7 @@ const es = lang === 'es';
       toggle.textContent = video.paused ? toggle.dataset.play! : toggle.dataset.pause!;
     };
     const syncPlayback = () => {
-      if (wantsPlayback && inView && !document.hidden) {
+      if (wantsPlayback && inView && pageLoaded && !document.hidden) {
         void video.play().catch(updateLabel);
       } else video.pause();
     };
@@ -237,10 +350,10 @@ const es = lang === 'es';
       },
       { threshold: 0.15 },
     ).observe(video);
-    reducedMotion.addEventListener('change', () => {
-      wantsPlayback = !reducedMotion.matches && !connection?.saveData;
+    document.addEventListener('visibilitychange', syncPlayback);
+    window.addEventListener('load', () => {
+      pageLoaded = true;
       syncPlayback();
     });
-    document.addEventListener('visibilitychange', syncPlayback);
   }
 </script>
