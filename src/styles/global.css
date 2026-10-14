@@ -103,7 +103,7 @@
   }
 
   .btn {
-    @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-6 text-base font-bold transition-colors duration-150 select-none;
+    @apply inline-flex min-h-12 items-center justify-center gap-2 rounded-full px-6 text-base font-bold whitespace-nowrap transition-colors duration-150 select-none;
   }
   .btn-primary {
     @apply bg-accent text-white hover:bg-accent-dark;

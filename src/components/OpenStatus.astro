@@ -1,0 +1,105 @@
+---
+/**
+ * "Open now · until 4:00 PM" pill. Computed in the browser (America/New_York
+ * via the location's timezone) so it's never stale on a static site.
+ */
+import type { Location } from '../config/site.ts';
+import type { Lang } from '../i18n/routes.ts';
+import { useTranslations } from '../i18n/utils.ts';
+
+interface Props {
+  location: Location;
+  lang: Lang;
+  dark?: boolean;
+  class?: string;
+}
+const { location, lang, dark = false, class: className } = Astro.props;
+const t = useTranslations(lang);
+const i18n = {
+  open: t.hours.openNow,
+  closed: t.hours.closedNow,
+  closesAt: t.hours.closesAt('{t}'),
+  closingSoon: t.hours.closingSoon('{t}'),
+  opensToday: t.hours.opensToday('{t}'),
+  opensTomorrow: t.hours.opensTomorrow('{t}'),
+  opensOn: t.hours.opensOn('{d}', '{t}'),
+  days: t.days,
+};
+---
+
+<p
+  data-open-status
+  data-state="unknown"
+  data-lang={lang}
+  data-tz={location.timezone}
+  data-hours={JSON.stringify(location.hours)}
+  data-i18n={JSON.stringify(i18n)}
+  class:list={[
+    'group invisible inline-flex min-h-8 items-center gap-2 text-sm font-semibold data-[state=open]:visible data-[state=closed]:visible',
+    dark ? 'text-mist' : 'text-muted',
+    className,
+  ]}
+>
+  <span
+    class:list={[
+      'relative inline-flex size-2.5 shrink-0 rounded-full',
+      dark
+        ? 'bg-mist group-data-[state=closed]:bg-accent-light group-data-[state=open]:bg-ok-light'
+        : 'bg-muted group-data-[state=closed]:bg-accent group-data-[state=open]:bg-ok',
+    ]}
+    aria-hidden="true"></span>
+  <span>
+    <strong
+      class:list={[
+        'font-extrabold',
+        dark
+          ? 'group-data-[state=closed]:text-accent-light group-data-[state=open]:text-ok-light'
+          : 'group-data-[state=closed]:text-accent group-data-[state=open]:text-ok',
+      ]}
+      data-label>{t.hours.checking}</strong
+    >
+    <span data-detail></span>
+  </span>
+</p>
+
+<script>
+  import { formatTime, openStatus } from '../lib/hours.ts';
+  import type { DayKey, WeeklyHours } from '../config/site.ts';
+
+  type I18n = {
+    open: string;
+    closed: string;
+    closesAt: string;
+    closingSoon: string;
+    opensToday: string;
+    opensTomorrow: string;
+    opensOn: string;
+    days: Record<DayKey, string>;
+  };
+
+  function render() {
+    document.querySelectorAll<HTMLElement>('[data-open-status]').forEach((el) => {
+      const lang = el.dataset.lang === 'es' ? 'es' : 'en';
+      const hours = JSON.parse(el.dataset.hours!) as WeeklyHours;
+      const i18n = JSON.parse(el.dataset.i18n!) as I18n;
+      const status = openStatus(hours, el.dataset.tz!);
+      const label = el.querySelector('[data-label]')!;
+      const detail = el.querySelector('[data-detail]')!;
+      el.dataset.state = status.open ? 'open' : 'closed';
+      label.textContent = status.open ? i18n.open : i18n.closed;
+      let text = '';
+      if (status.open) {
+        const time = formatTime(status.closesAt, lang);
+        text = (status.closingSoon ? i18n.closingSoon : i18n.closesAt).replace('{t}', time);
+      } else if (status.nextOpen) {
+        const { day, time, isToday, isTomorrow } = status.nextOpen;
+        const tpl = isToday ? i18n.opensToday : isTomorrow ? i18n.opensTomorrow : i18n.opensOn;
+        text = tpl.replace('{t}', formatTime(time, lang)).replace('{d}', i18n.days[day]);
+      }
+      detail.textContent = text ? ` · ${text}` : '';
+    });
+  }
+
+  render();
+  setInterval(render, 60_000);
+</script>

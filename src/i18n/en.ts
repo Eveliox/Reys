@@ -82,7 +82,7 @@ const en = {
     home: {
       title: "Auto Repair in Little Havana, Miami | Rey's Auto Repair",
       description:
-        "Rey's Auto Repair is Little Havana's 4.9-star auto shop: diagnostics, German car repair (BMW, Mercedes-Benz, Audi, VW, Porsche), oil changes, transmissions and classic cars. Call (305) 541-7339.",
+        "Rey's Auto Repair is Little Havana's {rating}-star auto shop: diagnostics, German car repair (BMW, Mercedes-Benz, Audi, VW, Porsche), oil changes, transmissions and classic cars. Call {phone}.",
     },
     services: {
       title: "Auto Repair Services in Miami | Rey's Auto Repair",
@@ -92,17 +92,17 @@ const en = {
     about: {
       title: "About Rey's Auto Repair | Little Havana Mechanics",
       description:
-        "Meet the team behind Rey's Auto Repair, a neighborhood auto shop in Little Havana, Miami, rated 4.9 stars by 700+ Google reviewers.",
+        "Meet the team behind Rey's Auto Repair, a neighborhood auto shop in Little Havana, Miami, rated {rating} stars by {reviewCount} Google reviewers.",
     },
     locations: {
       title: "Locations & Hours | Rey's Auto Repair Miami",
       description:
-        "Find Rey's Auto Repair at 527 SW 15th Ave in Little Havana, Miami. Hours, directions, and click-to-call.",
+        "Find Rey's Auto Repair at {address} in Little Havana, Miami. Hours, directions, and click-to-call.",
     },
     location: {
       title: (name: string) => `Auto Repair in ${name}, Miami | Rey's Auto Repair`,
       description: (name: string, street: string) =>
-        `Rey's Auto Repair ${name}: ${street}, Miami, FL. Hours, directions, map, and one-tap calling. Rated 4.9 stars on Google.`,
+        `Rey's Auto Repair ${name}: ${street}, Miami, FL. Hours, directions, map, and one-tap calling. Rated {rating} stars on Google.`,
     },
     book: {
       title: "Book an Appointment | Rey's Auto Repair Little Havana",
@@ -126,7 +126,7 @@ const en = {
   trust: {
     label: 'Why drivers trust us',
     items: [
-      { title: '4.9★ on Google', text: '700+ reviews from neighbors' },
+      { title: '{rating}★ on Google', text: '{reviewCount} reviews from neighbors' },
       { title: 'German specialists', text: 'BMW · Mercedes · Audi · VW · Porsche' },
       { title: 'Classic car expertise', text: 'Carbs, points, and chrome' },
       { title: '[PLACEHOLDER: Years in business]', text: '[PLACEHOLDER: Certifications / warranty]' },
@@ -146,6 +146,7 @@ const en = {
       airFilter: 'Air filters',
     } satisfies Record<PromoItemId, string>,
     fine: 'Mention the Friday special when you call or book.',
+    off: (pct: number) => `${pct}% off`,
     callout: (pct: number) => `Fridays: ${pct}% off this service.`,
   },
 
@@ -170,7 +171,7 @@ const en = {
           'BMW, Mercedes-Benz, Audi, Volkswagen, and Porsche: diagnostics, maintenance, and repair from mechanics who know these cars inside and out.',
         metaTitle: "German Car Repair Miami: BMW, Mercedes, Audi | Rey's",
         metaDescription:
-          'German car repair in Miami for BMW, Mercedes-Benz, Audi, Volkswagen and Porsche. Specialist diagnostics, maintenance and repair in Little Havana. Rated 4.9★.',
+          'German car repair in Miami for BMW, Mercedes-Benz, Audi, Volkswagen and Porsche. Specialist diagnostics, maintenance and repair in Little Havana. Rated {rating}★.',
         h1: 'German car repair in Miami',
         intro:
           'German engineering rewards a mechanic who knows its habits. We work on BMW, Mercedes-Benz, Audi, Volkswagen, and Porsche every day, so we know the maintenance schedules, the common failure points, and how to fix them properly without guesswork.',
@@ -202,7 +203,7 @@ const en = {
           'Carburetors, ignition, cooling, and brakes for the cars they don’t build anymore. We treat your classic like it’s ours.',
         metaTitle: "Classic Car Repair in Miami | Rey's Auto Repair",
         metaDescription:
-          'Classic car repair and service in Little Havana, Miami: carburetors, ignition, cooling, brakes and tune-ups for vintage cars. Call (305) 541-7339.',
+          'Classic car repair and service in Little Havana, Miami: carburetors, ignition, cooling, brakes and tune-ups for vintage cars. Call {phone}.',
         h1: 'Classic car repair and service in Miami',
         intro:
           'Little Havana knows classic cars. We keep vintage and collector cars on the road with patient, careful work: tune-ups, carburetor and ignition work, cooling systems, brakes, and the small fixes that keep an old car reliable.',
@@ -234,7 +235,7 @@ const en = {
           'Check-engine light, strange noise, or won’t start? We find the real problem first, then give you a straight answer.',
         metaTitle: "Car Diagnostics in Little Havana, Miami | Rey's Auto Repair",
         metaDescription:
-          'Check engine light on? Car won’t start? Accurate car diagnostics in Little Havana, Miami. Honest answers before any repair. Call (305) 541-7339.',
+          'Check engine light on? Car won’t start? Accurate car diagnostics in Little Havana, Miami. Honest answers before any repair. Call {phone}.',
         h1: 'Car diagnostics in Little Havana',
         intro:
           'A warning light tells you something is wrong, not what. We combine scan tools with hands-on testing to pinpoint the cause, then explain it in plain language before we touch anything.',
@@ -256,17 +257,17 @@ const en = {
           },
           {
             q: 'My car broke down. What should I do?',
-            a: 'Get somewhere safe and call us at (305) 541-7339. We’ll tell you the best way to get it to the shop.',
+            a: 'Get somewhere safe and call us at {phone}. We’ll tell you the best way to get it to the shop.',
           },
         ],
       },
       'oil-change': {
         name: 'Oil Changes',
         short:
-          'Conventional, synthetic blend, or full synthetic, with the right oil and filter for your engine. 20% off on Fridays.',
+          'Conventional, synthetic blend, or full synthetic, with the right oil and filter for your engine. {promoPct}% off on Fridays.',
         metaTitle: "Oil Change in Little Havana, Miami | Rey's Auto Repair",
         metaDescription:
-          'Oil changes in Little Havana, Miami: conventional and synthetic, done right for your engine. 20% off every Friday. Call (305) 541-7339.',
+          'Oil changes in Little Havana, Miami: conventional and synthetic, done right for your engine. {promoPct}% off every Friday. Call {phone}.',
         h1: 'Oil changes in Little Havana',
         intro:
           'Fresh oil is the cheapest insurance your engine can get. We use the oil grade and filter your manufacturer specifies, and take a quick look at the rest of the car while it’s in.',
@@ -288,7 +289,7 @@ const en = {
           },
           {
             q: 'Is the Friday discount on oil changes every week?',
-            a: 'Yes, every Friday oil changes, transmission fluid service, and air filters are 20% off.',
+            a: 'Yes, every Friday oil changes, transmission fluid service, and air filters are {promoPct}% off.',
           },
         ],
       },
@@ -298,7 +299,7 @@ const en = {
           'Slipping, hard shifts, or leaks? Fluid service, diagnostics, and repair for automatic and manual transmissions.',
         metaTitle: "Transmission Service & Repair Miami | Rey's Auto Repair",
         metaDescription:
-          'Transmission fluid service, diagnostics and repair in Little Havana, Miami. 20% off transmission fluid service on Fridays. Call (305) 541-7339.',
+          'Transmission fluid service, diagnostics and repair in Little Havana, Miami. {promoPct}% off transmission fluid service on Fridays. Call {phone}.',
         h1: 'Transmission service and repair in Miami',
         intro:
           'Transmission trouble rarely fixes itself. We start with an honest diagnosis. Sometimes it’s a fluid service or a sensor, not a rebuild. Then we tell you your options.',
@@ -320,7 +321,7 @@ const en = {
           },
           {
             q: 'Is transmission fluid service discounted on Fridays?',
-            a: 'Yes, transmission fluid service is 20% off every Friday.',
+            a: 'Yes, transmission fluid service is {promoPct}% off every Friday.',
           },
         ],
       },
@@ -332,7 +333,7 @@ const en = {
     title: 'A neighborhood shop people actually recommend.',
     items: [
       {
-        title: '4.9 stars, 700+ reviews',
+        title: '{rating} stars, {reviewCount} reviews',
         text: 'Our reputation was built one car and one neighbor at a time. Read what customers say on Google.',
       },
       {
