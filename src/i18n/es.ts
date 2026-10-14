@@ -33,6 +33,8 @@ const es = {
     directions: 'Cómo llegar',
     allServices: 'Ver todos los servicios',
     details: 'Detalles',
+    bandTitle: '¿Problemas con el carro? Estamos para ayudarle.',
+    bandText: 'Llámenos ahora o pida su cita en línea, de lunes a viernes.',
     readMore: 'Más información',
   },
 

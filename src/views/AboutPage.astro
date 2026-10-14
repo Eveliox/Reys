@@ -1,0 +1,65 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import CTASection from '../components/CTASection.astro';
+import ImageSlot from '../components/ImageSlot.astro';
+import TrustBar from '../components/TrustBar.astro';
+import WhyUs from '../components/WhyUs.astro';
+import { pathFor, type Lang } from '../i18n/routes.ts';
+import { useTranslations } from '../i18n/utils.ts';
+import { breadcrumbSchema } from '../lib/schema.ts';
+
+interface Props {
+  lang: Lang;
+}
+const { lang } = Astro.props;
+const t = useTranslations(lang);
+const crumbs = [
+  { name: t.breadcrumb.home, path: pathFor(lang, 'home') },
+  { name: t.nav.about, path: pathFor(lang, 'about') },
+];
+---
+
+<BaseLayout lang={lang} route="about" title={t.meta.about.title} description={t.meta.about.description} jsonLd={[breadcrumbSchema(crumbs)]}>
+  <Breadcrumbs lang={lang} items={crumbs} />
+
+  <header class="container-x grid gap-10 pt-8 pb-16 lg:grid-cols-[1.1fr_1fr] lg:items-end lg:pt-12">
+    <div>
+      <p class="eyebrow">{t.about.eyebrow}</p>
+      <h1 class="mt-4 text-display">{t.about.title}</h1>
+      <p class="mt-6 max-w-xl text-lg text-muted">{t.about.lead}</p>
+    </div>
+    <ImageSlot id="about-shop" alt={t.hero.imageAlt} ratio="4 / 3" icon="wrench" priority />
+  </header>
+
+  <TrustBar lang={lang} />
+
+  <section class="section" aria-labelledby="story-title">
+    <div class="container-x grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
+      <h2 id="story-title" class="text-h2">{t.about.storyTitle}</h2>
+      <div class="max-w-2xl space-y-5 text-lg leading-relaxed text-muted">
+        {t.about.story.map((p) => <p>{p}</p>)}
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-paper" aria-labelledby="team-title">
+    <div class="container-x">
+      <h2 id="team-title" class="text-h2">{t.about.teamTitle}</h2>
+      <ul class="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
+        {
+          t.about.team.map((m, i) => (
+            <li>
+              <ImageSlot id={`team-${i + 1}`} alt={t.about.teamPhotoAlt(m.name)} ratio="4 / 5" icon="wrench" sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" />
+              <h3 class="mt-5 text-xl tracking-tight">{m.name}</h3>
+              <p class="mt-1 text-muted">{m.role}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <WhyUs lang={lang} />
+  <CTASection lang={lang} title={t.cta.bandTitle} text={t.cta.bandText} />
+</BaseLayout>

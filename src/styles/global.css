@@ -142,7 +142,7 @@
     @apply mb-1.5 block text-sm font-bold text-ink;
   }
   .field-input {
-    @apply block min-h-12 w-full rounded-xl border-[1.5px] border-field bg-paper px-4 py-2.5 text-base text-ink placeholder:text-muted/70 focus:border-ink disabled:cursor-not-allowed disabled:bg-sand/50;
+    @apply block min-h-12 w-full rounded-xl border-[1.5px] border-field bg-paper px-4 py-2.5 text-base text-ink placeholder:text-muted focus:border-ink disabled:cursor-not-allowed disabled:bg-sand/50;
   }
   .field-input[aria-invalid='true'] {
     @apply border-accent bg-[#fff6f2];

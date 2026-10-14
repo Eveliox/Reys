@@ -33,6 +33,8 @@ const en = {
     directions: 'Directions',
     allServices: 'See all services',
     details: 'Details',
+    bandTitle: 'Car trouble? We’re here to help.',
+    bandText: 'Call now, or book a weekday appointment online.',
     readMore: 'Learn more',
   },
 
