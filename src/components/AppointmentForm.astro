@@ -1,0 +1,431 @@
+---
+/**
+ * Appointment request form.
+ * - Posts to PUBLIC_FORM_ENDPOINT (env) or site.formEndpoint. Works without JS
+ *   (native POST + native validation); with JS it validates accessibly and
+ *   submits with fetch, showing inline success / error states.
+ * - Dates: Mon–Fri only (whatever days have hours in site.ts); times are built
+ *   from the chosen day's business hours.
+ * - Honeypot field `company_website`: if filled, we pretend success and send nothing.
+ */
+import { booking, locations, services, site } from '../config/site.ts';
+import type { Lang } from '../i18n/routes.ts';
+import { useTranslations } from '../i18n/utils.ts';
+import { firstBookableDate, formatTime, timeSlots } from '../lib/hours.ts';
+import Icon from './Icon.astro';
+
+interface Props {
+  lang: Lang;
+  /** h1 on the /book page, h2 on the home page. */
+  headingLevel?: 'h1' | 'h2';
+}
+const { lang, headingLevel = 'h2' } = Astro.props;
+const t = useTranslations(lang);
+const Heading = headingLevel;
+const SuccessHeading = headingLevel === 'h1' ? 'h2' : 'h3';
+const endpoint = import.meta.env.PUBLIC_FORM_ENDPOINT || site.formEndpoint;
+const loc = locations[0]!;
+const minDate = firstBookableDate(loc.hours, loc.timezone);
+const maxYear = new Date().getFullYear() + 1;
+// No-JS fallback: offer every slot from the longest open day.
+const fallbackSlots = [
+  ...new Set(
+    Object.values(loc.hours).flatMap((r) =>
+      timeSlots(r, booking.slotMinutes, booking.lastSlotBeforeCloseMinutes),
+    ),
+  ),
+].sort();
+
+const locationData = Object.fromEntries(
+  locations.map((l) => [l.id, { hours: l.hours, tz: l.timezone }]),
+);
+const i18n = {
+  errors: t.form.errors,
+  summary: [t.form.errorsSummary(1), t.form.errorsSummary(2).replace('2', '{n}')],
+  timeChoose: t.form.timeChoose,
+  timePlaceholder: t.form.timePlaceholder,
+  submitting: t.form.submitting,
+};
+const field = 'field-input';
+---
+
+<section id="book" class="section scroll-mt-4 bg-sand" aria-labelledby="book-title">
+  <div class="container-x grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
+    <div class="lg:sticky lg:top-10 lg:self-start">
+      <p class="eyebrow">{t.form.eyebrow}</p>
+      <Heading id="book-title" class={headingLevel === 'h1' ? 'mt-3 text-display' : 'mt-3 text-h2'}>
+        {headingLevel === 'h1' ? t.form.pageTitle : t.form.title}
+      </Heading>
+      <p class="mt-5 max-w-md text-lg text-muted">{t.form.intro}</p>
+      <a href={`tel:${site.phone.e164}`} class="btn btn-primary mt-6">
+        <Icon name="phone" />
+        {site.phone.display}
+      </a>
+    </div>
+
+    <div class="rounded-[2rem] bg-paper p-5 shadow-sm sm:p-10">
+      <form
+        name="appointment"
+        method="POST"
+        action={endpoint}
+        data-appointment-form
+        data-locations={JSON.stringify(locationData)}
+        data-slot={booking.slotMinutes}
+        data-last={booking.lastSlotBeforeCloseMinutes}
+        data-lang={lang}
+        data-max-year={maxYear}
+        data-i18n={JSON.stringify(i18n)}
+        class="space-y-8"
+      >
+        <div
+          data-error-summary
+          role="alert"
+          tabindex="-1"
+          hidden
+          class="rounded-2xl border-2 border-accent bg-[#fff6f2] p-4 focus:outline-none"
+        >
+          <p class="font-bold text-accent-dark" data-summary-text></p>
+          <ul class="mt-2 list-disc space-y-1 pl-5 text-sm" data-summary-list></ul>
+        </div>
+
+        <input type="hidden" name="form-name" value="appointment" />
+        <input type="hidden" name="_subject" value={`New appointment request (${lang.toUpperCase()})`} />
+        <input type="hidden" name="language" value={lang} />
+        {locations.length === 1 && <input type="hidden" name="location" value={loc.id} />}
+
+        <!-- Honeypot: hidden from people, irresistible to bots. -->
+        <div class="absolute -left-[9999px] h-px w-px overflow-hidden" aria-hidden="true">
+          <label for="company_website">{t.form.honeypot}</label>
+          <input id="company_website" name="company_website" type="text" tabindex="-1" autocomplete="off" />
+        </div>
+
+        <fieldset>
+          <legend class="text-lg font-extrabold">{t.form.legend.you}</legend>
+          <div class="mt-4 grid gap-5 sm:grid-cols-2">
+            <div class="sm:col-span-2">
+              <label for="f-name" class="field-label">{t.form.name}</label>
+              <input id="f-name" name="name" type="text" autocomplete="name" required minlength="2" maxlength="100" class={field} aria-describedby="e-name" />
+              <p id="e-name" class="field-error" hidden></p>
+            </div>
+            <div>
+              <label for="f-phone" class="field-label">{t.form.phone}</label>
+              <input id="f-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required pattern="[\d\s().+\-]{10,20}" maxlength="20" class={field} aria-describedby="e-phone" />
+              <p id="e-phone" class="field-error" hidden></p>
+            </div>
+            <div>
+              <label for="f-email" class="field-label">
+                {t.form.email} <span class="font-normal text-muted">{t.form.optional}</span>
+              </label>
+              <input id="f-email" name="email" type="email" autocomplete="email" maxlength="200" class={field} aria-describedby="e-email" />
+              <p id="e-email" class="field-error" hidden></p>
+            </div>
+          </div>
+        </fieldset>
+
+        <fieldset>
+          <legend class="text-lg font-extrabold">{t.form.legend.vehicle}</legend>
+          <div class="mt-4 grid grid-cols-[6.5rem_1fr] gap-5 sm:grid-cols-[7rem_1fr_1fr]">
+            <div>
+              <label for="f-year" class="field-label">{t.form.year}</label>
+              <input id="f-year" name="vehicle_year" type="text" inputmode="numeric" pattern="\d{4}" maxlength="4" required autocomplete="off" class={field} aria-describedby="e-year" />
+            </div>
+            <div>
+              <label for="f-make" class="field-label">{t.form.make}</label>
+              <input id="f-make" name="vehicle_make" type="text" required maxlength="50" placeholder={t.form.makePlaceholder} class={field} aria-describedby="e-make" />
+            </div>
+            <div class="col-span-2 sm:col-span-1">
+              <label for="f-model" class="field-label">{t.form.model}</label>
+              <input id="f-model" name="vehicle_model" type="text" required maxlength="50" placeholder={t.form.modelPlaceholder} class={field} aria-describedby="e-model" />
+            </div>
+          </div>
+          <p id="e-year" class="field-error" hidden></p>
+          <p id="e-make" class="field-error" hidden></p>
+          <p id="e-model" class="field-error" hidden></p>
+        </fieldset>
+
+        <fieldset>
+          <legend class="text-lg font-extrabold">{t.form.legend.visit}</legend>
+          <div class="mt-4 grid gap-5 sm:grid-cols-2">
+            {
+              locations.length > 1 && (
+                <div class="sm:col-span-2">
+                  <label for="f-location" class="field-label">{t.locations.titleMany}</label>
+                  <select id="f-location" name="location" class={field} required>
+                    {locations.map((l) => (
+                      <option value={l.id}>{l.name}</option>
+                    ))}
+                  </select>
+                </div>
+              )
+            }
+            <div class="sm:col-span-2">
+              <label for="f-service" class="field-label">{t.form.service}</label>
+              <select id="f-service" name="service" required class={field} aria-describedby="e-service">
+                <option value="">{t.form.servicePlaceholder}</option>
+                {services.map((s) => <option value={s.id}>{t.services.items[s.id].name}</option>)}
+                <option value="other">{t.form.serviceOther}</option>
+              </select>
+              <p id="e-service" class="field-error" hidden></p>
+            </div>
+            <div>
+              <label for="f-date" class="field-label">{t.form.date}</label>
+              <input id="f-date" name="preferred_date" type="date" required min={minDate} class={field} aria-describedby="h-date e-date" />
+              <p id="h-date" class="field-hint">{t.form.dateHint}</p>
+              <p id="e-date" class="field-error" hidden></p>
+            </div>
+            <div>
+              <label for="f-time" class="field-label">{t.form.time}</label>
+              <select id="f-time" name="preferred_time" required class={field} aria-describedby="e-time">
+                <option value="">{t.form.timeChoose}</option>
+                {fallbackSlots.map((s) => <option value={s}>{formatTime(s, lang)}</option>)}
+              </select>
+              <p id="e-time" class="field-error" hidden></p>
+            </div>
+            <div class="sm:col-span-2">
+              <label for="f-notes" class="field-label">
+                {t.form.notes} <span class="font-normal text-muted">{t.form.optional}</span>
+              </label>
+              <textarea id="f-notes" name="notes" rows="4" maxlength="2000" class:list={[field, 'resize-y']} aria-describedby="h-notes"></textarea>
+              <p id="h-notes" class="field-hint">{t.form.notesHint}</p>
+            </div>
+          </div>
+        </fieldset>
+
+        <div data-submit-error hidden role="alert" class="rounded-2xl border-2 border-accent bg-[#fff6f2] p-4">
+          <p class="font-bold text-accent-dark">{t.form.errorTitle}</p>
+          <p class="mt-1 text-sm">
+            {t.form.errorText}
+            <a href={`tel:${site.phone.e164}`} class="link whitespace-nowrap">{site.phone.display}</a>
+          </p>
+        </div>
+
+        <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
+          <button type="submit" class="btn btn-primary min-h-14 px-8 text-lg disabled:cursor-wait disabled:opacity-70" data-submit>
+            <span data-submit-label>{t.form.submit}</span>
+            <Icon name="arrow" />
+          </button>
+          <p class="text-sm text-muted">{t.form.privacy}</p>
+        </div>
+      </form>
+
+      <div data-form-success hidden tabindex="-1" class="py-6 text-center focus:outline-none">
+        <span class="mx-auto inline-flex size-16 items-center justify-center rounded-full bg-ok text-white">
+          <Icon name="check" class="size-8" />
+        </span>
+        <SuccessHeading class="mt-5 text-2xl">{t.form.successTitle}</SuccessHeading>
+        <p class="mx-auto mt-2 max-w-md text-muted">{t.form.successText}</p>
+        <a href={`tel:${site.phone.e164}`} class="btn btn-primary mt-6">
+          <Icon name="phone" />
+          {site.phone.display}
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<script>
+  import {
+    dayKeyForIsoDate,
+    firstBookableDate,
+    formatTime,
+    nowInZone,
+    timeSlots,
+  } from '../lib/hours.ts';
+  import type { WeeklyHours } from '../config/site.ts';
+
+  type Errors = Record<string, string>;
+  type I18n = {
+    errors: Errors;
+    summary: [string, string];
+    timeChoose: string;
+    timePlaceholder: string;
+    submitting: string;
+  };
+
+  const form = document.querySelector<HTMLFormElement>('[data-appointment-form]');
+  if (form) init(form);
+
+  function init(form: HTMLFormElement) {
+    form.noValidate = true;
+    const i18n = JSON.parse(form.dataset.i18n!) as I18n;
+    const lang = form.dataset.lang === 'es' ? 'es' : 'en';
+    const locs = JSON.parse(form.dataset.locations!) as Record<string, { hours: WeeklyHours; tz: string }>;
+    const slotMin = Number(form.dataset.slot);
+    const lastMin = Number(form.dataset.last);
+    const maxYear = Number(form.dataset.maxYear);
+    const el = <T extends HTMLElement>(sel: string) => form.querySelector<T>(sel)!;
+    const date = el<HTMLInputElement>('#f-date');
+    const time = el<HTMLSelectElement>('#f-time');
+    const summary = el<HTMLElement>('[data-error-summary]');
+    const submitError = el<HTMLElement>('[data-submit-error]');
+    const submitBtn = el<HTMLButtonElement>('[data-submit]');
+    const submitLabel = el<HTMLElement>('[data-submit-label]');
+    const success = form.parentElement!.querySelector<HTMLElement>('[data-form-success]')!;
+
+    const currentLoc = () => {
+      const id = (form.elements.namedItem('location') as HTMLInputElement | null)?.value;
+      return locs[id ?? ''] ?? Object.values(locs)[0]!;
+    };
+
+    // Runtime min date (the server value may be from build day).
+    const refreshMin = () => {
+      const { hours, tz } = currentLoc();
+      date.min = firstBookableDate(hours, tz);
+    };
+
+    const fillTimes = () => {
+      const day = dayKeyForIsoDate(date.value);
+      const previous = time.value;
+      const slots = day ? timeSlots(currentLoc().hours[day], slotMin, lastMin) : [];
+      time.replaceChildren(
+        new Option(slots.length ? i18n.timeChoose : i18n.timePlaceholder, ''),
+        ...slots.map((s) => new Option(formatTime(s, lang), s)),
+      );
+      time.disabled = slots.length === 0;
+      if (slots.includes(previous)) time.value = previous;
+    };
+
+    const validators: Record<string, () => string> = {
+      name: () => (val('name').length >= 2 ? '' : i18n.errors.name!),
+      phone: () => {
+        const digits = val('phone').replace(/\D/g, '');
+        return digits.length === 10 || (digits.length === 11 && digits.startsWith('1')) ? '' : i18n.errors.phone!;
+      },
+      email: () => {
+        const v = val('email');
+        return !v || /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/.test(v) ? '' : i18n.errors.email!;
+      },
+      vehicle_year: () => {
+        const y = Number(val('vehicle_year'));
+        return /^\d{4}$/.test(val('vehicle_year')) && y >= 1900 && y <= maxYear ? '' : i18n.errors.year!;
+      },
+      vehicle_make: () => (val('vehicle_make') ? '' : i18n.errors.make!),
+      vehicle_model: () => (val('vehicle_model') ? '' : i18n.errors.model!),
+      service: () => (val('service') ? '' : i18n.errors.service!),
+      preferred_date: () => {
+        const v = val('preferred_date');
+        if (!v) return i18n.errors.date!;
+        const day = dayKeyForIsoDate(v);
+        if (!day) return i18n.errors.date!;
+        const { hours, tz } = currentLoc();
+        if (v <= nowInZone(tz).isoDate) return i18n.errors.datePast!;
+        if (!hours[day].length) return i18n.errors.dateWeekend!;
+        return '';
+      },
+      preferred_time: () => (val('preferred_time') ? '' : i18n.errors.time!),
+    };
+
+    function val(name: string) {
+      return ((form.elements.namedItem(name) as HTMLInputElement | null)?.value ?? '').trim();
+    }
+
+    const errorIdFor: Record<string, string> = {
+      name: 'e-name',
+      phone: 'e-phone',
+      email: 'e-email',
+      vehicle_year: 'e-year',
+      vehicle_make: 'e-make',
+      vehicle_model: 'e-model',
+      service: 'e-service',
+      preferred_date: 'e-date',
+      preferred_time: 'e-time',
+    };
+
+    function check(name: string): string {
+      const input = form.elements.namedItem(name) as HTMLInputElement;
+      const msg = validators[name]!();
+      const err = document.getElementById(errorIdFor[name]!)!;
+      err.textContent = msg;
+      err.hidden = !msg;
+      if (msg) input.setAttribute('aria-invalid', 'true');
+      else input.removeAttribute('aria-invalid');
+      return msg;
+    }
+
+    // Validate on blur once touched; re-validate live after an error is shown.
+    for (const name of Object.keys(validators)) {
+      const input = form.elements.namedItem(name) as HTMLInputElement;
+      input.addEventListener('blur', () => {
+        if (input.value || input.hasAttribute('aria-invalid')) check(name);
+      });
+      input.addEventListener('input', () => {
+        if (input.hasAttribute('aria-invalid')) check(name);
+      });
+    }
+
+    date.addEventListener('change', () => {
+      fillTimes();
+      check('preferred_date');
+    });
+    document.getElementById('f-location')?.addEventListener('change', () => {
+      refreshMin();
+      fillTimes();
+    });
+
+    refreshMin();
+    fillTimes();
+
+    form.addEventListener('submit', async (e) => {
+      e.preventDefault();
+      submitError.hidden = true;
+
+      const failed = Object.keys(validators)
+        .map((name) => ({ name, msg: check(name) }))
+        .filter((r) => r.msg);
+
+      if (failed.length) {
+        const n = failed.length;
+        el('[data-summary-text]').textContent = n === 1 ? i18n.summary[0] : i18n.summary[1].replace('{n}', String(n));
+        el('[data-summary-list]').replaceChildren(
+          ...failed.map(({ name, msg }) => {
+            const li = document.createElement('li');
+            const a = document.createElement('a');
+            const input = form.elements.namedItem(name) as HTMLElement;
+            a.href = `#${input.id}`;
+            a.textContent = msg;
+            a.className = 'link';
+            a.addEventListener('click', (ev) => {
+              ev.preventDefault();
+              input.focus();
+            });
+            li.append(a);
+            return li;
+          }),
+        );
+        summary.hidden = false;
+        (form.elements.namedItem(failed[0]!.name) as HTMLElement).focus();
+        return;
+      }
+      summary.hidden = true;
+
+      // Honeypot tripped: act like it worked, send nothing.
+      if (val('company_website')) return showSuccess();
+
+      submitBtn.disabled = true;
+      const label = submitLabel.textContent;
+      submitLabel.textContent = i18n.submitting;
+      try {
+        const res = await fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { Accept: 'application/json' },
+        });
+        if (!res.ok) throw new Error(`HTTP ${res.status}`);
+        showSuccess();
+      } catch (err) {
+        console.error('Appointment form submit failed', err);
+        submitError.hidden = false;
+      } finally {
+        submitBtn.disabled = false;
+        submitLabel.textContent = label;
+      }
+    });
+
+    function showSuccess() {
+      form.hidden = true;
+      success.hidden = false;
+      success.focus();
+      success.scrollIntoView({ block: 'center', behavior: 'smooth' });
+    }
+  }
+</script>

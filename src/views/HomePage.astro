@@ -9,6 +9,7 @@ import FridaySpecial from '../components/FridaySpecial.astro';
 import ServiceGrid from '../components/ServiceGrid.astro';
 import WhyUs from '../components/WhyUs.astro';
 import Reviews from '../components/Reviews.astro';
+import AppointmentForm from '../components/AppointmentForm.astro';
 
 interface Props {
   lang: Lang;
@@ -30,4 +31,5 @@ const t = useTranslations(lang);
   <ServiceGrid lang={lang} showAllLink />
   <WhyUs lang={lang} />
   <Reviews lang={lang} />
+  <AppointmentForm lang={lang} />
 </BaseLayout>

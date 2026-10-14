@@ -20,6 +20,8 @@
   --color-brass: #c29a57;
   --color-muted: #4a5a60;
   --color-mist: #b9c6c9;
+  /* Form control borders: ≥3:1 against paper (WCAG 1.4.11). */
+  --color-field: #7c8a8f;
   --color-ok: #1f7a4d;
   --color-ok-light: #7dd3a8;
 
@@ -140,7 +142,7 @@
     @apply mb-1.5 block text-sm font-bold text-ink;
   }
   .field-input {
-    @apply block min-h-12 w-full rounded-xl border-2 border-line bg-paper px-4 py-2.5 text-base text-ink placeholder:text-muted/70 focus:border-ink;
+    @apply block min-h-12 w-full rounded-xl border-[1.5px] border-field bg-paper px-4 py-2.5 text-base text-ink placeholder:text-muted/70 focus:border-ink disabled:cursor-not-allowed disabled:bg-sand/50;
   }
   .field-input[aria-invalid='true'] {
     @apply border-accent bg-[#fff6f2];
