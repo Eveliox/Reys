@@ -23,10 +23,11 @@ const { lang, headingLevel = 'h2' } = Astro.props;
 const t = useTranslations(lang);
 const Heading = headingLevel;
 const SuccessHeading = headingLevel === 'h1' ? 'h2' : 'h3';
-const endpoint = import.meta.env.PUBLIC_FORM_ENDPOINT || site.formEndpoint;
+const netlify = site.formProvider === 'netlify';
+const endpoint = netlify ? '/' : import.meta.env.PUBLIC_FORM_ENDPOINT || site.formEndpoint;
+const netlifyAttrs = netlify ? { 'data-netlify': 'true', 'netlify-honeypot': 'company_website' } : {};
 const loc = locations[0]!;
 const minDate = firstBookableDate(loc.hours, loc.timezone);
-const maxYear = new Date().getFullYear() + 1;
 // No-JS fallback: offer every slot from the longest open day.
 const fallbackSlots = [
   ...new Set(
@@ -66,6 +67,7 @@ const field = 'field-input';
     <div class="rounded-[2rem] bg-paper p-5 shadow-sm sm:p-10">
       <form
         name="appointment"
+        {...netlifyAttrs}
         method="POST"
         action={endpoint}
         data-appointment-form
@@ -73,7 +75,6 @@ const field = 'field-input';
         data-slot={booking.slotMinutes}
         data-last={booking.lastSlotBeforeCloseMinutes}
         data-lang={lang}
-        data-max-year={maxYear}
         data-i18n={JSON.stringify(i18n)}
         class="space-y-8"
       >
@@ -385,7 +386,7 @@ const field = 'field-input';
     >;
     const slotMin = Number(form.dataset.slot);
     const lastMin = Number(form.dataset.last);
-    const maxYear = Number(form.dataset.maxYear);
+    const maxYear = new Date().getFullYear() + 1;
     const el = <T extends HTMLElement>(sel: string) => form.querySelector<T>(sel)!;
     const date = el<HTMLInputElement>('#f-date');
     const time = el<HTMLSelectElement>('#f-time');

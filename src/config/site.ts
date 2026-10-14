@@ -83,9 +83,14 @@ export const site = {
   },
   /**
    * Appointment form endpoint. PUBLIC_FORM_ENDPOINT (env var) overrides this.
-   * [PLACEHOLDER] Formspree / Netlify / Supabase function URL.
+   * [PLACEHOLDER] Formspree / Supabase function URL. See README "Connect the form".
    */
   formEndpoint: 'https://formspree.io/f/REPLACE_ME',
+  /**
+   * 'netlify' adds the Netlify Forms attributes and posts to "/" (endpoint ignored).
+   * 'endpoint' posts to formEndpoint / PUBLIC_FORM_ENDPOINT (Formspree, Supabase, etc.).
+   */
+  formProvider: 'endpoint' as 'endpoint' | 'netlify',
 } as const;
 
 export const locations: Location[] = [
