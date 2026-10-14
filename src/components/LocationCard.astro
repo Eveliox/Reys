@@ -1,0 +1,66 @@
+---
+import type { Location } from '../config/site.ts';
+import { pathFor, type Lang } from '../i18n/routes.ts';
+import { useTranslations } from '../i18n/utils.ts';
+import { directionsUrl, hoursSummary } from '../lib/format.ts';
+import Icon from './Icon.astro';
+import MapFacade from './MapFacade.astro';
+import OpenStatus from './OpenStatus.astro';
+
+interface Props {
+  location: Location;
+  lang: Lang;
+  headingLevel?: 'h2' | 'h3';
+}
+const { location, lang, headingLevel = 'h3' } = Astro.props;
+const t = useTranslations(lang);
+const Heading = headingLevel;
+const detail = pathFor(lang, { location: location.id });
+---
+
+<article class="grid overflow-hidden rounded-[2rem] border border-line bg-paper lg:grid-cols-2">
+  <div class="p-6 sm:p-10">
+    <Heading class="text-3xl tracking-tight sm:text-4xl">
+      <a href={detail} class="hover:text-accent">{location.name}</a>
+    </Heading>
+    <OpenStatus location={location} lang={lang} class="mt-2" />
+
+    <address class="mt-6 text-lg not-italic">
+      {location.address.street}<br />
+      {location.address.city}, {location.address.region} {location.address.postalCode}
+    </address>
+
+    <dl class="mt-6 space-y-1.5">
+      {
+        hoursSummary(location.hours, lang, t).map(([days, time]) => (
+          <div class="flex justify-between gap-4 border-b border-line pb-1.5">
+            <dt class="text-muted">{days}</dt>
+            <dd class="text-right font-semibold">{time}</dd>
+          </div>
+        ))
+      }
+    </dl>
+
+    <div class="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-3">
+      <a href={`tel:${location.phone.e164}`} class="btn btn-primary px-4">
+        <Icon name="phone" />
+        {t.cta.callUs}
+      </a>
+      <a href={`sms:${location.sms.e164}`} class="btn btn-secondary px-4">
+        <Icon name="message" />
+        {t.cta.text}
+      </a>
+      <a href={directionsUrl(location.address)} target="_blank" rel="noopener" class="btn btn-secondary px-4">
+        <Icon name="directions" />
+        {t.cta.directions}
+      </a>
+    </div>
+    <p class="mt-6">
+      <a href={detail} class="link inline-flex items-center gap-1">
+        {t.locations.viewLocation}
+        <Icon name="arrow" class="size-4" />
+      </a>
+    </p>
+  </div>
+  <MapFacade location={location} lang={lang} class="rounded-none lg:aspect-auto! lg:h-full" />
+</article>

@@ -1,0 +1,12 @@
+---
+import type { GetStaticPaths } from 'astro';
+import LocationPage from '../../../views/LocationPage.astro';
+import { locations } from '../../../config/site.ts';
+
+export const getStaticPaths = (() =>
+  locations.map((location) => ({ params: { slug: location.slug.es }, props: { location } }))) satisfies GetStaticPaths;
+
+const { location } = Astro.props;
+---
+
+<LocationPage lang="es" location={location} />

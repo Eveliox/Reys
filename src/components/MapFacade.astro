@@ -1,0 +1,54 @@
+---
+/**
+ * Click-to-load Google Map. Nothing from Google loads until the visitor asks,
+ * which keeps the page fast and cookie-free. No API key required.
+ */
+import type { Location } from '../config/site.ts';
+import type { Lang } from '../i18n/routes.ts';
+import { useTranslations } from '../i18n/utils.ts';
+import { fullAddress, mapEmbedUrl } from '../lib/format.ts';
+import Icon from './Icon.astro';
+
+interface Props {
+  location: Location;
+  lang: Lang;
+  class?: string;
+}
+const { location, lang, class: className } = Astro.props;
+const t = useTranslations(lang);
+---
+
+<div
+  data-map
+  data-src={mapEmbedUrl(`Rey's Auto Repair`, location.address, lang)}
+  data-title={t.locations.mapTitle(location.name)}
+  class:list={['on-dark tile-bg-dark relative overflow-hidden rounded-3xl bg-ink text-cream', className]}
+  style="aspect-ratio: 4 / 3"
+>
+  <div class="absolute inset-0 flex flex-col items-center justify-center gap-4 p-6 text-center">
+    <span class="inline-flex size-14 items-center justify-center rounded-full bg-accent text-white shadow-lg">
+      <Icon name="pin" class="size-7" />
+    </span>
+    <p class="max-w-xs font-bold">{fullAddress(location.address)}</p>
+    <button type="button" data-map-load class="btn btn-secondary min-h-11">
+      {t.locations.showMap}
+    </button>
+    <p class="text-xs text-mist">{t.locations.mapNote}</p>
+  </div>
+</div>
+
+<script>
+  document.querySelectorAll<HTMLElement>('[data-map]').forEach((wrap) => {
+    wrap.querySelector('[data-map-load]')?.addEventListener('click', () => {
+      const iframe = document.createElement('iframe');
+      iframe.src = wrap.dataset.src!;
+      iframe.title = wrap.dataset.title!;
+      iframe.loading = 'lazy';
+      iframe.referrerPolicy = 'no-referrer-when-downgrade';
+      iframe.className = 'absolute inset-0 size-full border-0';
+      iframe.allowFullscreen = true;
+      wrap.replaceChildren(iframe);
+      iframe.focus();
+    });
+  });
+</script>

@@ -1,0 +1,108 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import Breadcrumbs from '../components/Breadcrumbs.astro';
+import CTASection from '../components/CTASection.astro';
+import HoursTable from '../components/HoursTable.astro';
+import Icon from '../components/Icon.astro';
+import MapFacade from '../components/MapFacade.astro';
+import OpenStatus from '../components/OpenStatus.astro';
+import RatingBadge from '../components/RatingBadge.astro';
+import ServiceCard from '../components/ServiceCard.astro';
+import { services, site, type Location } from '../config/site.ts';
+import { pathFor, type Lang } from '../i18n/routes.ts';
+import { useTranslations } from '../i18n/utils.ts';
+import { directionsUrl } from '../lib/format.ts';
+import { autoRepairSchema, breadcrumbSchema } from '../lib/schema.ts';
+
+interface Props {
+  lang: Lang;
+  location: Location;
+}
+const { lang, location } = Astro.props;
+const t = useTranslations(lang);
+const description = t.meta.location.description(location.name, location.address.street);
+const crumbs = [
+  { name: t.breadcrumb.home, path: pathFor(lang, 'home') },
+  { name: t.nav.locations, path: pathFor(lang, 'locations') },
+  { name: location.name, path: pathFor(lang, { location: location.id }) },
+];
+---
+
+<BaseLayout
+  lang={lang}
+  route={{ location: location.id }}
+  title={t.meta.location.title(location.name)}
+  description={description}
+  jsonLd={[autoRepairSchema(location, lang, description), breadcrumbSchema(crumbs)]}
+>
+  <Breadcrumbs lang={lang} items={crumbs} />
+
+  <section class="container-x grid gap-10 pt-8 pb-16 lg:grid-cols-2 lg:gap-14 lg:pt-12" aria-labelledby="loc-title">
+    <div>
+      <p class="eyebrow">{t.locations.eyebrow}</p>
+      <h1 id="loc-title" class="mt-4 text-display">{t.locations.detailTitle(location.name)}</h1>
+      <p class="mt-5 text-lg text-muted">{t.locations.detailLead(location.name)}</p>
+      <OpenStatus location={location} lang={lang} class="mt-4 text-base" />
+
+      <div class="mt-8 grid gap-6 sm:grid-cols-2">
+        <div>
+          <h2 class="text-sm font-bold tracking-[0.14em] text-muted uppercase">{t.locations.address}</h2>
+          <address class="mt-2 text-lg not-italic">
+            {location.address.street}<br />
+            {location.address.city}, {location.address.region} {location.address.postalCode}
+          </address>
+        </div>
+        <div>
+          <h2 class="text-sm font-bold tracking-[0.14em] text-muted uppercase">{t.locations.contact}</h2>
+          <p class="mt-2 text-lg">
+            <a href={`tel:${location.phone.e164}`} class="font-bold hover:text-accent">{location.phone.display}</a>
+          </p>
+          <p><a href={`mailto:${site.email}`} class="break-all text-muted hover:text-ink">{site.email}</a></p>
+        </div>
+      </div>
+
+      <div class="mt-8 grid gap-3 sm:grid-cols-3">
+        <a href={`tel:${location.phone.e164}`} class="btn btn-primary px-4">
+          <Icon name="phone" />
+          {t.cta.callUs}
+        </a>
+        <a href={`sms:${location.sms.e164}`} class="btn btn-secondary px-4">
+          <Icon name="message" />
+          {t.cta.text}
+        </a>
+        <a href={directionsUrl(location.address)} target="_blank" rel="noopener" class="btn btn-secondary px-4">
+          <Icon name="directions" />
+          {t.cta.directions}
+        </a>
+      </div>
+      <div class="mt-8"><RatingBadge lang={lang} /></div>
+    </div>
+
+    <div class="space-y-8">
+      <MapFacade location={location} lang={lang} />
+      <div>
+        <h2 class="text-2xl tracking-tight">{t.hours.title}</h2>
+        <div class="mt-3 rounded-2xl border border-line bg-paper p-2">
+          <HoursTable location={location} lang={lang} />
+        </div>
+      </div>
+      <div>
+        <h2 class="text-2xl tracking-tight">{t.locations.serving}</h2>
+        <ul class="mt-3 flex flex-wrap gap-2">
+          {location.areaServed.map((a) => <li class="rounded-full bg-sand px-3 py-1.5 text-sm font-semibold">{a}</li>)}
+        </ul>
+      </div>
+    </div>
+  </section>
+
+  <section class="section bg-paper" aria-labelledby="loc-services">
+    <div class="container-x">
+      <h2 id="loc-services" class="text-h2">{t.nav.services}</h2>
+      <div class="mt-8 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
+        {services.map((s) => <ServiceCard service={{ ...s, premium: false }} lang={lang} />)}
+      </div>
+    </div>
+  </section>
+
+  <div class="pt-16 sm:pt-24"><CTASection lang={lang} title={t.cta.bandTitle} text={t.cta.bandText} /></div>
+</BaseLayout>
