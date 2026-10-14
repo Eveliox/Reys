@@ -24,16 +24,23 @@ const crumbs = [
   route="locations"
   title={t.meta.locations.title}
   description={t.meta.locations.description}
-  jsonLd={[...locations.map((l) => autoRepairSchema(l, lang, t.meta.home.description)), breadcrumbSchema(crumbs)]}
+  jsonLd={[
+    ...locations.map((l) => autoRepairSchema(l, lang, t.meta.home.description)),
+    breadcrumbSchema(crumbs),
+  ]}
 >
   <Breadcrumbs lang={lang} items={crumbs} />
   <header class="container-x pt-8 pb-10 lg:pt-12">
     <p class="eyebrow">{t.locations.eyebrow}</p>
-    <h1 class="mt-4 text-display">{locations.length > 1 ? t.locations.titleMany : t.locations.title}</h1>
+    <h1 class="mt-4 text-display">
+      {locations.length > 1 ? t.locations.titleMany : t.locations.title}
+    </h1>
     <p class="mt-6 max-w-xl text-lg text-muted">{t.locations.intro}</p>
   </header>
   <div class="container-x space-y-8 pb-16 sm:pb-24">
-    {locations.map((l) => <LocationCard location={l} lang={lang} headingLevel="h2" />)}
+    {locations.map((l) => (
+      <LocationCard location={l} lang={lang} headingLevel="h2" />
+    ))}
   </div>
   <CTASection lang={lang} title={t.cta.bandTitle} text={t.cta.bandText} />
 </BaseLayout>

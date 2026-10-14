@@ -4,7 +4,10 @@ import LocationPage from '../../views/LocationPage.astro';
 import { locations } from '../../config/site.ts';
 
 export const getStaticPaths = (() =>
-  locations.map((location) => ({ params: { slug: location.slug.en }, props: { location } }))) satisfies GetStaticPaths;
+  locations.map((location) => ({
+    params: { slug: location.slug.en },
+    props: { location },
+  }))) satisfies GetStaticPaths;
 
 const { location } = Astro.props;
 ---

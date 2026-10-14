@@ -20,7 +20,13 @@ const crumbs = [
 ];
 ---
 
-<BaseLayout lang={lang} route="about" title={t.meta.about.title} description={t.meta.about.description} jsonLd={[breadcrumbSchema(crumbs)]}>
+<BaseLayout
+  lang={lang}
+  route="about"
+  title={t.meta.about.title}
+  description={t.meta.about.description}
+  jsonLd={[breadcrumbSchema(crumbs)]}
+>
   <Breadcrumbs lang={lang} items={crumbs} />
 
   <header class="container-x grid gap-10 pt-8 pb-16 lg:grid-cols-[1.1fr_1fr] lg:items-end lg:pt-12">
@@ -36,26 +42,36 @@ const crumbs = [
 
   <section class="section" aria-labelledby="story-title">
     <div class="container-x grid gap-10 lg:grid-cols-[0.8fr_1.2fr] lg:gap-16">
-      <h2 id="story-title" class="text-h2">{t.about.storyTitle}</h2>
+      <h2 id="story-title" class="text-h2">
+        {t.about.storyTitle}
+      </h2>
       <div class="max-w-2xl space-y-5 text-lg leading-relaxed text-muted">
-        {t.about.story.map((p) => <p>{p}</p>)}
+        {t.about.story.map((p) => (
+          <p>{p}</p>
+        ))}
       </div>
     </div>
   </section>
 
   <section class="section bg-paper" aria-labelledby="team-title">
     <div class="container-x">
-      <h2 id="team-title" class="text-h2">{t.about.teamTitle}</h2>
+      <h2 id="team-title" class="text-h2">
+        {t.about.teamTitle}
+      </h2>
       <ul class="mt-10 grid gap-8 sm:grid-cols-2 lg:grid-cols-3">
-        {
-          t.about.team.map((m, i) => (
-            <li>
-              <ImageSlot id={`team-${i + 1}`} alt={t.about.teamPhotoAlt(m.name)} ratio="4 / 5" icon="wrench" sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw" />
-              <h3 class="mt-5 text-xl tracking-tight">{m.name}</h3>
-              <p class="mt-1 text-muted">{m.role}</p>
-            </li>
-          ))
-        }
+        {t.about.team.map((m, i) => (
+          <li>
+            <ImageSlot
+              id={`team-${i + 1}`}
+              alt={t.about.teamPhotoAlt(m.name)}
+              ratio="4 / 5"
+              icon="wrench"
+              sizes="(min-width: 1024px) 33vw, (min-width: 640px) 50vw, 100vw"
+            />
+            <h3 class="mt-5 text-xl tracking-tight">{m.name}</h3>
+            <p class="mt-1 text-muted">{m.role}</p>
+          </li>
+        ))}
       </ul>
     </div>
   </section>

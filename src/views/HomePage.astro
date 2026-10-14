@@ -25,7 +25,10 @@ const t = useTranslations(lang);
   route="home"
   title={t.meta.home.title}
   description={t.meta.home.description}
-  jsonLd={[websiteSchema(lang), ...locations.map((l) => autoRepairSchema(l, lang, t.meta.home.description))]}
+  jsonLd={[
+    websiteSchema(lang),
+    ...locations.map((l) => autoRepairSchema(l, lang, t.meta.home.description)),
+  ]}
 >
   <Hero lang={lang} />
   <TrustBar lang={lang} />

@@ -21,24 +21,25 @@ const detail = pathFor(lang, { location: location.id });
 <article class="grid overflow-hidden rounded-[2rem] border border-line bg-paper lg:grid-cols-2">
   <div class="p-6 sm:p-10">
     <Heading class="text-3xl tracking-tight sm:text-4xl">
-      <a href={detail} class="hover:text-accent">{location.name}</a>
+      <a href={detail} class="hover:text-accent">
+        {location.name}
+      </a>
     </Heading>
     <OpenStatus location={location} lang={lang} class="mt-2" />
 
     <address class="mt-6 text-lg not-italic">
-      {location.address.street}<br />
+      {location.address.street}
+      <br />
       {location.address.city}, {location.address.region} {location.address.postalCode}
     </address>
 
     <dl class="mt-6 space-y-1.5">
-      {
-        hoursSummary(location.hours, lang, t).map(([days, time]) => (
-          <div class="flex justify-between gap-4 border-b border-line pb-1.5">
-            <dt class="text-muted">{days}</dt>
-            <dd class="text-right font-semibold">{time}</dd>
-          </div>
-        ))
-      }
+      {hoursSummary(location.hours, lang, t).map(([days, time]) => (
+        <div class="flex justify-between gap-4 border-b border-line pb-1.5">
+          <dt class="text-muted">{days}</dt>
+          <dd class="text-right font-semibold">{time}</dd>
+        </div>
+      ))}
     </dl>
 
     <div class="mt-8 grid grid-cols-1 gap-3 sm:grid-cols-3">
@@ -50,7 +51,12 @@ const detail = pathFor(lang, { location: location.id });
         <Icon name="message" />
         {t.cta.text}
       </a>
-      <a href={directionsUrl(location.address)} target="_blank" rel="noopener" class="btn btn-secondary px-4">
+      <a
+        href={directionsUrl(location.address)}
+        target="_blank"
+        rel="noopener"
+        class="btn btn-secondary px-4"
+      >
         <Icon name="directions" />
         {t.cta.directions}
       </a>

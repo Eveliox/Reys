@@ -20,14 +20,28 @@ export function capitalize(s: string): string {
   return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
-export function fullAddress(a: { street: string; city: string; region: string; postalCode: string }) {
+export function fullAddress(a: {
+  street: string;
+  city: string;
+  region: string;
+  postalCode: string;
+}) {
   return `${a.street}, ${a.city}, ${a.region} ${a.postalCode}`;
 }
 
-export function directionsUrl(a: { street: string; city: string; region: string; postalCode: string }) {
+export function directionsUrl(a: {
+  street: string;
+  city: string;
+  region: string;
+  postalCode: string;
+}) {
   return `https://www.google.com/maps/dir/?api=1&destination=${encodeURIComponent(fullAddress(a))}`;
 }
 
-export function mapEmbedUrl(name: string, a: { street: string; city: string; region: string; postalCode: string }, lang: Lang) {
+export function mapEmbedUrl(
+  name: string,
+  a: { street: string; city: string; region: string; postalCode: string },
+  lang: Lang,
+) {
   return `https://www.google.com/maps?q=${encodeURIComponent(`${name}, ${fullAddress(a)}`)}&hl=${lang}&z=16&output=embed`;
 }

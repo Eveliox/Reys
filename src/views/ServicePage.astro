@@ -40,31 +40,35 @@ const related = services.filter((s) => s.id !== service.id).slice(0, 3);
 >
   <Breadcrumbs lang={lang} items={crumbs} />
 
-  <section class="container-x grid gap-10 pt-8 pb-16 lg:grid-cols-[1.1fr_1fr] lg:items-center lg:gap-14 lg:pt-12" aria-labelledby="service-title">
+  <section
+    class="container-x grid gap-10 pt-8 pb-16 lg:grid-cols-[1.1fr_1fr] lg:items-center lg:gap-14 lg:pt-12"
+    aria-labelledby="service-title"
+  >
     <div>
-      {
-        service.premium ? (
-          <p class="inline-flex rounded-full border border-accent px-3 py-1 text-xs font-extrabold tracking-[0.16em] text-accent uppercase">
-            {t.services.specialty}
-          </p>
-        ) : (
-          <p class="eyebrow">{t.services.eyebrow}</p>
-        )
-      }
-      <h1 id="service-title" class="mt-4 text-display">{copy.h1}</h1>
+      {service.premium ? (
+        <p class="inline-flex rounded-full border border-accent px-3 py-1 text-xs font-extrabold tracking-[0.16em] text-accent uppercase">
+          {t.services.specialty}
+        </p>
+      ) : (
+        <p class="eyebrow">{t.services.eyebrow}</p>
+      )}
+      <h1 id="service-title" class="mt-4 text-display">
+        {copy.h1}
+      </h1>
       <p class="mt-6 max-w-xl text-lg text-muted">{copy.intro}</p>
       <p class="mt-6 text-muted">
         {t.services.startingAtLabel}
         <span class="ml-1 text-2xl font-black text-ink">{service.startingPrice}</span>
       </p>
-      {
-        hasPromo && (
-          <a href={`${pathFor(lang, 'home')}#specials`} class="mt-4 inline-flex items-center gap-2 rounded-full bg-sand px-4 py-2 text-sm font-bold text-accent-dark hover:bg-line">
-            <Icon name="calendar" class="size-4" />
-            {t.promo.callout(promo.percentOff)}
-          </a>
-        )
-      }
+      {hasPromo && (
+        <a
+          href={`${pathFor(lang, 'home')}#specials`}
+          class="mt-4 inline-flex items-center gap-2 rounded-full bg-sand px-4 py-2 text-sm font-bold text-accent-dark hover:bg-line"
+        >
+          <Icon name="calendar" class="size-4" />
+          {t.promo.callout(promo.percentOff)}
+        </a>
+      )}
       <div class="mt-8 flex flex-col gap-3 sm:flex-row">
         <a href={`tel:${site.phone.e164}`} class="btn btn-primary">
           <Icon name="phone" />
@@ -76,42 +80,49 @@ const related = services.filter((s) => s.id !== service.id).slice(0, 3);
         </a>
       </div>
     </div>
-    <ImageSlot id={`service-${service.id}`} alt={copy.name} ratio="5 / 4" icon={service.icon} priority />
+    <ImageSlot
+      id={`service-${service.id}`}
+      alt={copy.name}
+      ratio="5 / 4"
+      icon={service.icon}
+      priority
+    />
   </section>
 
   <section class="bg-paper py-16 sm:py-20" aria-labelledby="includes-title">
     <div class="container-x grid gap-12 lg:grid-cols-2">
       <div>
-        <h2 id="includes-title" class="text-3xl tracking-tight sm:text-4xl">{t.services.whatWeDo}</h2>
+        <h2 id="includes-title" class="text-3xl tracking-tight sm:text-4xl">
+          {t.services.whatWeDo}
+        </h2>
         <ul class="mt-6 space-y-3">
-          {
-            copy.includes.map((item) => (
-              <li class="flex items-start gap-3 text-lg">
-                <span class="mt-0.5 inline-flex size-7 shrink-0 items-center justify-center rounded-full bg-accent text-white">
-                  <Icon name="check" class="size-4" />
-                </span>
-                {item}
-              </li>
-            ))
-          }
+          {copy.includes.map((item) => (
+            <li class="flex items-start gap-3 text-lg">
+              <span class="mt-0.5 inline-flex size-7 shrink-0 items-center justify-center rounded-full bg-accent text-white">
+                <Icon name="check" class="size-4" />
+              </span>
+              {item}
+            </li>
+          ))}
         </ul>
       </div>
       <div>
         <h2 class="text-3xl tracking-tight sm:text-4xl">{t.services.faqTitle}</h2>
         <div class="mt-6 divide-y divide-line border-y border-line">
-          {
-            copy.faqs.map((f) => (
-              <details class="group py-1">
-                <summary class="flex min-h-14 cursor-pointer list-none items-center justify-between gap-4 py-3 text-lg font-bold [&::-webkit-details-marker]:hidden">
-                  {f.q}
-                  <span class="inline-flex size-8 shrink-0 items-center justify-center rounded-full bg-sand transition-transform group-open:rotate-45" aria-hidden="true">
-                    <Icon name="close" class="size-4 rotate-45" />
-                  </span>
-                </summary>
-                <p class="pb-4 text-muted">{f.a}</p>
-              </details>
-            ))
-          }
+          {copy.faqs.map((f) => (
+            <details class="group py-1">
+              <summary class="flex min-h-14 cursor-pointer list-none items-center justify-between gap-4 py-3 text-lg font-bold [&::-webkit-details-marker]:hidden">
+                {f.q}
+                <span
+                  class="inline-flex size-8 shrink-0 items-center justify-center rounded-full bg-sand transition-transform group-open:rotate-45"
+                  aria-hidden="true"
+                >
+                  <Icon name="close" class="size-4 rotate-45" />
+                </span>
+              </summary>
+              <p class="pb-4 text-muted">{f.a}</p>
+            </details>
+          ))}
         </div>
       </div>
     </div>
@@ -119,9 +130,13 @@ const related = services.filter((s) => s.id !== service.id).slice(0, 3);
 
   <section class="section" aria-labelledby="related-title">
     <div class="container-x">
-      <h2 id="related-title" class="text-3xl tracking-tight sm:text-4xl">{t.services.related}</h2>
+      <h2 id="related-title" class="text-3xl tracking-tight sm:text-4xl">
+        {t.services.related}
+      </h2>
       <div class="mt-8 grid gap-5 md:grid-cols-3">
-        {related.map((s) => <ServiceCard service={{ ...s, premium: false }} lang={lang} />)}
+        {related.map((s) => (
+          <ServiceCard service={{ ...s, premium: false }} lang={lang} />
+        ))}
       </div>
     </div>
   </section>

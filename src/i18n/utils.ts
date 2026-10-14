@@ -15,7 +15,12 @@ const tokens: Record<string, string> = {
   '{promoPct}': String(promo.percentOff),
   '{address}': primaryLocation.address.street,
 };
-const tokenRe = new RegExp(Object.keys(tokens).map((k) => k.replace(/[{}]/g, '\\$&')).join('|'), 'g');
+const tokenRe = new RegExp(
+  Object.keys(tokens)
+    .map((k) => k.replace(/[{}]/g, '\\$&'))
+    .join('|'),
+  'g',
+);
 
 export function fillTokens(s: string): string {
   return s.replace(tokenRe, (m) => tokens[m] ?? m);

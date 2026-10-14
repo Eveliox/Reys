@@ -73,9 +73,16 @@ export function formatTime(hhmm: string, lang: 'en' | 'es'): string {
 
 export type OpenStatus =
   | { open: true; closesAt: string; closingSoon: boolean }
-  | { open: false; nextOpen: { day: DayKey; time: string; isToday: boolean; isTomorrow: boolean } | null };
+  | {
+      open: false;
+      nextOpen: { day: DayKey; time: string; isToday: boolean; isTomorrow: boolean } | null;
+    };
 
-export function openStatus(hours: WeeklyHours, timeZone: string, date: Date = new Date()): OpenStatus {
+export function openStatus(
+  hours: WeeklyHours,
+  timeZone: string,
+  date: Date = new Date(),
+): OpenStatus {
   const now = nowInZone(timeZone, date);
   for (const [open, close] of hours[now.day]) {
     const o = toMinutes(open);
@@ -133,7 +140,11 @@ export function addDays(iso: string, days: number): string {
 }
 
 /** Earliest bookable date: the next day the shop is open (never same-day). */
-export function firstBookableDate(hours: WeeklyHours, timeZone: string, date: Date = new Date()): string {
+export function firstBookableDate(
+  hours: WeeklyHours,
+  timeZone: string,
+  date: Date = new Date(),
+): string {
   const today = nowInZone(timeZone, date).isoDate;
   for (let i = 1; i <= 14; i++) {
     const iso = addDays(today, i);

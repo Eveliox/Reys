@@ -89,34 +89,77 @@ const field = 'field-input';
         </div>
 
         <input type="hidden" name="form-name" value="appointment" />
-        <input type="hidden" name="_subject" value={`New appointment request (${lang.toUpperCase()})`} />
+        <input
+          type="hidden"
+          name="_subject"
+          value={`New appointment request (${lang.toUpperCase()})`}
+        />
         <input type="hidden" name="language" value={lang} />
         {locations.length === 1 && <input type="hidden" name="location" value={loc.id} />}
 
         <!-- Honeypot: hidden from people, irresistible to bots. -->
         <div class="absolute -left-[9999px] h-px w-px overflow-hidden" aria-hidden="true">
           <label for="company_website">{t.form.honeypot}</label>
-          <input id="company_website" name="company_website" type="text" tabindex="-1" autocomplete="off" />
+          <input
+            id="company_website"
+            name="company_website"
+            type="text"
+            tabindex="-1"
+            autocomplete="off"
+          />
         </div>
 
         <fieldset>
           <legend class="text-lg font-extrabold">{t.form.legend.you}</legend>
           <div class="mt-4 grid gap-5 sm:grid-cols-2">
             <div class="sm:col-span-2">
-              <label for="f-name" class="field-label">{t.form.name}</label>
-              <input id="f-name" name="name" type="text" autocomplete="name" required minlength="2" maxlength="100" class={field} aria-describedby="e-name" />
+              <label for="f-name" class="field-label">
+                {t.form.name}
+              </label>
+              <input
+                id="f-name"
+                name="name"
+                type="text"
+                autocomplete="name"
+                required
+                minlength="2"
+                maxlength="100"
+                class={field}
+                aria-describedby="e-name"
+              />
               <p id="e-name" class="field-error" hidden></p>
             </div>
             <div>
-              <label for="f-phone" class="field-label">{t.form.phone}</label>
-              <input id="f-phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required pattern="[\d\s().+\-]{10,20}" maxlength="20" class={field} aria-describedby="e-phone" />
+              <label for="f-phone" class="field-label">
+                {t.form.phone}
+              </label>
+              <input
+                id="f-phone"
+                name="phone"
+                type="tel"
+                inputmode="tel"
+                autocomplete="tel"
+                required
+                pattern="[\d\s().+\-]{10,20}"
+                maxlength="20"
+                class={field}
+                aria-describedby="e-phone"
+              />
               <p id="e-phone" class="field-error" hidden></p>
             </div>
             <div>
               <label for="f-email" class="field-label">
                 {t.form.email} <span class="font-normal text-muted">{t.form.optional}</span>
               </label>
-              <input id="f-email" name="email" type="email" autocomplete="email" maxlength="200" class={field} aria-describedby="e-email" />
+              <input
+                id="f-email"
+                name="email"
+                type="email"
+                autocomplete="email"
+                maxlength="200"
+                class={field}
+                aria-describedby="e-email"
+              />
               <p id="e-email" class="field-error" hidden></p>
             </div>
           </div>
@@ -126,16 +169,51 @@ const field = 'field-input';
           <legend class="text-lg font-extrabold">{t.form.legend.vehicle}</legend>
           <div class="mt-4 grid grid-cols-[6.5rem_1fr] gap-5 sm:grid-cols-[7rem_1fr_1fr]">
             <div>
-              <label for="f-year" class="field-label">{t.form.year}</label>
-              <input id="f-year" name="vehicle_year" type="text" inputmode="numeric" pattern="\d{4}" maxlength="4" required autocomplete="off" class={field} aria-describedby="e-year" />
+              <label for="f-year" class="field-label">
+                {t.form.year}
+              </label>
+              <input
+                id="f-year"
+                name="vehicle_year"
+                type="text"
+                inputmode="numeric"
+                pattern="\d{4}"
+                maxlength="4"
+                required
+                autocomplete="off"
+                class={field}
+                aria-describedby="e-year"
+              />
             </div>
             <div>
-              <label for="f-make" class="field-label">{t.form.make}</label>
-              <input id="f-make" name="vehicle_make" type="text" required maxlength="50" placeholder={t.form.makePlaceholder} class={field} aria-describedby="e-make" />
+              <label for="f-make" class="field-label">
+                {t.form.make}
+              </label>
+              <input
+                id="f-make"
+                name="vehicle_make"
+                type="text"
+                required
+                maxlength="50"
+                placeholder={t.form.makePlaceholder}
+                class={field}
+                aria-describedby="e-make"
+              />
             </div>
             <div class="col-span-2 sm:col-span-1">
-              <label for="f-model" class="field-label">{t.form.model}</label>
-              <input id="f-model" name="vehicle_model" type="text" required maxlength="50" placeholder={t.form.modelPlaceholder} class={field} aria-describedby="e-model" />
+              <label for="f-model" class="field-label">
+                {t.form.model}
+              </label>
+              <input
+                id="f-model"
+                name="vehicle_model"
+                type="text"
+                required
+                maxlength="50"
+                placeholder={t.form.modelPlaceholder}
+                class={field}
+                aria-describedby="e-model"
+              />
             </div>
           </div>
           <p id="e-year" class="field-error" hidden></p>
@@ -146,38 +224,70 @@ const field = 'field-input';
         <fieldset>
           <legend class="text-lg font-extrabold">{t.form.legend.visit}</legend>
           <div class="mt-4 grid gap-5 sm:grid-cols-2">
-            {
-              locations.length > 1 && (
-                <div class="sm:col-span-2">
-                  <label for="f-location" class="field-label">{t.locations.titleMany}</label>
-                  <select id="f-location" name="location" class={field} required>
-                    {locations.map((l) => (
-                      <option value={l.id}>{l.name}</option>
-                    ))}
-                  </select>
-                </div>
-              )
-            }
+            {locations.length > 1 && (
+              <div class="sm:col-span-2">
+                <label for="f-location" class="field-label">
+                  {t.locations.titleMany}
+                </label>
+                <select id="f-location" name="location" class={field} required>
+                  {locations.map((l) => (
+                    <option value={l.id}>{l.name}</option>
+                  ))}
+                </select>
+              </div>
+            )}
             <div class="sm:col-span-2">
-              <label for="f-service" class="field-label">{t.form.service}</label>
-              <select id="f-service" name="service" required class={field} aria-describedby="e-service">
+              <label for="f-service" class="field-label">
+                {t.form.service}
+              </label>
+              <select
+                id="f-service"
+                name="service"
+                required
+                class={field}
+                aria-describedby="e-service"
+              >
                 <option value="">{t.form.servicePlaceholder}</option>
-                {services.map((s) => <option value={s.id}>{t.services.items[s.id].name}</option>)}
+                {services.map((s) => (
+                  <option value={s.id}>{t.services.items[s.id].name}</option>
+                ))}
                 <option value="other">{t.form.serviceOther}</option>
               </select>
               <p id="e-service" class="field-error" hidden></p>
             </div>
             <div>
-              <label for="f-date" class="field-label">{t.form.date}</label>
-              <input id="f-date" name="preferred_date" type="date" required min={minDate} class={field} aria-describedby="h-date e-date" />
-              <p id="h-date" class="field-hint">{t.form.dateHint}</p>
+              <label for="f-date" class="field-label">
+                {t.form.date}
+              </label>
+              <input
+                id="f-date"
+                name="preferred_date"
+                type="date"
+                required
+                min={minDate}
+                class={field}
+                aria-describedby="h-date e-date"
+              />
+              <p id="h-date" class="field-hint">
+                {t.form.dateHint}
+              </p>
               <p id="e-date" class="field-error" hidden></p>
             </div>
             <div>
-              <label for="f-time" class="field-label">{t.form.time}</label>
-              <select id="f-time" name="preferred_time" required class={field} aria-describedby="e-time">
+              <label for="f-time" class="field-label">
+                {t.form.time}
+              </label>
+              <select
+                id="f-time"
+                name="preferred_time"
+                required
+                class={field}
+                aria-describedby="e-time"
+              >
                 <option value="">{t.form.timeChoose}</option>
-                {fallbackSlots.map((s) => <option value={s}>{formatTime(s, lang)}</option>)}
+                {fallbackSlots.map((s) => (
+                  <option value={s}>{formatTime(s, lang)}</option>
+                ))}
               </select>
               <p id="e-time" class="field-error" hidden></p>
             </div>
@@ -185,22 +295,42 @@ const field = 'field-input';
               <label for="f-notes" class="field-label">
                 {t.form.notes} <span class="font-normal text-muted">{t.form.optional}</span>
               </label>
-              <textarea id="f-notes" name="notes" rows="4" maxlength="2000" class:list={[field, 'resize-y']} aria-describedby="h-notes"></textarea>
-              <p id="h-notes" class="field-hint">{t.form.notesHint}</p>
+              <textarea
+                id="f-notes"
+                name="notes"
+                rows="4"
+                maxlength="2000"
+                class:list={[field, 'resize-y']}
+                aria-describedby="h-notes"
+              ></textarea>
+              <p id="h-notes" class="field-hint">
+                {t.form.notesHint}
+              </p>
             </div>
           </div>
         </fieldset>
 
-        <div data-submit-error hidden role="alert" class="rounded-2xl border-2 border-accent bg-[#fff6f2] p-4">
+        <div
+          data-submit-error
+          hidden
+          role="alert"
+          class="rounded-2xl border-2 border-accent bg-[#fff6f2] p-4"
+        >
           <p class="font-bold text-accent-dark">{t.form.errorTitle}</p>
           <p class="mt-1 text-sm">
             {t.form.errorText}
-            <a href={`tel:${site.phone.e164}`} class="link whitespace-nowrap">{site.phone.display}</a>
+            <a href={`tel:${site.phone.e164}`} class="link whitespace-nowrap">
+              {site.phone.display}
+            </a>
           </p>
         </div>
 
         <div class="flex flex-col gap-3 sm:flex-row sm:items-center sm:justify-between">
-          <button type="submit" class="btn btn-primary min-h-14 px-8 text-lg disabled:cursor-wait disabled:opacity-70" data-submit>
+          <button
+            type="submit"
+            class="btn btn-primary min-h-14 px-8 text-lg disabled:cursor-wait disabled:opacity-70"
+            data-submit
+          >
             <span data-submit-label>{t.form.submit}</span>
             <Icon name="arrow" />
           </button>
@@ -249,7 +379,10 @@ const field = 'field-input';
     form.noValidate = true;
     const i18n = JSON.parse(form.dataset.i18n!) as I18n;
     const lang = form.dataset.lang === 'es' ? 'es' : 'en';
-    const locs = JSON.parse(form.dataset.locations!) as Record<string, { hours: WeeklyHours; tz: string }>;
+    const locs = JSON.parse(form.dataset.locations!) as Record<
+      string,
+      { hours: WeeklyHours; tz: string }
+    >;
     const slotMin = Number(form.dataset.slot);
     const lastMin = Number(form.dataset.last);
     const maxYear = Number(form.dataset.maxYear);
@@ -289,7 +422,9 @@ const field = 'field-input';
       name: () => (val('name').length >= 2 ? '' : i18n.errors.name!),
       phone: () => {
         const digits = val('phone').replace(/\D/g, '');
-        return digits.length === 10 || (digits.length === 11 && digits.startsWith('1')) ? '' : i18n.errors.phone!;
+        return digits.length === 10 || (digits.length === 11 && digits.startsWith('1'))
+          ? ''
+          : i18n.errors.phone!;
       },
       email: () => {
         const v = val('email');
@@ -297,7 +432,9 @@ const field = 'field-input';
       },
       vehicle_year: () => {
         const y = Number(val('vehicle_year'));
-        return /^\d{4}$/.test(val('vehicle_year')) && y >= 1900 && y <= maxYear ? '' : i18n.errors.year!;
+        return /^\d{4}$/.test(val('vehicle_year')) && y >= 1900 && y <= maxYear
+          ? ''
+          : i18n.errors.year!;
       },
       vehicle_make: () => (val('vehicle_make') ? '' : i18n.errors.make!),
       vehicle_model: () => (val('vehicle_model') ? '' : i18n.errors.model!),
@@ -375,7 +512,8 @@ const field = 'field-input';
 
       if (failed.length) {
         const n = failed.length;
-        el('[data-summary-text]').textContent = n === 1 ? i18n.summary[0] : i18n.summary[1].replace('{n}', String(n));
+        el('[data-summary-text]').textContent =
+          n === 1 ? i18n.summary[0] : i18n.summary[1].replace('{n}', String(n));
         el('[data-summary-list]').replaceChildren(
           ...failed.map(({ name, msg }) => {
             const li = document.createElement('li');

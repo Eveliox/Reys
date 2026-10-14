@@ -23,10 +23,14 @@ const t = useTranslations(lang);
       : 'border-line bg-paper text-ink shadow-sm hover:border-ink',
   ]}
 >
-  <span class="text-[2rem] leading-none font-black tracking-tight tabular-nums">{site.rating.value}</span>
+  <span class="text-[2rem] leading-none font-black tracking-tight tabular-nums">
+    {site.rating.value}
+  </span>
   <span class="flex flex-col gap-1">
     <span class="flex text-[#b7791f]" role="img" aria-label={t.rating.outOf(site.rating.value)}>
-      {Array.from({ length: 5 }, () => <Icon name="star" class="size-4" />)}
+      {Array.from({ length: 5 }, () => (
+        <Icon name="star" class="size-4" />
+      ))}
     </span>
     <span class:list={['text-sm font-semibold', dark ? 'text-mist' : 'text-muted']}>
       {t.rating.reviews(site.rating.countLabel)}

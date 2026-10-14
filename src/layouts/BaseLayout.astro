@@ -19,8 +19,15 @@ interface Props {
   ogImage?: string;
 }
 
-const { lang, route, title, description, jsonLd = [], noindex = false, ogImage = '/og-default.png' } =
-  Astro.props;
+const {
+  lang,
+  route,
+  title,
+  description,
+  jsonLd = [],
+  noindex = false,
+  ogImage = '/og-default.png',
+} = Astro.props;
 const t = useTranslations(lang);
 const alternates = alternatesFor(route ?? 'home');
 const canonical = route ? absoluteUrl(alternates[lang]) : undefined;
@@ -38,15 +45,13 @@ const fontFace = `@font-face{font-family:'Archivo';font-style:normal;font-displa
     <meta name="description" content={description} />
     {noindex && <meta name="robots" content="noindex" />}
     {canonical && <link rel="canonical" href={canonical} />}
-    {
-      route && (
-        <>
-          <link rel="alternate" hreflang="en-US" href={absoluteUrl(alternates.en)} />
-          <link rel="alternate" hreflang="es-US" href={absoluteUrl(alternates.es)} />
-          <link rel="alternate" hreflang="x-default" href={absoluteUrl(alternates.en)} />
-        </>
-      )
-    }
+    {route && (
+      <>
+        <link rel="alternate" hreflang="en-US" href={absoluteUrl(alternates.en)} />
+        <link rel="alternate" hreflang="es-US" href={absoluteUrl(alternates.es)} />
+        <link rel="alternate" hreflang="x-default" href={absoluteUrl(alternates.en)} />
+      </>
+    )}
 
     <link rel="preload" href={fontUrl} as="font" type="font/woff2" crossorigin />
     <style is:inline set:html={fontFace} />
@@ -71,14 +76,17 @@ const fontFace = `@font-face{font-family:'Archivo';font-style:normal;font-displa
     <meta name="twitter:description" content={description} />
     <meta name="twitter:image" content={absoluteUrl(ogImage)} />
 
-    {jsonLd.map((data) => <script type="application/ld+json" set:html={JSON.stringify(data)} />)}
+    {jsonLd.map((data) => (
+      <script type="application/ld+json" set:html={JSON.stringify(data)} />
+    ))}
   </head>
   <body>
     <a
       href="#main"
       class="sr-only z-50 rounded-full bg-ink px-5 py-3 font-bold text-cream focus:not-sr-only focus:fixed focus:top-3 focus:left-3"
-      >{t.skipToContent}</a
     >
+      {t.skipToContent}
+    </a>
     <Header lang={lang} alternates={alternates} />
     <main id="main" tabindex="-1" class="focus:outline-none">
       <slot />

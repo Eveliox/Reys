@@ -77,7 +77,8 @@ export const site = {
   socials: {
     facebook: '',
     instagram: '',
-    google: "https://www.google.com/maps/search/?api=1&query=Rey's+Auto+Repair+527+SW+15th+Ave+Miami+FL+33135",
+    google:
+      "https://www.google.com/maps/search/?api=1&query=Rey's+Auto+Repair+527+SW+15th+Ave+Miami+FL+33135",
     yelp: '',
   },
   /**

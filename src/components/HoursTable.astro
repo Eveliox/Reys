@@ -15,30 +15,32 @@ const t = useTranslations(lang);
 ---
 
 <table class="w-full text-left" data-hours-table data-tz={location.timezone}>
-  <caption class="sr-only">{t.hours.title}: {location.name}</caption>
+  <caption class="sr-only">
+    {t.hours.title}:{location.name}
+  </caption>
   <tbody class="divide-y divide-line">
-    {
-      weekOrder.map((day) => {
-        const ranges = location.hours[day];
-        return (
-          <tr data-day={day} class="group data-[today=true]:bg-sand data-[today=true]:font-bold">
-            <th scope="row" class="py-3 pl-3 font-semibold">
-              {capitalize(t.days[day])}
-              <span class="invisible ml-2 rounded-full bg-accent px-2 py-0.5 text-xs font-bold text-white group-data-[today=true]:visible">
-                {t.hours.today}
-              </span>
-            </th>
-            <td class="py-3 pr-3 text-right tabular-nums">
-              {ranges.length ? (
-                ranges.map(([a, b]) => t.hours.range(formatTime(a, lang), formatTime(b, lang))).join(', ')
-              ) : (
-                <span class="text-muted">{t.hours.closed}</span>
-              )}
-            </td>
-          </tr>
-        );
-      })
-    }
+    {weekOrder.map((day) => {
+      const ranges = location.hours[day];
+      return (
+        <tr data-day={day} class="group data-[today=true]:bg-sand data-[today=true]:font-bold">
+          <th scope="row" class="py-3 pl-3 font-semibold">
+            {capitalize(t.days[day])}
+            <span class="invisible ml-2 rounded-full bg-accent px-2 py-0.5 text-xs font-bold text-white group-data-[today=true]:visible">
+              {t.hours.today}
+            </span>
+          </th>
+          <td class="py-3 pr-3 text-right tabular-nums">
+            {ranges.length ? (
+              ranges
+                .map(([a, b]) => t.hours.range(formatTime(a, lang), formatTime(b, lang)))
+                .join(', ')
+            ) : (
+              <span class="text-muted">{t.hours.closed}</span>
+            )}
+          </td>
+        </tr>
+      );
+    })}
   </tbody>
 </table>
 

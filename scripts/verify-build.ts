@@ -29,7 +29,8 @@ for (const file of files) {
   if (!title) fail(`${rel}: missing <title>`);
   if (!desc) fail(`${rel}: missing meta description`);
   if (title && titles.has(title)) fail(`${rel}: duplicate title with ${titles.get(title)}`);
-  if (desc && descriptions.has(desc)) fail(`${rel}: duplicate description with ${descriptions.get(desc)}`);
+  if (desc && descriptions.has(desc))
+    fail(`${rel}: duplicate description with ${descriptions.get(desc)}`);
   if (title) titles.set(title, rel);
   if (desc) descriptions.set(desc, rel);
 
@@ -61,4 +62,6 @@ assert.ok(existsSync(join(dist, 'robots.txt')), 'robots.txt');
 assert.ok(existsSync(join(dist, 'sitemap-index.xml')), 'sitemap-index.xml');
 console.log(`Checked ${files.length} pages.`);
 if (problems) process.exit(1);
-console.log('✓ unique titles/descriptions, one h1 each, valid JSON-LD, reciprocal hreflang, canonicals');
+console.log(
+  '✓ unique titles/descriptions, one h1 each, valid JSON-LD, reciprocal hreflang, canonicals',
+);

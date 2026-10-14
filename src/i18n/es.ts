@@ -368,7 +368,8 @@ const es = {
         detail: 'BMW Serie 3',
       },
       {
-        quote: 'Mi carro del 67 anda mejor que en años. Se nota que de verdad les gustan los clásicos.',
+        quote:
+          'Mi carro del 67 anda mejor que en años. Se nota que de verdad les gustan los clásicos.',
         name: 'Cliente de ejemplo B',
         detail: 'Dueño de un clásico',
       },

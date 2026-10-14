@@ -16,60 +16,62 @@ const href = pathFor(lang, { service: service.id });
 const Heading = headingLevel;
 ---
 
-{
-  service.premium ? (
-    <article class="on-dark group tile-bg-dark has-[a:focus-visible]:outline-3 has-[a:focus-visible]:outline-offset-4 has-[a:focus-visible]:outline-accent relative flex flex-col overflow-hidden rounded-[1.75rem] bg-ink p-7 text-cream transition-transform duration-200 hover:-translate-y-1 sm:p-9">
-      <div class="flex items-start justify-between gap-4">
-        <span class="inline-flex size-14 items-center justify-center rounded-2xl border border-brass/50 bg-ink-2 text-brass">
-          <Icon name={service.icon} class="size-7" />
-        </span>
-        <span class="rounded-full border border-brass px-3 py-1 text-xs font-extrabold tracking-[0.16em] text-brass uppercase">
-          {t.services.specialty}
-        </span>
-      </div>
-      <Heading class="mt-8 text-[1.75rem] leading-tight tracking-tight sm:text-3xl">
-        <a href={href} class="after:absolute after:inset-0 after:content-['']">
-          {copy.name}
-        </a>
-      </Heading>
-      <p class="mt-3 max-w-md text-mist">{copy.short}</p>
-      {service.id === 'german' && (
-        <ul class="mt-5 flex flex-wrap gap-2">
-          {germanMakes.map((m) => (
-            <li class="rounded-full bg-ink-2 px-3 py-1 text-sm font-bold">{m}</li>
-          ))}
-        </ul>
-      )}
-      <div class="mt-auto flex items-end justify-between gap-4 pt-8">
-        <p class="text-sm text-mist">
-          {t.services.startingAtLabel}{' '}
-          <span class="block text-2xl font-black text-cream">{service.startingPrice}</span>
-        </p>
-        <span class="inline-flex size-12 items-center justify-center rounded-full bg-accent text-white transition-transform group-hover:translate-x-1" aria-hidden="true">
-          <Icon name="arrow" />
-        </span>
-      </div>
-    </article>
-  ) : (
-    <article class="group has-[a:focus-visible]:outline-3 has-[a:focus-visible]:outline-offset-4 has-[a:focus-visible]:outline-accent relative flex flex-col rounded-[1.5rem] border border-line bg-paper p-7 transition-colors hover:border-ink">
-      <span class="inline-flex size-12 items-center justify-center rounded-xl bg-sand text-accent">
-        <Icon name={service.icon} class="size-6" />
+{service.premium ? (
+  <article class="on-dark group tile-bg-dark has-[a:focus-visible]:outline-3 has-[a:focus-visible]:outline-offset-4 has-[a:focus-visible]:outline-accent relative flex flex-col overflow-hidden rounded-[1.75rem] bg-ink p-7 text-cream transition-transform duration-200 hover:-translate-y-1 sm:p-9">
+    <div class="flex items-start justify-between gap-4">
+      <span class="inline-flex size-14 items-center justify-center rounded-2xl border border-brass/50 bg-ink-2 text-brass">
+        <Icon name={service.icon} class="size-7" />
       </span>
-      <Heading class="mt-6 text-xl leading-tight tracking-tight">
-        <a href={href} class="after:absolute after:inset-0 after:rounded-[1.5rem] after:content-['']">
-          {copy.name}
-        </a>
-      </Heading>
-      <p class="mt-2 text-muted">{copy.short}</p>
-      <div class="mt-auto flex items-center justify-between gap-4 pt-6">
-        <p class="text-sm text-muted">
-          {t.services.startingAtLabel} <span class="font-black text-ink">{service.startingPrice}</span>
-        </p>
-        <span class="inline-flex items-center gap-1 text-sm font-bold text-accent" aria-hidden="true">
-          {t.cta.details}
-          <Icon name="arrow" class="size-4 transition-transform group-hover:translate-x-1" />
-        </span>
-      </div>
-    </article>
-  )
-}
+      <span class="rounded-full border border-brass px-3 py-1 text-xs font-extrabold tracking-[0.16em] text-brass uppercase">
+        {t.services.specialty}
+      </span>
+    </div>
+    <Heading class="mt-8 text-[1.75rem] leading-tight tracking-tight sm:text-3xl">
+      <a href={href} class="after:absolute after:inset-0 after:content-['']">
+        {copy.name}
+      </a>
+    </Heading>
+    <p class="mt-3 max-w-md text-mist">{copy.short}</p>
+    {service.id === 'german' && (
+      <ul class="mt-5 flex flex-wrap gap-2">
+        {germanMakes.map((m) => (
+          <li class="rounded-full bg-ink-2 px-3 py-1 text-sm font-bold">{m}</li>
+        ))}
+      </ul>
+    )}
+    <div class="mt-auto flex items-end justify-between gap-4 pt-8">
+      <p class="text-sm text-mist">
+        {t.services.startingAtLabel}{' '}
+        <span class="block text-2xl font-black text-cream">{service.startingPrice}</span>
+      </p>
+      <span
+        class="inline-flex size-12 items-center justify-center rounded-full bg-accent text-white transition-transform group-hover:translate-x-1"
+        aria-hidden="true"
+      >
+        <Icon name="arrow" />
+      </span>
+    </div>
+  </article>
+) : (
+  <article class="group has-[a:focus-visible]:outline-3 has-[a:focus-visible]:outline-offset-4 has-[a:focus-visible]:outline-accent relative flex flex-col rounded-[1.5rem] border border-line bg-paper p-7 transition-colors hover:border-ink">
+    <span class="inline-flex size-12 items-center justify-center rounded-xl bg-sand text-accent">
+      <Icon name={service.icon} class="size-6" />
+    </span>
+    <Heading class="mt-6 text-xl leading-tight tracking-tight">
+      <a href={href} class="after:absolute after:inset-0 after:rounded-[1.5rem] after:content-['']">
+        {copy.name}
+      </a>
+    </Heading>
+    <p class="mt-2 text-muted">{copy.short}</p>
+    <div class="mt-auto flex items-center justify-between gap-4 pt-6">
+      <p class="text-sm text-muted">
+        {t.services.startingAtLabel}{' '}
+        <span class="font-black text-ink">{service.startingPrice}</span>
+      </p>
+      <span class="inline-flex items-center gap-1 text-sm font-bold text-accent" aria-hidden="true">
+        {t.cta.details}
+        <Icon name="arrow" class="size-4 transition-transform group-hover:translate-x-1" />
+      </span>
+    </div>
+  </article>
+)}

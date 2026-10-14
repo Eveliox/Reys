@@ -19,7 +19,13 @@ const crumbs = [
 ];
 ---
 
-<BaseLayout lang={lang} route="services" title={t.meta.services.title} description={t.meta.services.description} jsonLd={[breadcrumbSchema(crumbs)]}>
+<BaseLayout
+  lang={lang}
+  route="services"
+  title={t.meta.services.title}
+  description={t.meta.services.description}
+  jsonLd={[breadcrumbSchema(crumbs)]}
+>
   <Breadcrumbs lang={lang} items={crumbs} />
   <header class="container-x pt-8 pb-12 lg:pt-12">
     <p class="eyebrow">{t.services.eyebrow}</p>

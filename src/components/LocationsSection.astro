@@ -19,7 +19,9 @@ const t = useTranslations(lang);
     </h2>
     <p class="mt-4 max-w-xl text-lg text-muted">{t.locations.intro}</p>
     <div class="mt-10 space-y-8">
-      {locations.map((l) => <LocationCard location={l} lang={lang} />)}
+      {locations.map((l) => (
+        <LocationCard location={l} lang={lang} />
+      ))}
     </div>
   </div>
 </section>

@@ -47,7 +47,8 @@ const i18n = {
         ? 'bg-mist group-data-[state=closed]:bg-accent-light group-data-[state=open]:bg-ok-light'
         : 'bg-muted group-data-[state=closed]:bg-accent group-data-[state=open]:bg-ok',
     ]}
-    aria-hidden="true"></span>
+    aria-hidden="true"
+  ></span>
   <span>
     <strong
       class:list={[
@@ -56,8 +57,10 @@ const i18n = {
           ? 'group-data-[state=closed]:text-accent-light group-data-[state=open]:text-ok-light'
           : 'group-data-[state=closed]:text-accent group-data-[state=open]:text-ok',
       ]}
-      data-label>{t.hours.checking}</strong
+      data-label
     >
+      {t.hours.checking}
+    </strong>
     <span data-detail></span>
   </span>
 </p>

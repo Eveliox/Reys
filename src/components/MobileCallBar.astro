@@ -16,11 +16,18 @@ const t = useTranslations(lang);
   style="padding-bottom: calc(0.75rem + env(safe-area-inset-bottom))"
 >
   <div class="grid grid-cols-[2fr_1fr] gap-2">
-    <a href={`tel:${site.phone.e164}`} class="btn btn-primary min-h-13 text-lg" aria-label={`${t.cta.callNow}: ${site.phone.display}`}>
+    <a
+      href={`tel:${site.phone.e164}`}
+      class="btn btn-primary min-h-13 text-lg"
+      aria-label={`${t.cta.callNow}: ${site.phone.display}`}
+    >
       <Icon name="phone" class="size-5" />
       {t.cta.callNow}
     </a>
-    <a href={pathFor(lang, 'book')} class="btn min-h-13 border-2 border-cream/40 text-cream hover:bg-cream hover:text-ink">
+    <a
+      href={pathFor(lang, 'book')}
+      class="btn min-h-13 border-2 border-cream/40 text-cream hover:bg-cream hover:text-ink"
+    >
       <Icon name="calendar" class="size-5" />
       {t.cta.bookShort}
     </a>

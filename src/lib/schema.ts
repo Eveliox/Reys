@@ -91,7 +91,12 @@ export function websiteSchema(lang: Lang) {
   };
 }
 
-export function serviceSchema(opts: { name: string; description: string; path: string; lang: Lang }) {
+export function serviceSchema(opts: {
+  name: string;
+  description: string;
+  path: string;
+  lang: Lang;
+}) {
   return {
     '@context': 'https://schema.org',
     '@type': 'Service',
@@ -101,6 +106,8 @@ export function serviceSchema(opts: { name: string; description: string; path: s
     inLanguage: opts.lang,
     serviceType: opts.name,
     areaServed: { '@type': 'City', name: 'Miami' },
-    provider: locations.map((l) => ({ '@id': `${absoluteUrl(pathFor('en', { location: l.id }))}#business` })),
+    provider: locations.map((l) => ({
+      '@id': `${absoluteUrl(pathFor('en', { location: l.id }))}#business`,
+    })),
   };
 }

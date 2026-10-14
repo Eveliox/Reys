@@ -15,11 +15,16 @@ const t = useTranslations(lang);
 ---
 
 <section class="relative overflow-hidden" aria-labelledby="hero-title">
-  <div class="tile-bg pointer-events-none absolute inset-y-0 right-0 hidden w-1/2 lg:block" aria-hidden="true"></div>
+  <div
+    class="tile-bg pointer-events-none absolute inset-y-0 right-0 hidden w-1/2 lg:block"
+    aria-hidden="true"
+  ></div>
   <div class="container-x relative grid items-center gap-10 pt-8 pb-14 sm:pt-14 lg:grid-cols-[1.15fr_1fr] lg:gap-14 lg:py-20">
     <div>
       <p class="eyebrow">{t.hero.eyebrow}</p>
-      <h1 id="hero-title" class="mt-4 text-display">{t.hero.title}</h1>
+      <h1 id="hero-title" class="mt-4 text-display">
+        {t.hero.title}
+      </h1>
       <p class="mt-6 max-w-xl text-lg text-muted sm:text-xl">{t.hero.subtitle}</p>
 
       <div class="mt-8 flex flex-col gap-3 sm:flex-row">
@@ -41,7 +46,14 @@ const t = useTranslations(lang);
     </div>
 
     <div class="relative">
-      <ImageSlot id="hero" alt={t.hero.imageAlt} ratio="4 / 3.6" icon="wrench" priority sizes="(min-width: 1024px) 45vw, 100vw" />
+      <ImageSlot
+        id="hero"
+        alt={t.hero.imageAlt}
+        ratio="4 / 3.6"
+        icon="wrench"
+        priority
+        sizes="(min-width: 1024px) 45vw, 100vw"
+      />
       <a
         href="#specials"
         class="absolute -bottom-5 left-5 hidden rounded-2xl bg-accent px-5 py-4 text-white shadow-lg hover:bg-accent-dark sm:block"

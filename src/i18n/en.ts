@@ -131,7 +131,10 @@ const en = {
       { title: '{rating}★ on Google', text: '{reviewCount} reviews from neighbors' },
       { title: 'German specialists', text: 'BMW · Mercedes · Audi · VW · Porsche' },
       { title: 'Classic car expertise', text: 'Carbs, points, and chrome' },
-      { title: '[PLACEHOLDER: Years in business]', text: '[PLACEHOLDER: Certifications / warranty]' },
+      {
+        title: '[PLACEHOLDER: Years in business]',
+        text: '[PLACEHOLDER: Certifications / warranty]',
+      },
     ],
   },
 
@@ -365,8 +368,7 @@ const en = {
         detail: 'BMW 3 Series',
       },
       {
-        quote:
-          'My ’67 runs better than it has in years. You can tell they actually love old cars.',
+        quote: 'My ’67 runs better than it has in years. You can tell they actually love old cars.',
         name: 'Sample Customer B',
         detail: 'Classic car owner',
       },

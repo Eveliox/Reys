@@ -12,7 +12,12 @@ const { lang } = Astro.props;
 const t = useTranslations(lang);
 ---
 
-<BaseLayout lang={lang} route="book" title={t.meta.book.title} description={t.meta.book.description}>
+<BaseLayout
+  lang={lang}
+  route="book"
+  title={t.meta.book.title}
+  description={t.meta.book.description}
+>
   <AppointmentForm lang={lang} headingLevel="h1" />
   <FridaySpecial lang={lang} />
 </BaseLayout>

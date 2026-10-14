@@ -21,38 +21,43 @@ const t = useTranslations(lang);
     <div class="flex flex-col justify-between gap-6 lg:flex-row lg:items-end">
       <div>
         <p class="eyebrow">{t.reviews.eyebrow}</p>
-        <h2 id="reviews-title" class="mt-3 text-h2">{t.reviews.title}</h2>
+        <h2 id="reviews-title" class="mt-3 text-h2">
+          {t.reviews.title}
+        </h2>
       </div>
       <RatingBadge lang={lang} />
     </div>
 
     <ul class="mt-10 grid gap-5 lg:grid-cols-3">
-      {
-        t.reviews.items.map((r) => (
-          <li>
-            <figure class="flex h-full flex-col rounded-[1.5rem] border border-line bg-paper p-7">
-              <p class="self-start rounded-md border border-dashed border-accent px-2 py-0.5 text-xs font-bold text-accent-dark">
-                {t.reviews.sampleBadge}
-              </p>
-              <span class="mt-5 flex text-[#b7791f]" role="img" aria-label={t.rating.outOf(5)}>
-                {Array.from({ length: 5 }, () => <Icon name="star" class="size-5" />)}
+      {t.reviews.items.map((r) => (
+        <li>
+          <figure class="flex h-full flex-col rounded-[1.5rem] border border-line bg-paper p-7">
+            <p class="self-start rounded-md border border-dashed border-accent px-2 py-0.5 text-xs font-bold text-accent-dark">
+              {t.reviews.sampleBadge}
+            </p>
+            <span class="mt-5 flex text-[#b7791f]" role="img" aria-label={t.rating.outOf(5)}>
+              {Array.from({ length: 5 }, () => (
+                <Icon name="star" class="size-5" />
+              ))}
+            </span>
+            <blockquote class="mt-4 text-lg leading-relaxed font-medium">
+              <p>“{r.quote}”</p>
+            </blockquote>
+            <figcaption class="mt-auto flex items-center gap-3 pt-6">
+              <span
+                class="inline-flex size-11 items-center justify-center rounded-full bg-ink font-bold text-cream"
+                aria-hidden="true"
+              >
+                {r.name.split(' ').pop()}
               </span>
-              <blockquote class="mt-4 text-lg leading-relaxed font-medium">
-                <p>“{r.quote}”</p>
-              </blockquote>
-              <figcaption class="mt-auto flex items-center gap-3 pt-6">
-                <span class="inline-flex size-11 items-center justify-center rounded-full bg-ink font-bold text-cream" aria-hidden="true">
-                  {r.name.split(' ').pop()}
-                </span>
-                <span>
-                  <span class="block font-bold">{r.name}</span>
-                  <span class="block text-sm text-muted">{r.detail}</span>
-                </span>
-              </figcaption>
-            </figure>
-          </li>
-        ))
-      }
+              <span>
+                <span class="block font-bold">{r.name}</span>
+                <span class="block text-sm text-muted">{r.detail}</span>
+              </span>
+            </figcaption>
+          </figure>
+        </li>
+      ))}
     </ul>
 
     <p class="mt-10 text-center">
