@@ -25,7 +25,9 @@ const Heading = headingLevel;
 const SuccessHeading = headingLevel === 'h1' ? 'h2' : 'h3';
 const netlify = site.formProvider === 'netlify';
 const endpoint = netlify ? '/' : import.meta.env.PUBLIC_FORM_ENDPOINT || site.formEndpoint;
-const netlifyAttrs = netlify ? { 'data-netlify': 'true', 'netlify-honeypot': 'company_website' } : {};
+const netlifyAttrs = netlify
+  ? { 'data-netlify': 'true', 'netlify-honeypot': 'company_website' }
+  : {};
 const loc = locations[0]!;
 const minDate = firstBookableDate(loc.hours, loc.timezone);
 // No-JS fallback: offer every slot from the longest open day.
@@ -546,7 +548,11 @@ const field = 'field-input';
       try {
         const res = await fetch(form.action, {
           method: 'POST',
-          body: new FormData(form),
+          // Netlify Forms expects URL-encoded AJAX posts; other endpoints get multipart.
+          body:
+            form.dataset.netlify === 'true'
+              ? new URLSearchParams(new FormData(form) as unknown as Record<string, string>)
+              : new FormData(form),
           headers: { Accept: 'application/json' },
         });
         if (!res.ok) throw new Error(`HTTP ${res.status}`);
